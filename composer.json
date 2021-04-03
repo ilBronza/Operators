@@ -1,0 +1,38 @@
+{
+    "name": "ilbronza/operator",
+    "description": ":operators_manager",
+    "license": "license",
+    "authors": [
+        {
+            "name": "Davide Bronzini",
+            "email": "davide@sistema.srl",
+            "homepage": "https://www.sistema.srl"
+        }
+    ],
+    "homepage": "https://github.com/ilbronza/operator",
+    "keywords": ["Laravel", "Operator"],
+    "require": {
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "IlBronza\\Operator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "IlBronza\\Operator\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "IlBronza\\Operator\\OperatorServiceProvider"
+            ],
+            "aliases": {
+                "Operator": "IlBronza\\Operator\\Facades\\Operator"
+            }
+        }
+    }
+}
