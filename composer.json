@@ -17,21 +17,21 @@
     },
     "autoload": {
         "psr-4": {
-            "IlBronza\\Operator\\": "src/"
+            "ilBronza\\Operator\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "IlBronza\\Operator\\Tests\\": "tests"
+            "ilBronza\\Operator\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "IlBronza\\Operator\\OperatorServiceProvider"
+                "ilBronza\\Operator\\OperatorServiceProvider"
             ],
             "aliases": {
-                "Operator": "IlBronza\\Operator\\Facades\\Operator"
+                "Operator": "ilBronza\\Operator\\Facades\\Operator"
             }
         }
     }

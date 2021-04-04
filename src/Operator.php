@@ -1,6 +1,6 @@
 <?php
 
-namespace IlBronza\Operator;
+namespace ilBronza\Operator;
 
 class Operator
 {
