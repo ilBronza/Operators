@@ -23,7 +23,7 @@ class CreateOperatorsTable extends Migration
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->foreign('parent_id')->references('id')->on('operators');
 
-            $table->json('cahced_children')->nullable();
+            $table->json('cached_children')->nullable();
             $table->timestamp('children_parsed_at')->nullable();
 
             $table->string('sorting_index')->nullable();
