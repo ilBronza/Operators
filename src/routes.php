@@ -12,4 +12,6 @@ Route::group([
 		Route::resource('operators', 'CrudOperatorController');
 	});
 
+Route::get('asdasd', 'asdcontroller@masd')->name('operators.children.create');
+
 
