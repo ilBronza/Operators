@@ -1,6 +1,6 @@
 <?php
 
-namespace ilBronza\Operator\Http\Controllers\CRUDTraits;
+namespace IlBronza\Operator\Http\Controllers\CRUDTraits;
 
 trait CRUDOperatorParametersTrait
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace ilBronza\Operator\Models;
+namespace IlBronza\Operator\Models;
 
 use App\Models\Traits\Relationships\ParentingTrait;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use ilBronza\CRUD\Traits\CRUDIndexTrait;
-use ilBronza\CRUD\Traits\Model\CRUDModelTrait;
-use ilBronza\CRUD\Traits\Model\CRUDRelationshipModelTrait;
+use IlBronza\CRUD\Traits\CRUDIndexTrait;
+use IlBronza\CRUD\Traits\Model\CRUDModelTrait;
+use IlBronza\CRUD\Traits\Model\CRUDRelationshipModelTrait;
 
 class Operator extends Model
 {

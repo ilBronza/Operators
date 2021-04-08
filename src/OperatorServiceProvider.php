@@ -1,6 +1,6 @@
 <?php
 
-namespace ilBronza\Operator;
+namespace IlBronza\Operator;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -33,7 +33,7 @@ class OperatorServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/operator.php', 'operator');
 
-        $this->app->make('ilBronza\Operator\Http\Controllers\CrudOperatorController');
+        $this->app->make('IlBronza\Operator\Http\Controllers\CrudOperatorController');
 
         // Register the service the package provides.
         $this->app->singleton('operator', function ($app) {

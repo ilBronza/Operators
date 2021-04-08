@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
 	'middleware' => ['web', 'auth'],
-	'namespace' => 'ilBronza\Operator\Http\Controllers'
+	'namespace' => 'IlBronza\Operator\Http\Controllers'
 	],
 	function()
 	{

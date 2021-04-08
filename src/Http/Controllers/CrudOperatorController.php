@@ -1,21 +1,21 @@
 <?php
 
-namespace ilBronza\Operator\Http\Controllers;
+namespace IlBronza\Operator\Http\Controllers;
 
 use Illuminate\Http\Request;
-use ilBronza\CRUD\CRUD;
-use ilBronza\CRUD\Traits\CRUDBelongsToManyTrait;
-use ilBronza\CRUD\Traits\CRUDCreateStoreTrait;
-use ilBronza\CRUD\Traits\CRUDDeleteTrait;
-use ilBronza\CRUD\Traits\CRUDDestroyTrait;
-use ilBronza\CRUD\Traits\CRUDEditUpdateTrait;
-use ilBronza\CRUD\Traits\CRUDIndexTrait;
-use ilBronza\CRUD\Traits\CRUDPlainIndexTrait;
-use ilBronza\CRUD\Traits\CRUDRelationshipTrait;
-use ilBronza\CRUD\Traits\CRUDShowTrait;
-use ilBronza\CRUD\Traits\CRUDUpdateEditorTrait;
-use ilBronza\Operator\Http\Controllers\CRUDTraits\CRUDOperatorParametersTrait;
-use ilBronza\Operator\Models\Operator;
+use IlBronza\CRUD\CRUD;
+use IlBronza\CRUD\Traits\CRUDBelongsToManyTrait;
+use IlBronza\CRUD\Traits\CRUDCreateStoreTrait;
+use IlBronza\CRUD\Traits\CRUDDeleteTrait;
+use IlBronza\CRUD\Traits\CRUDDestroyTrait;
+use IlBronza\CRUD\Traits\CRUDEditUpdateTrait;
+use IlBronza\CRUD\Traits\CRUDIndexTrait;
+use IlBronza\CRUD\Traits\CRUDPlainIndexTrait;
+use IlBronza\CRUD\Traits\CRUDRelationshipTrait;
+use IlBronza\CRUD\Traits\CRUDShowTrait;
+use IlBronza\CRUD\Traits\CRUDUpdateEditorTrait;
+use IlBronza\Operator\Http\Controllers\CRUDTraits\CRUDOperatorParametersTrait;
+use IlBronza\Operator\Models\Operator;
 
 class CrudOperatorController extends CRUD
 {
@@ -37,7 +37,7 @@ class CrudOperatorController extends CRUD
     /**
      * subject model class full path
      **/
-    public $modelClass = 'ilBronza\Operator\Models\Operator';
+    public $modelClass = 'IlBronza\Operator\Models\Operator';
 
     /**
      * http methods allowed. remove non existing methods to get a 403 when called by routes
