@@ -2,7 +2,6 @@
 
 namespace IlBronza\Operator\Http\Controllers;
 
-use Illuminate\Http\Request;
 use IlBronza\CRUD\CRUD;
 use IlBronza\CRUD\Traits\CRUDBelongsToManyTrait;
 use IlBronza\CRUD\Traits\CRUDCreateStoreTrait;
@@ -10,16 +9,20 @@ use IlBronza\CRUD\Traits\CRUDDeleteTrait;
 use IlBronza\CRUD\Traits\CRUDDestroyTrait;
 use IlBronza\CRUD\Traits\CRUDEditUpdateTrait;
 use IlBronza\CRUD\Traits\CRUDIndexTrait;
+use IlBronza\CRUD\Traits\CRUDNestableTrait;
 use IlBronza\CRUD\Traits\CRUDPlainIndexTrait;
 use IlBronza\CRUD\Traits\CRUDRelationshipTrait;
 use IlBronza\CRUD\Traits\CRUDShowTrait;
 use IlBronza\CRUD\Traits\CRUDUpdateEditorTrait;
 use IlBronza\Operator\Http\Controllers\CRUDTraits\CRUDOperatorParametersTrait;
 use IlBronza\Operator\Models\Operator;
+use Illuminate\Http\Request;
 
 class CrudOperatorController extends CRUD
 {
     use CRUDOperatorParametersTrait;
+
+    use CRUDNestableTrait;
 
     use CRUDShowTrait;
     use CRUDPlainIndexTrait;
@@ -37,7 +40,7 @@ class CrudOperatorController extends CRUD
     /**
      * subject model class full path
      **/
-    public $modelClass = 'IlBronza\Operator\Models\Operator';
+    public $modelClass = Operator::class;
 
     /**
      * http methods allowed. remove non existing methods to get a 403 when called by routes
@@ -49,7 +52,9 @@ class CrudOperatorController extends CRUD
         'update',
         'create',
         'store',
-        'destroy'
+        'destroy',
+        'reorder',
+        'stroreReorder'
     ];
 
     /**
@@ -64,7 +69,7 @@ class CrudOperatorController extends CRUD
     /**
      * relations called to be automatically shown on 'show' method
      **/
-    public $showMethodRelationships = ['children', 'user'];
+    public $showMethodRelationships = ['children', 'user', 'parent'];
 
     protected $relationshipsControllers = [
         'children' => '\IlBronza\Operator\Http\Controllers\CrudOperatorController'
@@ -110,25 +115,9 @@ class CrudOperatorController extends CRUD
         return $this->_destroy($operator);
     }
 
-    /**
-     * END base methods
-     **/
-
-
-
-
-     /**
-      * START CREATE PARAMETERS AND METHODS
-      **/
-
-    // public function beforeRenderCreate()
-    // {
-    //     $this->modelInstance->agent_id = session('agent')->getKey();
-    // }
-
-     /**
-      * STOP CREATE PARAMETERS AND METHODS
-      **/
-
+    public function reorder(Request $request, Operator $operator = null)
+    {
+        return $this->_reorder($request, $operator);
+    }
 }
 

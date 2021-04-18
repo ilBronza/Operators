@@ -17,9 +17,18 @@ class Operator extends Model
     use CRUDRelationshipModelTrait;
     use ParentingTrait;
 
+    protected  $fillable= ['parent_id'];
+
+    public $deletingRelationships = ['children'];
+
     public function user()
     {
     	return $this->belongsTo(User::class);
+    }
+
+    public function getName()
+    {
+        return $this->user->getName();
     }
 
     public function getParentPossibleValuesArray()
