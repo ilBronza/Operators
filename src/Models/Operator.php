@@ -1,6 +1,6 @@
 <?php
 
-namespace IlBronza\Operator\Models;
+namespace IlBronza\Operators\Models;
 
 use App\Models\Traits\Relationships\ParentingTrait;
 use App\Models\User;
@@ -42,8 +42,8 @@ class Operator extends Model
 
     	        $result = [];
 
-    	        foreach($operators as $operator)
-    	        	$result[$operator->getKey()] = $operator->user->getName();
+    	        foreach($operators as $operators)
+    	        	$result[$operators->getKey()] = $operators->user->getName();
 
     	        return $result;
     		}

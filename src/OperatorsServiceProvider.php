@@ -1,10 +1,10 @@
 <?php
 
-namespace IlBronza\Operator;
+namespace IlBronza\Operators;
 
 use Illuminate\Support\ServiceProvider;
 
-class OperatorServiceProvider extends ServiceProvider
+class OperatorsServiceProvider extends ServiceProvider
 {
     /**
      * Perform post-registration booting of services.
@@ -31,13 +31,13 @@ class OperatorServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/operator.php', 'operator');
+        $this->mergeConfigFrom(__DIR__.'/../config/operators.php', 'operators');
 
-        $this->app->make('IlBronza\Operator\Http\Controllers\CrudOperatorController');
+        $this->app->make('IlBronza\Operators\Http\Controllers\CrudOperatorsController');
 
         // Register the service the package provides.
-        $this->app->singleton('operator', function ($app) {
-            return new Operator;
+        $this->app->singleton('operators', function ($app) {
+            return new Operators;
         });
     }
 
@@ -48,7 +48,7 @@ class OperatorServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['operator'];
+        return ['operators'];
     }
 
     /**
@@ -60,23 +60,23 @@ class OperatorServiceProvider extends ServiceProvider
     {
         // Publishing the configuration file.
         $this->publishes([
-            __DIR__.'/../config/operator.php' => config_path('operator.php'),
-        ], 'operator.config');
+            __DIR__.'/../config/operators.php' => config_path('operators.php'),
+        ], 'operators.config');
 
         // Publishing the views.
         /*$this->publishes([
             __DIR__.'/../resources/views' => base_path('resources/views/vendor/ilbronza'),
-        ], 'operator.views');*/
+        ], 'operators.views');*/
 
         // Publishing assets.
         /*$this->publishes([
             __DIR__.'/../resources/assets' => public_path('vendor/ilbronza'),
-        ], 'operator.views');*/
+        ], 'operators.views');*/
 
         // Publishing the translation files.
         /*$this->publishes([
             __DIR__.'/../resources/lang' => resource_path('lang/vendor/ilbronza'),
-        ], 'operator.views');*/
+        ], 'operators.views');*/
 
         // Registering package commands.
         // $this->commands([]);

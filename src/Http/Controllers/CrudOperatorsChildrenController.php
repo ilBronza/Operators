@@ -1,6 +1,6 @@
 <?php
 
-namespace IlBronza\Operator\Http\Controllers;
+namespace IlBronza\Operators\Http\Controllers;
 
 use IlBronza\CRUD\BelongsToCRUDController;
 use IlBronza\CRUD\Traits\CRUDBelongsToManyTrait;
@@ -11,14 +11,14 @@ use IlBronza\CRUD\Traits\CRUDEditUpdateTrait;
 use IlBronza\CRUD\Traits\CRUDIndexTrait;
 use IlBronza\CRUD\Traits\CRUDRelationshipTrait;
 use IlBronza\CRUD\Traits\CRUDShowTrait;
-use IlBronza\Operator\Http\Controllers\CRUDTraits\CRUDOperatorChildrenParametersTrait;
-use IlBronza\Operator\Models\Operator;
+use IlBronza\Operators\Http\Controllers\CRUDTraits\CRUDOperatorsChildrenParametersTrait;
+use IlBronza\Operators\Models\Operators;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-class CrudOperatorChildrenController extends BelongsToCRUDController
+class CrudOperatorsChildrenController extends BelongsToCRUDController
 {
-    use CRUDOperatorChildrenParametersTrait;
+    use CRUDOperatorsChildrenParametersTrait;
 
     use CRUDShowTrait;
     use CRUDIndexTrait;
@@ -31,8 +31,8 @@ class CrudOperatorChildrenController extends BelongsToCRUDController
     use CRUDRelationshipTrait;
     use CRUDBelongsToManyTrait;
 
-    public $parentModelClass = Operator::class;
-    public $modelClass = Operator::class;
+    public $parentModelClass = Operators::class;
+    public $modelClass = Operators::class;
 
     public $allowedMethods = [
         'index',
@@ -53,7 +53,7 @@ class CrudOperatorChildrenController extends BelongsToCRUDController
     // public $guardedCreateDBFields = ['id', 'created_at', 'updated_at', 'deleted_at'];
     public $guardedShowDBFields = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
-    public function index(Request $request, Operator $operator)
+    public function index(Request $request, Operators $operators)
     {
         return $this->_index($request);
     }
@@ -63,18 +63,18 @@ class CrudOperatorChildrenController extends BelongsToCRUDController
         return $this->parentModel->children()->get();
     }
 
-    public function show(Operator $parent, Operator $operator)
+    public function show(Operators $parent, Operators $operators)
     {
-        return $this->_show($operator);
+        return $this->_show($operators);
     }
 
-    public function store(Request $request, Operator $operator)
+    public function store(Request $request, Operators $operators)
     {
         return $this->_store($request);
     }
 
-    public function delete(Operator $parent, Operator $operator)
+    public function delete(Operators $parent, Operators $operators)
     {
-        return $this->_delete($operator);
+        return $this->_delete($operators);
     }
 }

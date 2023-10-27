@@ -1,5 +1,5 @@
 {
-    "name": "ilbronza/operator",
+    "name": "ilbronza/operators",
     "description": ":operators_manager",
     "license": "MIT",
     "authors": [
@@ -9,29 +9,29 @@
             "homepage": "https://www.sistema.srl"
         }
     ],
-    "homepage": "https://github.com/ilbronza/operator",
-    "keywords": ["Laravel", "Operator"],
+    "homepage": "https://github.com/ilbronza/operators",
+    "keywords": ["Laravel", "Operators"],
     "require": {
     },
     "require-dev": {
     },
     "autoload": {
         "psr-4": {
-            "IlBronza\\Operator\\": "src/"
+            "IlBronza\\Operators\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "IlBronza\\Operator\\Tests\\": "tests"
+            "IlBronza\\Operators\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "IlBronza\\Operator\\OperatorServiceProvider"
+                "IlBronza\\Operators\\OperatorsServiceProvider"
             ],
             "aliases": {
-                "Operator": "IlBronza\\Operator\\Facades\\Operator"
+                "Operators": "IlBronza\\Operators\\Facades\\Operators"
             }
         }
     }

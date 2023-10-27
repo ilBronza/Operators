@@ -1,6 +1,6 @@
 <?php
 
-namespace IlBronza\Operator\Http\Controllers;
+namespace IlBronza\Operators\Http\Controllers;
 
 use IlBronza\CRUD\CRUD;
 use IlBronza\CRUD\Traits\CRUDBelongsToManyTrait;
@@ -14,13 +14,13 @@ use IlBronza\CRUD\Traits\CRUDPlainIndexTrait;
 use IlBronza\CRUD\Traits\CRUDRelationshipTrait;
 use IlBronza\CRUD\Traits\CRUDShowTrait;
 use IlBronza\CRUD\Traits\CRUDUpdateEditorTrait;
-use IlBronza\Operator\Http\Controllers\CRUDTraits\CRUDOperatorParametersTrait;
-use IlBronza\Operator\Models\Operator;
+use IlBronza\Operators\Http\Controllers\CRUDTraits\CRUDOperatorsParametersTrait;
+use IlBronza\Operators\Models\Operators;
 use Illuminate\Http\Request;
 
-class CrudOperatorController extends CRUD
+class CrudOperatorsController extends CRUD
 {
-    use CRUDOperatorParametersTrait;
+    use CRUDOperatorsParametersTrait;
 
     use CRUDNestableTrait;
 
@@ -40,7 +40,7 @@ class CrudOperatorController extends CRUD
     /**
      * subject model class full path
      **/
-    public $modelClass = Operator::class;
+    public $modelClass = Operators::class;
 
     /**
      * http methods allowed. remove non existing methods to get a 403 when called by routes
@@ -72,7 +72,7 @@ class CrudOperatorController extends CRUD
     public $showMethodRelationships = ['children', 'user', 'parent'];
 
     protected $relationshipsControllers = [
-        'children' => '\IlBronza\Operator\Http\Controllers\CrudOperatorController'
+        'children' => '\IlBronza\Operators\Http\Controllers\CrudOperatorsController'
     ];
 
 
@@ -85,7 +85,7 @@ class CrudOperatorController extends CRUD
      **/
     public function getIndexElements()
     {
-        return Operator::with('parent.user')->get();
+        return Operators::with('parent.user')->get();
     }
 
     /**
@@ -93,31 +93,31 @@ class CrudOperatorController extends CRUD
      *
      * these methods are compulsorily needed to execute CRUD base functions
      **/
-    public function show(Operator $operator)
+    public function show(Operators $operators)
     {
         //$this->addExtraView('top', 'folder.subFolder.viewName', ['some' => $thing]);
 
-        return $this->_show($operator);
+        return $this->_show($operators);
     }
 
-    public function edit(Operator $operator)
+    public function edit(Operators $operators)
     {
-        return $this->_edit($operator);
+        return $this->_edit($operators);
     }
 
-    public function update(Request $request, Operator $operator)
+    public function update(Request $request, Operators $operators)
     {
-        return $this->_update($request, $operator);
+        return $this->_update($request, $operators);
     }
 
-    public function destroy(Operator $operator)
+    public function destroy(Operators $operators)
     {
-        return $this->_destroy($operator);
+        return $this->_destroy($operators);
     }
 
-    public function reorder(Request $request, Operator $operator = null)
+    public function reorder(Request $request, Operators $operators = null)
     {
-        return $this->_reorder($request, $operator);
+        return $this->_reorder($request, $operators);
     }
 }
 

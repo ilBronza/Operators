@@ -1,4 +1,4 @@
-# Operator
+# Operators
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
@@ -12,7 +12,7 @@ This is where your description should go. Take a look at [contributing.md](contr
 Via Composer
 
 ``` bash
-$ composer require ilbronza/operator
+$ composer require ilbronza/operators
 ```
 
 ## Usage
@@ -44,14 +44,14 @@ If you discover any security related issues, please email author email instead o
 
 license. Please see the [license file](license.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/ilbronza/operator.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/ilbronza/operator.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/ilbronza/operator/master.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/ilbronza/operators.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/ilbronza/operators.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/ilbronza/operators/master.svg?style=flat-square
 [ico-styleci]: https://styleci.io/repos/12345678/shield
 
-[link-packagist]: https://packagist.org/packages/ilbronza/operator
-[link-downloads]: https://packagist.org/packages/ilbronza/operator
-[link-travis]: https://travis-ci.org/ilbronza/operator
+[link-packagist]: https://packagist.org/packages/ilbronza/operators
+[link-downloads]: https://packagist.org/packages/ilbronza/operators
+[link-travis]: https://travis-ci.org/ilbronza/operators
 [link-styleci]: https://styleci.io/repos/12345678
 [link-author]: https://github.com/ilbronza
 [link-contributors]: ../../contributors

@@ -13,21 +13,31 @@ class CreateOperatorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('operators', function (Blueprint $table) {
-            $table->id();
+        Schema::create(config('operators.models.operators.table'), function (Blueprint $table) {
+            $table->uuid('id')->primary();
 
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->uuid('parent_id')->nullable();
+            $table->foreign('parent_id')->references('id')->on(config('operators.models.operators.table'));
 
-            //START parenting trait fields
-            $table->unsignedBigInteger('parent_id')->nullable();
-            $table->foreign('parent_id')->references('id')->on('operators');
+            $table->insignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on(config('accountmanager.models.user.table'));
 
-            $table->json('cached_children')->nullable();
-            $table->timestamp('children_parsed_at')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
+        });
 
-            $table->string('sorting_index')->nullable();
-            //STOP parenting trait fields
+
+        Schema::create(config('operators.models.clientOperators.table'), function (Blueprint $table) {
+            $table->uuid('id')->primary();
+
+            $table->uuid('operators_id')->nullable();
+            $table->foreign('operators_id')->references('id')->on(config('operators.models.operators.table'));
+
+            $table->uuid('client_id')->nullable();
+            $table->foreign('client_id')->references('id')->on(config('operators.models.client.table'));
+
+            $table->timestamp('started_at')->nullable();
+            $table->timestamp('ended_at')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
@@ -41,6 +51,7 @@ class CreateOperatorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('operators');
+        Schema::dropIfExists(config('operators.models.clientOperators.table'));
+        Schema::dropIfExists(config('operators.models.operators.table'));
     }
 }

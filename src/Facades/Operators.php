@@ -1,10 +1,10 @@
 <?php
 
-namespace IlBronza\Operator\Facades;
+namespace IlBronza\Operators\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Operator extends Facade
+class Operators extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -13,6 +13,6 @@ class Operator extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return 'operator';
+        return 'operators';
     }
 }

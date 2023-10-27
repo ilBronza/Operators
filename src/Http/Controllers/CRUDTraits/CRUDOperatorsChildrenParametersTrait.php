@@ -1,8 +1,8 @@
 <?php
 
-namespace IlBronza\Operator\Http\Controllers\CRUDTraits;
+namespace IlBronza\Operators\Http\Controllers\CRUDTraits;
 
-trait CRUDOperatorChildrenParametersTrait
+trait CRUDOperatorsChildrenParametersTrait
 {
     public static $tables = [
 
