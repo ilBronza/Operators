@@ -2,52 +2,116 @@
 
 namespace IlBronza\Operators\Models;
 
-use App\Models\Traits\Relationships\ParentingTrait;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use IlBronza\CRUD\Traits\CRUDIndexTrait;
-use IlBronza\CRUD\Traits\Model\CRUDModelTrait;
-use IlBronza\CRUD\Traits\Model\CRUDRelationshipModelTrait;
+use IlBronza\AccountManager\Models\User;
+use IlBronza\AccountManager\Models\Userdata;
+use IlBronza\CRUD\Models\BaseModel;
+use IlBronza\CRUD\Traits\CRUDSluggableTrait;
+use IlBronza\CRUD\Traits\Model\CRUDParentingTrait;
+use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
+use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
+use IlBronza\Clients\Models\Client;
+use IlBronza\Clients\Models\ClientOperator;
 
-class Operator extends Model
+class Operator extends BaseModel
 {
-    use HasFactory;
-    use CRUDModelTrait;
-    use CRUDRelationshipModelTrait;
-    use ParentingTrait;
+    use PackagedModelsTrait;
+    use CRUDUseUuidTrait;
+    use CRUDSluggableTrait;
+    use CRUDParentingTrait;
 
-    protected  $fillable= ['parent_id'];
+    static $packageConfigPrefix = 'operators';
+    static $modelConfigPrefix = 'operator';
 
-    public $deletingRelationships = ['children'];
+    public $deletingRelationships = [];
+
+    public function clientOperators()
+    {
+        return $this->hasMany(ClientOperator::getProjectClassName());
+    }
+
+    public function clients()
+    {
+        return $this->belongsToMany(Client::getProjectClassName());
+    }
+
+    public function client()
+    {
+        return $this->hasOne(Client::getProjectClassName());
+    }
 
     public function user()
     {
-    	return $this->belongsTo(User::class);
+        return $this->belongsTo(User::getProjectClassName());
     }
 
-    public function getName()
+    public function userdata()
     {
-        return $this->user->getName();
+        return $this->belongsTo(Userdata::getProjectClassName());
     }
 
-    public function getParentPossibleValuesArray()
+    public function getUserdata() : Userdata
     {
-    	return cache()->remember(
-    		'operatorsPossibleValuesArray',
-    		3600,
-    		function()
-    		{
-    	        $operators = Operator::with('user')->get();
+        if($this->userdata)
+            return $this->userdata;
 
-    	        $result = [];
+        if(! $userdata = $this->getUser()?->getUserdata())
+            $userdata = Userdata::getProjectClassName()::make();
 
-    	        foreach($operators as $operators)
-    	        	$result[$operators->getKey()] = $operators->user->getName();
+        $this->userdata()->associate($userdata);
+        $this->save();
 
-    	        return $result;
-    		}
-    	);
+        if($user = $this->getUser())
+            $userdata->user()->save($user);
+
+        return $userdata;
     }
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// class Operator extends BaseModel
+// {
+
+//     use ClientsPackageBaseModelTrait;
+//     use CRUDUseUuidTrait;
+//     use CRUDSluggableTrait;
+
+//     public function clientOperators()
+//     {
+//         return $this->hasMany(ClientOperator::getProjectClassName());
+//     }
+
+//     public function clients()
+//     {
+//         return $this->belongsToMany(Client::getProjectClassName());
+//     }
+
+//     public function client()
+//     {
+//         return $this->hasOne(Client::getProjectClassName());
+//     }
+
+
+// }

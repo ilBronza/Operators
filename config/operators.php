@@ -1,16 +1,31 @@
 <?php
 
-use IlBronza\Clients\Http\Controllers\Operators\CrudOperatorsController;
-use IlBronza\Clients\Http\ParametersFile\Operators\CrudOperatorsParametersFile;
-use IlBronza\Clients\Models\Operators;
+use IlBronza\Operators\Models\ClientOperator;
+use IlBronza\Operators\Models\Contracttype;
+use IlBronza\Operators\Models\Operator;
+
 
 return [
     'routePrefix' => 'operators',
 
     'models' => [
-        'operators' => [
-            'class' => Operators::class,
-            'table' => 'clients__operators',
+        'skill' => [
+            'table' => 'operators__skills'
+        ],
+        'operatorSkill' => [
+            'table' => 'operators__operator_skills'
+        ],
+        'clientOperator' => [
+            'class' => ClientOperator::class,
+            'table' => 'operators__client_operators'
+        ],
+        'contracttype' => [
+            'class' => Contracttype::class,
+            'table' => 'operators__contracttypes'
+        ],
+        'operator' => [
+            'class' => Operator::class,
+            'table' => 'operators__operators',
             'parametersFiles' => [
                 'generic' => CrudOperatorsParametersFile::class
             ],
