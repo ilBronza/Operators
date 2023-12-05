@@ -2,9 +2,23 @@
 
 namespace IlBronza\Operators;
 
-class Operators
+use IlBronza\CRUD\Providers\RouterProvider\RoutedObjectInterface;
+use IlBronza\CRUD\Traits\IlBronzaPackages\IlBronzaPackagesTrait;
+
+class Operators implements RoutedObjectInterface
 {
-    // Build wonderful things
+    use IlBronzaPackagesTrait;
+
+    static $packageConfigPrefix = 'operators';
+
+
+    public function manageMenuButtons()
+    {
+        if(! $menu = app('menu'))
+            return;
+
+        $settingsButton = $menu->provideSettingsButton();
+    }
 }
 
 
