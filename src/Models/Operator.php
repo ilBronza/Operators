@@ -10,23 +10,54 @@ use IlBronza\CRUD\Traits\Model\CRUDParentingTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
 use IlBronza\Clients\Models\Client;
-use IlBronza\Clients\Models\ClientOperator;
+use IlBronza\Operators\Models\ClientOperator;
+use IlBronza\Operators\Models\Contracttype;
+use IlBronza\Operators\Models\OperatorContracttype;
+use IlBronza\Products\Models\Interfaces\SupplierInterface;
+use IlBronza\Products\Models\Traits\Sellable\InteractsWithSupplierTrait;
+use Illuminate\Support\Facades\Log;
 
-class Operator extends BaseModel
+class Operator extends BaseModel implements SupplierInterface
 {
     use PackagedModelsTrait;
     use CRUDUseUuidTrait;
     use CRUDSluggableTrait;
     use CRUDParentingTrait;
+    use InteractsWithSupplierTrait;
 
     static $packageConfigPrefix = 'operators';
     static $modelConfigPrefix = 'operator';
 
+    protected $with = ['user'];
+
     public $deletingRelationships = [];
+
+    public function getMorphClass()
+    {
+        return 'Operator';
+    }
 
     public function clientOperators()
     {
         return $this->hasMany(ClientOperator::getProjectClassName());
+    }
+
+    public function getName() : ? string
+    {
+        return $this->getUser()->getFullName();
+    }
+
+    public function operatorContracttypes()
+    {
+        return $this->hasMany(OperatorContracttype::getProjectClassName());
+    }
+
+    public function contracttypes()
+    {
+        return $this->belongsToMany(
+            Contracttype::getProjectClassName(),
+            config('operators.models.operatorContracttype.table')
+        )->using(OperatorContracttype::getProjectClassName());
     }
 
     public function clients()
@@ -44,6 +75,16 @@ class Operator extends BaseModel
         return $this->belongsTo(User::getProjectClassName());
     }
 
+    public function getUserId() : string
+    {
+        return $this->user_id;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
     public function userdata()
     {
         return $this->belongsTo(Userdata::getProjectClassName());
@@ -51,6 +92,10 @@ class Operator extends BaseModel
 
     public function getUserdata() : Userdata
     {
+        Log::critical('risolvere questo get userdata');
+
+        dd('risolvere questo get userdata');
+
         if($this->userdata)
             return $this->userdata;
 

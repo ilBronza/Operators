@@ -17,6 +17,9 @@ class CreateOperatorsTable extends Migration
             $table->uuid('id')->primary();
 
             $table->string('slug')->nullable();
+            $table->string('code', 64)->nullable();
+
+            $table->string('vat', 12)->nullable();
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on(config('accountmanager.models.user.table'));
@@ -82,10 +85,15 @@ class CreateOperatorsTable extends Migration
             $table->uuid('client_id')->nullable();
             $table->foreign('client_id')->references('id')->on(config('clients.models.client.table'));
 
+            $table->unsignedBigInteger('employment_id')->nullable();
+            $table->foreign('employment_id')->references('id')->on(config('operators.models.employment.table'));
+
             $table->uuid('contracttype_id')->nullable();
             $table->foreign('contracttype_id')->references('id')->on(config('operators.models.contracttype.table'));
 
             $table->string('level')->nullable();
+            $table->string('social_security_institution')->nullable();
+            $table->string('social_security_code')->nullable();
 
             $table->decimal('cost_company_hour', 8, 2)->nullable();
             $table->decimal('cost_gross_hour', 8, 2)->nullable();

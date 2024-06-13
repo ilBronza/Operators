@@ -18,14 +18,31 @@ class Operators implements RoutedObjectInterface
             return;
 
         $settingsButton = $menu->provideSettingsButton();
+
+
+        $operatorsButton = $menu->createButton([
+            'name' => 'operatorsManager',
+            'icon' => 'users',
+            'text' => 'operators::operators.manager',
+            'children' => [
+                [
+                    'name' => 'operators.index',
+                    'icon' => 'users',
+                    'text' => 'operators::operators.list',
+                    'href' => $this->route('operators.index')
+                ],
+                [
+                    'name' => 'contracttypes.index',
+                    'icon' => 'users',
+                    'text' => 'operators::contracttypes.index',
+                    'href' => $this->route('contracttypes.index')
+                ]
+            ]
+        ]);
+
+        $settingsButton->addChild($operatorsButton);
     }
 }
 
 
 
-        // $operatorsButton = $menu->createButton([
-        //     'name' => 'operators.index',
-        //     'icon' => 'users',
-        //     'text' => 'clients::operators.list',
-        //     'href' => IbRouter::route($this, 'operators.index')
-        // ]);

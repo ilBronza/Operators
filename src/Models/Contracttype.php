@@ -6,18 +6,92 @@ use IlBronza\CRUD\Models\BaseModel;
 use IlBronza\CRUD\Traits\CRUDSluggableTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
+use IlBronza\Operators\Helpers\OperatorPricesCreatorHelper;
+use IlBronza\Operators\Models\Operator;
+use IlBronza\Operators\Models\OperatorContracttype;
+use IlBronza\Products\Models\Interfaces\SellableItemInterface;
+use IlBronza\Products\Models\Interfaces\SellableSupplierPriceCreatorBaseClass;
+use IlBronza\Products\Models\Sellables\Supplier;
+use IlBronza\Products\Models\Traits\Sellable\InteractsWithSellableTrait;
+use Illuminate\Support\Collection;
 
-class Contracttype extends BaseModel
+class Contracttype extends BaseModel implements SellableItemInterface
 {
     use PackagedModelsTrait;
 
     use CRUDUseUuidTrait;
     use CRUDSluggableTrait;
+    use InteractsWithSellableTrait;
+
 
     static $packageConfigPrefix = 'operators';
     static $modelConfigPrefix = 'contracttype';
 
     public $deletingRelationships = [];
+
+
+    public function getNameForSellable(... $parameters) : string
+    {
+        return "{$this->getName()} - {$this->getIstatCode()}";
+    }
+
+    public function getPossibleSuppliersElements() : Collection
+    {
+        return $this->operators()->with('supplier')->get()->pluck('supplier')->filter();
+    }
+
+    public function getPriceCreator() : SellableSupplierPriceCreatorBaseClass
+    {
+        return new OperatorPricesCreatorHelper;
+    }
+
+    public function getSellablePricesBySupplier(Supplier $supplier, ...$parameters) : array
+    {
+        dd($this->operatorContracttypes()->where('operator_id', $supplier->getTarget()->getKey())->first());
+
+        dd($supplier->getTarget());
+        dd('qua');
+        return null;
+    }
+
+    public function operators()
+    {
+        return $this->belongsToMany(
+            Operator::getProjectClassName(),
+            config('operators.models.operatorContracttype.table')
+        )->using(OperatorContracttype::getProjectClassName());
+    }
+
+    public function operatorContracttypes()
+    {
+        return $this->hasMany(OperatorContracttype::getProjectClassName());
+    }
+
+    public function getRelatedFullOperatorContracttypes() : Collection
+    {
+        return $this->operatorContracttypes()->with(
+            'operator.user.userdata'
+        )->get();
+    }
+
+    public function getRelatedFullOperators() : Collection
+    {
+        return $this->operators()->with(
+            'user.userdata',
+            'contracttypes'
+        )->get();
+    }
+
+    public function getOperators() : Collection
+    {
+        return $this->operators;
+    }
+
+
+    public function getIstatCode() : ? string
+    {
+        return $this->istat_code;
+    }
 
 }
 

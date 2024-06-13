@@ -1,17 +1,16 @@
 <?php
 
+use IlBronza\Operators\Http\Controllers\CrudOperatorsController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::group([
 	'middleware' => ['web', 'auth'],
 	'prefix' => 'operators-manager',
-	'namespace' => 'IlBronza\Operators\Http\Controllers'
+	'as' => config('operators.routePrefix')
 	],
 	function()
 	{
-		Route::resource('operators', 'CrudOperatorsController');
-
 		Route::prefix('parent/{parent}')->group(function () {
 			Route::resource('operators', 'CrudOperatorsChildrenController')->names('operators.children');
 		});
@@ -20,6 +19,35 @@ Route::group([
 		Route::get('operators-reorder/{operators?}', 'CrudOperatorsController@reorder')->name('operators.reorder');
 		Route::post('operators-reorder', 'CrudOperatorsController@stroreReorder')->name('operators.stroreReorder');
 		//STOP ROUTES PER REORDERING
+
+
+		Route::group(['prefix' => 'operators'], function()
+		{
+			Route::get('', [Operators::getController('operator', 'index'), 'index'])->name('operators.index');
+			Route::get('create', [Operators::getController('operator', 'create'), 'create'])->name('operators.create');
+			Route::post('', [Operators::getController('operator', 'store'), 'store'])->name('operators.store');
+			Route::get('{operator}', [Operators::getController('operator', 'show'), 'show'])->name('operators.show');
+			Route::get('{operator}/edit', [Operators::getController('operator', 'edit'), 'edit'])->name('operators.edit');
+			Route::put('{operator}', [Operators::getController('operator', 'edit'), 'update'])->name('operators.update');
+
+			Route::delete('{operator}/delete', [Operators::getController('operator', 'destroy'), 'destroy'])->name('operators.destroy');
+		});
+
+
+
+		Route::group(['prefix' => 'contracttypes'], function()
+		{
+			Route::get('', [Operators::getController('contracttype', 'index'), 'index'])->name('contracttypes.index');
+			Route::get('create', [Operators::getController('contracttype', 'create'), 'create'])->name('contracttypes.create');
+			Route::post('', [Operators::getController('contracttype', 'store'), 'store'])->name('contracttypes.store');
+			Route::get('{contracttype}', [Operators::getController('contracttype', 'show'), 'show'])->name('contracttypes.show');
+			Route::get('{contracttype}/edit', [Operators::getController('contracttype', 'edit'), 'edit'])->name('contracttypes.edit');
+			Route::put('{contracttype}', [Operators::getController('contracttype', 'edit'), 'update'])->name('contracttypes.update');
+
+			Route::delete('{contracttype}/delete', [Operators::getController('contracttype', 'destroy'), 'destroy'])->name('contracttypes.destroy');
+		});
+
+
 
 	});
 

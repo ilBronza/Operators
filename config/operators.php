@@ -2,7 +2,9 @@
 
 use IlBronza\Operators\Models\ClientOperator;
 use IlBronza\Operators\Models\Contracttype;
+use IlBronza\Operators\Models\Employment;
 use IlBronza\Operators\Models\Operator;
+use IlBronza\Operators\Models\OperatorContracttype;
 
 
 return [
@@ -11,6 +13,10 @@ return [
     'models' => [
         'skill' => [
             'table' => 'operators__skills'
+        ],
+        'operatorContracttype' => [
+            'table' => 'operators__operator_contracttypes',
+            'class' => OperatorContracttype::class,
         ],
         'operatorSkill' => [
             'table' => 'operators__operator_skills'
@@ -21,7 +27,29 @@ return [
         ],
         'contracttype' => [
             'class' => Contracttype::class,
-            'table' => 'operators__contracttypes'
+            'table' => 'operators__contracttypes',
+            'fieldsGroupsFiles' => [
+                'index' => ContracttypeFieldsGroupParametersFile::class
+            ],
+            'relationshipsManagerClasses' => [
+                'show' => ContracttypeRelationManager::class
+            ],
+            'parametersFiles' => [
+                'create' => ContracttypeCreateStoreFieldsetsParameters::class
+            ],
+            'controllers' => [
+                'index' => ContracttypeIndexController::class,
+                'create' => ContracttypeCreateStoreController::class,
+                'store' => ContracttypeCreateStoreController::class,
+                'show' => ContracttypeShowController::class,
+                'edit' => ContracttypeEditUpdateController::class,
+                'update' => ContracttypeEditUpdateController::class,
+                'destroy' => ContracttypeDestroyController::class,
+            ]
+        ],
+        'employment' => [
+            'class' => Employment::class,
+            'table' => 'operators__employments'
         ],
         'operator' => [
             'class' => Operator::class,

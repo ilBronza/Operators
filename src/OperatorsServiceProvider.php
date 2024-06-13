@@ -2,6 +2,9 @@
 
 namespace IlBronza\Operators;
 
+use IlBronza\Operators\Models\Contracttype;
+use IlBronza\Operators\Models\Operator;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
 class OperatorsServiceProvider extends ServiceProvider
@@ -13,7 +16,12 @@ class OperatorsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'ilbronza');
+        Relation::morphMap([
+            'Operator' => Operator::getProjectClassname(),
+            'Contracttype' => Contracttype::getProjectClassname(),
+        ]);
+
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'operators');
         // $this->loadViewsFrom(__DIR__.'/../resources/views', 'ilbronza');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/routes.php');

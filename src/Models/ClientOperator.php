@@ -13,6 +13,11 @@ class ClientOperator extends BaseModel
     static $packageConfigPrefix = 'operators';
     static $modelConfigPrefix = 'clientOperator';
 
+    protected $dates = [
+        'started_at',
+        'ended_at'
+    ];
+
     use PackagedModelsTrait;
 
     public function client()
