@@ -11,6 +11,7 @@ use IlBronza\Operators\Models\Operator;
 use IlBronza\Operators\Models\OperatorContracttype;
 use IlBronza\Products\Models\Interfaces\SellableItemInterface;
 use IlBronza\Products\Models\Interfaces\SellableSupplierPriceCreatorBaseClass;
+use IlBronza\Products\Models\Quotations\Quotation;
 use IlBronza\Products\Models\Sellables\Supplier;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSellableTrait;
 use Illuminate\Support\Collection;
@@ -77,9 +78,14 @@ class Contracttype extends BaseModel implements SellableItemInterface
     public function getRelatedFullOperators() : Collection
     {
         return $this->operators()->with(
-            'user.userdata',
-            'contracttypes'
-        )->get();
+            'user.extraFields',
+            'contracttypes',
+            'sellableSuppliers.directPrice',
+            'sellableSuppliers.sellable',
+            'employments'
+        )
+        ->withSupplierId()
+        ->get();
     }
 
     public function getOperators() : Collection
@@ -92,7 +98,6 @@ class Contracttype extends BaseModel implements SellableItemInterface
     {
         return $this->istat_code;
     }
-
 }
 
 

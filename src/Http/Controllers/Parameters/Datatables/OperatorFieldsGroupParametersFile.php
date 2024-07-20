@@ -15,17 +15,35 @@ class OperatorFieldsGroupParametersFile extends FieldsGroupParametersFile
                 'mySelfPrimary' => 'primary',
                 'mySelfEdit' => 'links.edit',
                 'mySelfSee' => 'links.see',
+
                 'user.userdata.first_name' => 'flat',
                 'user.userdata.surname' => 'flat',
                 'user.email' => 'flat',
 
                 'vat' => 'flat',
-                'fiscal_code' => 'flat',
+                'user.userdata.fiscal_code' => 'flat',
+                'user.userdata.tmp_codice' => 'flat',
                 'code' => 'flat',
 
+                'mySelfPrices.sellableSuppliers' => [
+                    'type' => 'iterators.each',
+                    'childParameters' => [
+                        'type' => 'function',
+                        'function' => 'getDirectPriceString'
+                    ],
+                    'width' => '60px'
+                ],
 
-                'user' => 'relations.belongsTo',
+                'mySelfSellables.sellableSuppliers' => [
+                    'type' => 'iterators.each',
+                    'childParameters' => [
+                        'type' => 'function',
+                        'function' => 'getSellableName'
+                    ],
+                    'width' => '280px'
+                ],
 
+                'employments' => 'relations.belongsToMany',
                 'contracttypes' => 'relations.belongsToMany',
 
                 'mySelfDelete' => 'links.delete'

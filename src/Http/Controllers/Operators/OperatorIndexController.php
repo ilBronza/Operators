@@ -28,8 +28,13 @@ class OperatorIndexController extends OperatorCRUD
     {
         return $this->getModelClass()::with(
             'user.extraFields',
-            'contracttypes'
-        )->get();
+            'contracttypes',
+            'sellableSuppliers.directPrice',
+            'sellableSuppliers.sellable',
+            'employments'
+        )
+        ->withSupplierId()
+        ->get();
     }
 
 }

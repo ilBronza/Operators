@@ -10,11 +10,14 @@ use IlBronza\CRUD\Traits\Model\CRUDParentingTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
 use IlBronza\Clients\Models\Client;
+use IlBronza\Contacts\Models\Contact;
 use IlBronza\Operators\Models\ClientOperator;
 use IlBronza\Operators\Models\Contracttype;
+use IlBronza\Operators\Models\Employment;
 use IlBronza\Operators\Models\OperatorContracttype;
 use IlBronza\Products\Models\Interfaces\SupplierInterface;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSupplierTrait;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
 class Operator extends BaseModel implements SupplierInterface
@@ -52,6 +55,23 @@ class Operator extends BaseModel implements SupplierInterface
         return $this->hasMany(OperatorContracttype::getProjectClassName());
     }
 
+    public function contacts()
+    {
+        return $this->hasMany(
+            Contact::getProjectClassName(),
+            'contactable_id',
+            'user_id'
+        )->where('contactable_type', 'LIKE', "User");
+    }
+
+    public function getRelatedContacts() : Collection
+    {
+        if($this->relationLoaded('contacts'))
+            return $this->contacts;
+
+        return $this->contacts()->get();
+    }
+
     public function contracttypes()
     {
         return $this->belongsToMany(
@@ -62,7 +82,18 @@ class Operator extends BaseModel implements SupplierInterface
 
     public function clients()
     {
-        return $this->belongsToMany(Client::getProjectClassName());
+        return $this->belongsToMany(
+            Client::getProjectClassName(),
+            config('operators.models.clientOperator.table')
+        )->using(ClientOperator::getProjectClassName());
+    }
+
+    public function employments()
+    {
+        return $this->belongsToMany(
+            Employment::getProjectClassName(),
+            config('operators.models.clientOperator.table')
+        )->distinct();
     }
 
     public function client()

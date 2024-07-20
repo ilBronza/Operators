@@ -5,6 +5,7 @@ namespace IlBronza\Operators\Models;
 use IlBronza\CRUD\Models\BaseModel;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
+use IlBronza\Operators\Models\Employment;
 
 class ClientOperator extends BaseModel
 {
@@ -34,4 +35,8 @@ class ClientOperator extends BaseModel
         );
     }
 
+    public function employments()
+    {
+        return $this->belongsTo(Employment::getProjectClassName());
+    }
 }

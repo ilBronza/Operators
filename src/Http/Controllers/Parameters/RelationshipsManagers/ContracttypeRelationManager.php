@@ -18,6 +18,15 @@ class ContracttypeRelationManager Extends RelationshipsManager
 					'operators' => [
 						'controller' => config('operators.models.operator.controllers.index'),
 						'elementGetterMethod' => 'getRelatedFullOperators'
+					],
+					'sellables' => config('products.models.sellable.controllers.index'),
+					// 'quotationrows' => [
+					// 	'controller' => config('products.models.quotationrow.controllers.index'),
+					// 	'elementGetterMethod' => 'getRelatedQuotationrows'
+					// ]
+					'quotations' => [
+						'controller' => config('products.models.quotation.controllers.index'),
+						'elementGetterMethod' => 'getRelatedQuotations'
 					]
 				]
 			]

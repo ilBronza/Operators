@@ -49,6 +49,20 @@ Route::group([
 
 
 
+		Route::group(['prefix' => 'employments'], function()
+		{
+			Route::get('', [Operators::getController('employment', 'index'), 'index'])->name('employments.index');
+			Route::get('create', [Operators::getController('employment', 'create'), 'create'])->name('employments.create');
+			Route::post('', [Operators::getController('employment', 'store'), 'store'])->name('employments.store');
+			Route::get('{employment}', [Operators::getController('employment', 'show'), 'show'])->name('employments.show');
+			Route::get('{employment}/edit', [Operators::getController('employment', 'edit'), 'edit'])->name('employments.edit');
+			Route::put('{employment}', [Operators::getController('employment', 'edit'), 'update'])->name('employments.update');
+
+			Route::delete('{employment}/delete', [Operators::getController('employment', 'destroy'), 'destroy'])->name('employments.destroy');
+		});
+
+
+
 	});
 
 

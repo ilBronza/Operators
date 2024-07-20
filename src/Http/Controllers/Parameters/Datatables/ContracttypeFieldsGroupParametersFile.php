@@ -17,6 +17,7 @@ class ContracttypeFieldsGroupParametersFile extends FieldsGroupParametersFile
                 'mySelfSee' => 'links.see',
                 'name' => 'flat',
                 'slug' => 'flat',
+                'operators_count' => 'flat',
                 'description' => 'flat',
                 'istat_code' => 'flat',
 
@@ -28,7 +29,6 @@ class ContracttypeFieldsGroupParametersFile extends FieldsGroupParametersFile
                 'cost_neat_day' => 'flat',
                 'cost_charge_coefficient' => 'flat',
 
-                'operators_count' => 'flat',
 
                 'mySelfDelete' => 'links.delete'
             ]
