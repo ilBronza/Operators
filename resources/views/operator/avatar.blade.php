@@ -1,0 +1,1 @@
+{!! $operator->getAvatarImageFetcher()->render() !!}

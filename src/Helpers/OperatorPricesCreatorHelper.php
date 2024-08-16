@@ -2,6 +2,7 @@
 
 namespace IlBronza\Operators\Helpers;
 
+use Exception;
 use IlBronza\Prices\Models\Price;
 use IlBronza\Prices\Providers\PriceCalculatorHelper;
 use IlBronza\Products\Models\Interfaces\SellableSupplierPriceCreatorBaseClass;

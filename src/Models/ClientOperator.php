@@ -23,20 +23,30 @@ class ClientOperator extends BaseModel
 
     public function client()
     {
-        return $this->hasOne(
+        return $this->belongsTo(
             config('clients.models.client.class')
         );
     }
 
     public function operator()
     {
-        return $this->hasOne(
-            config('clients.models.operator.class')
+        return $this->belongsTo(
+            config('operators.models.operator.class')
         );
     }
 
-    public function employments()
-    {
-        return $this->belongsTo(Employment::getProjectClassName());
-    }
+	public function employment()
+	{
+		return $this->belongsTo(Employment::getProjectClassName());
+	}
+
+	public function contracttype()
+	{
+		return $this->belongsTo(Contracttype::getProjectClassName());
+	}
+
+	public function remuneration()
+	{
+		return $this->price()->where('collection_id', 'remuneration');
+	}
 }

@@ -23,6 +23,9 @@ Route::group([
 
 		Route::group(['prefix' => 'operators'], function()
 		{
+
+			Route::get('{operator}/avatar-fetcher', [Operators::getController('operator', 'avatar'), 'avatarFetcher'])->name('operators.avatarFetcher');
+
 			Route::get('', [Operators::getController('operator', 'index'), 'index'])->name('operators.index');
 			Route::get('create', [Operators::getController('operator', 'create'), 'create'])->name('operators.create');
 			Route::post('', [Operators::getController('operator', 'store'), 'store'])->name('operators.store');
@@ -45,6 +48,31 @@ Route::group([
 			Route::put('{contracttype}', [Operators::getController('contracttype', 'edit'), 'update'])->name('contracttypes.update');
 
 			Route::delete('{contracttype}/delete', [Operators::getController('contracttype', 'destroy'), 'destroy'])->name('contracttypes.destroy');
+		});
+
+
+		Route::group(['prefix' => 'client-operators'], function()
+		{
+			Route::get('', [Operators::getController('clientOperator', 'index'), 'index'])->name('clientOperators.index');
+			Route::get('create', [Operators::getController('clientOperator', 'create'), 'create'])->name('clientOperators.create');
+			Route::post('', [Operators::getController('clientOperator', 'store'), 'store'])->name('clientOperators.store');
+			Route::get('{clientOperator}', [Operators::getController('clientOperator', 'show'), 'show'])->name('clientOperators.show');
+			Route::get('{clientOperator}/edit', [Operators::getController('clientOperator', 'edit'), 'edit'])->name('clientOperators.edit');
+			Route::put('{clientOperator}', [Operators::getController('clientOperator', 'edit'), 'update'])->name('clientOperators.update');
+
+			Route::delete('{clientOperator}/delete', [Operators::getController('clientOperator', 'destroy'), 'destroy'])->name('clientOperators.destroy');
+		});
+
+		Route::group(['prefix' => 'operator-contracttypes'], function()
+		{
+			Route::get('', [Operators::getController('operatorContracttype', 'index'), 'index'])->name('operatorContracttypes.index');
+			Route::get('create', [Operators::getController('operatorContracttype', 'create'), 'create'])->name('operatorContracttypes.create');
+			Route::post('', [Operators::getController('operatorContracttype', 'store'), 'store'])->name('operatorContracttypes.store');
+			Route::get('{operatorContracttype}', [Operators::getController('operatorContracttype', 'show'), 'show'])->name('operatorContracttypes.show');
+			Route::get('{operatorContracttype}/edit', [Operators::getController('operatorContracttype', 'edit'), 'edit'])->name('operatorContracttypes.edit');
+			Route::put('{operatorContracttype}', [Operators::getController('operatorContracttype', 'edit'), 'update'])->name('operatorContracttypes.update');
+
+			Route::delete('{operatorContracttype}/delete', [Operators::getController('operatorContracttype', 'destroy'), 'destroy'])->name('operatorContracttypes.destroy');
 		});
 
 

@@ -13,7 +13,7 @@ class OperatorEditUpdateController extends OperatorCRUD
 
     public function getGenericParametersFile() : ? string
     {
-        return config('operators.models.operator.parametersFiles.create');
+        return config('operators.models.operator.parametersFiles.edit');
     }
 
     public function edit(string $operator)

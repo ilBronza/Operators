@@ -17,7 +17,7 @@ class OperatorContracttypeFieldsGroupParametersFile extends FieldsGroupParameter
                 'mySelfSee' => 'links.see',
                 'operator.user.userdata.first_name' => 'flat',
                 'operator.user.userdata.surname' => 'flat',
-                'contracttypes.name' => 'flat',
+                'contracttype.name' => 'flat',
 
                 'internal_approval_rating' => 'flat',
                 'level' => 'flat',

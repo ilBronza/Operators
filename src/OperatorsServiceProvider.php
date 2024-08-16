@@ -22,7 +22,7 @@ class OperatorsServiceProvider extends ServiceProvider
         ]);
 
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'operators');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'ilbronza');
+         $this->loadViewsFrom(__DIR__.'/../resources/views', 'operators');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 

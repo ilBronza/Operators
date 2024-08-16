@@ -16,8 +16,18 @@ class OperatorFieldsGroupParametersFile extends FieldsGroupParametersFile
                 'mySelfEdit' => 'links.edit',
                 'mySelfSee' => 'links.see',
 
-                'user.userdata.first_name' => 'flat',
-                'user.userdata.surname' => 'flat',
+				'user.userdata.surname' => [
+					'type' => 'flat',
+					'order' => [
+						'priority' => 10
+					],
+				],
+				'user.userdata.first_name' => [
+					'type' => 'flat',
+					'order' => [
+						'priority' => 100
+					],
+				],
                 'user.email' => 'flat',
 
                 'vat' => 'flat',

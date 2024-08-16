@@ -4,24 +4,27 @@ namespace IlBronza\Operators\Models;
 
 use IlBronza\AccountManager\Models\User;
 use IlBronza\AccountManager\Models\Userdata;
+use IlBronza\Addresses\Models\Address;
+use IlBronza\Contacts\Models\Traits\InteractsWithContact;
 use IlBronza\CRUD\Models\BaseModel;
 use IlBronza\CRUD\Traits\CRUDSluggableTrait;
 use IlBronza\CRUD\Traits\Model\CRUDParentingTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
 use IlBronza\Clients\Models\Client;
-use IlBronza\Contacts\Models\Contact;
 use IlBronza\Operators\Models\ClientOperator;
 use IlBronza\Operators\Models\Contracttype;
 use IlBronza\Operators\Models\Employment;
 use IlBronza\Operators\Models\OperatorContracttype;
 use IlBronza\Products\Models\Interfaces\SupplierInterface;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSupplierTrait;
+use IlBronza\UikitTemplate\Fetcher;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
 class Operator extends BaseModel implements SupplierInterface
 {
+	use InteractsWithContact;
     use PackagedModelsTrait;
     use CRUDUseUuidTrait;
     use CRUDSluggableTrait;
@@ -40,7 +43,25 @@ class Operator extends BaseModel implements SupplierInterface
         return 'Operator';
     }
 
-    public function clientOperators()
+	public function addresses()
+	{
+		return $this->hasMany(
+			Address::getProjectClassname(),
+			'addressable_id',
+			'user_id'
+		)->where('addressable_type', 'User');
+	}
+
+	public function address()
+	{
+		return $this->hasOne(
+			Address::getProjectClassname(),
+			'addressable_id',
+			'user_id'
+		)->where('addressable_type', 'User')->where('type', 'default');
+	}
+
+	public function clientOperators()
     {
         return $this->hasMany(ClientOperator::getProjectClassName());
     }
@@ -53,23 +74,6 @@ class Operator extends BaseModel implements SupplierInterface
     public function operatorContracttypes()
     {
         return $this->hasMany(OperatorContracttype::getProjectClassName());
-    }
-
-    public function contacts()
-    {
-        return $this->hasMany(
-            Contact::getProjectClassName(),
-            'contactable_id',
-            'user_id'
-        )->where('contactable_type', 'LIKE', "User");
-    }
-
-    public function getRelatedContacts() : Collection
-    {
-        if($this->relationLoaded('contacts'))
-            return $this->contacts;
-
-        return $this->contacts()->get();
     }
 
     public function contracttypes()
@@ -87,6 +91,11 @@ class Operator extends BaseModel implements SupplierInterface
             config('operators.models.clientOperator.table')
         )->using(ClientOperator::getProjectClassName());
     }
+
+	public function getClients()
+	{
+		return $this->clients;
+	}
 
     public function employments()
     {
@@ -118,7 +127,7 @@ class Operator extends BaseModel implements SupplierInterface
 
     public function userdata()
     {
-        return $this->belongsTo(Userdata::getProjectClassName());
+        return $this->hasOne(Userdata::getProjectClassName(), 'user_id', 'user_id');
     }
 
     public function getUserdata() : Userdata
@@ -141,11 +150,24 @@ class Operator extends BaseModel implements SupplierInterface
 
         return $userdata;
     }
+
+	public function getAvatarImageUrl() : ? string
+	{
+		return $this->getUser()?->getAvatarImageUrl();
+	}
+	public function getAvatarFetcherUrl() : string
+	{
+		return $this->getKeyedRoute('avatarFetcher');
+	}
+
+	public function getAvatarImageFetcher()
+	{
+		return new Fetcher([
+			'url' => $this->getAvatarFetcherUrl()
+		]);
+	}
+
 }
-
-
-
-
 
 
 

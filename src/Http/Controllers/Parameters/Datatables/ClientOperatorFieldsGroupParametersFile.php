@@ -4,7 +4,7 @@ namespace IlBronza\Operators\Http\Controllers\Parameters\Datatables;
 
 use IlBronza\Datatables\Providers\FieldsGroupParametersFile;
 
-class OperatorContracttypeRelatedFieldsGroupParametersFile extends FieldsGroupParametersFile
+class ClientOperatorFieldsGroupParametersFile extends FieldsGroupParametersFile
 {
 	static function getFieldsGroup() : array
 	{
@@ -17,7 +17,7 @@ class OperatorContracttypeRelatedFieldsGroupParametersFile extends FieldsGroupPa
                 'mySelfSee' => 'links.see',
                 'operator.user.userdata.first_name' => 'flat',
                 'operator.user.userdata.surname' => 'flat',
-				'contracttype.name' => 'flat',
+                'contracttypes.name' => 'flat',
 
                 'internal_approval_rating' => 'flat',
                 'level' => 'flat',
