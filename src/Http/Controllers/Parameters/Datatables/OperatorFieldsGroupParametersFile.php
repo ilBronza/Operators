@@ -28,12 +28,15 @@ class OperatorFieldsGroupParametersFile extends FieldsGroupParametersFile
 						'priority' => 100
 					],
 				],
-                'user.email' => 'flat',
+                'user.email' => 'links.email',
 
                 'vat' => 'flat',
                 'user.userdata.fiscal_code' => 'flat',
                 'user.userdata.tmp_codice' => 'flat',
                 'code' => 'flat',
+
+				'address.city' => 'flat',
+				'address.province' => 'flat',
 
                 'mySelfPrices.sellableSuppliers' => [
                     'type' => 'iterators.each',

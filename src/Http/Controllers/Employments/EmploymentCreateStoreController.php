@@ -1,10 +1,10 @@
 <?php
 
-namespace IlBronza\Operators\Http\Controllers\Contracttypes;
+namespace IlBronza\Operators\Http\Controllers\Employments;
 
 use IlBronza\CRUD\Traits\CRUDCreateStoreTrait;
 
-class ContracttypeCreateStoreController extends ContracttypeCRUD
+class EmploymentCreateStoreController extends EmploymentCRUD
 {
     use CRUDCreateStoreTrait;
 
@@ -12,6 +12,6 @@ class ContracttypeCreateStoreController extends ContracttypeCRUD
 
     public function getGenericParametersFile() : ? string
     {
-        return config('operators.models.contracttype.parametersFiles.create');
+        return config('operators.models.employment.parametersFiles.create');
     }
 }

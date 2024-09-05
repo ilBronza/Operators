@@ -2,32 +2,52 @@
 
 namespace IlBronza\Operators\Http\Controllers\Operators;
 
+use IlBronza\AccountManager\Helpers\UserCreatorHelper;
 use IlBronza\CRUD\Traits\CRUDCreateStoreTrait;
 use IlBronza\CRUD\Traits\CRUDRelationshipTrait;
 use IlBronza\CRUD\Traits\CRUDShowTrait;
 
+use Illuminate\Http\Request;
+
+use function dd;
+
 class OperatorCreateStoreController extends OperatorCRUD
 {
     use CRUDCreateStoreTrait;
-    use CRUDShowTrait;
-    use CRUDRelationshipTrait;
 
-    public $allowedMethods = ['create', 'store', 'edit', 'update', 'show'];
+    public $allowedMethods = ['create', 'store'];
 
     public function getGenericParametersFile() : ? string
     {
         return config('operators.models.operator.parametersFiles.create');
     }
 
-    public function getRelationshipsManagerClass()
-    {
-        return config("products.models.{$this->configModelClassName}.relationshipsManagerClasses.show");
-    }
+	public function store(Request $request)
+	{
+		$fieldsets = (new ($this->getGenericParametersFile()))->getFieldsetsParameters();
 
-    public function show(string $operator)
-    {
-        $operator = $this->findModel($operator);
+		$fields = [];
 
-        return $this->_show($operator);
-    }
+		foreach($fieldsets as $name => $parameters)
+			foreach($parameters['fields'] as $fieldName => $parameters)
+				$fields[$fieldName] = $parameters['rules'];
+
+		$parameters = $request->validate($fields);
+
+		$user = UserCreatorHelper::createBySlimParameters(
+			$request->new_first_name,
+			$request->new_surname,
+			$request->new_email . rand(0,12399),
+			true
+		);
+
+		$operator = $user->createOperator();
+
+		if($request->client)
+			$operator->clients()->sync([$request->client]);
+
+		return redirect()->to(
+			$operator->getEditUrl()
+		);
+	}
 }

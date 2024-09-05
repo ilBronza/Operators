@@ -5,168 +5,171 @@ namespace IlBronza\Operators\Models;
 use IlBronza\AccountManager\Models\User;
 use IlBronza\AccountManager\Models\Userdata;
 use IlBronza\Addresses\Models\Address;
+use IlBronza\Category\Models\Category;
+use IlBronza\Category\Traits\InteractsWithCategoryTrait;
+use IlBronza\Clients\Models\Client;
+use IlBronza\Clients\Models\Traits\InteractsWithDestinationTrait;
 use IlBronza\Contacts\Models\Traits\InteractsWithContact;
 use IlBronza\CRUD\Models\BaseModel;
 use IlBronza\CRUD\Traits\CRUDSluggableTrait;
+use IlBronza\CRUD\Traits\IlBronzaPackages\CRUDLogoTrait;
 use IlBronza\CRUD\Traits\Model\CRUDParentingTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
-use IlBronza\Clients\Models\Client;
-use IlBronza\Operators\Models\ClientOperator;
-use IlBronza\Operators\Models\Contracttype;
-use IlBronza\Operators\Models\Employment;
-use IlBronza\Operators\Models\OperatorContracttype;
 use IlBronza\Products\Models\Interfaces\SupplierInterface;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSupplierTrait;
-use IlBronza\UikitTemplate\Fetcher;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
 class Operator extends BaseModel implements SupplierInterface
 {
+	use InteractsWithCategoryTrait;
 	use InteractsWithContact;
-    use PackagedModelsTrait;
-    use CRUDUseUuidTrait;
-    use CRUDSluggableTrait;
-    use CRUDParentingTrait;
-    use InteractsWithSupplierTrait;
+	use PackagedModelsTrait;
+	use CRUDUseUuidTrait;
+	use CRUDSluggableTrait;
+	use CRUDParentingTrait;
+	use InteractsWithSupplierTrait;
+	use InteractsWithDestinationTrait;
+	use CRUDLogoTrait;
 
-    static $packageConfigPrefix = 'operators';
-    static $modelConfigPrefix = 'operator';
+	static $packageConfigPrefix = 'operators';
+	static $modelConfigPrefix = 'operator';
+	public $deletingRelationships = [];
+	protected $with = ['user'];
+	protected $keyType = 'string';
 
-    protected $with = ['user'];
+	public function getMorphClass()
+	{
+		return 'Operator';
+	}
 
-    public $deletingRelationships = [];
+	public function getCategoryModel() : string
+	{
+		return Category::getProjectClassName();
+	}
 
-    public function getMorphClass()
-    {
-        return 'Operator';
-    }
+	public function getCategoriesCollection() : ?string
+	{
+		return null;
+	}
 
 	public function addresses()
 	{
 		return $this->hasMany(
-			Address::getProjectClassname(),
-			'addressable_id',
-			'user_id'
+			Address::getProjectClassName(), 'addressable_id', 'user_id'
 		)->where('addressable_type', 'User');
 	}
 
 	public function address()
 	{
 		return $this->hasOne(
-			Address::getProjectClassname(),
-			'addressable_id',
-			'user_id'
+			Address::getProjectClassName(), 'addressable_id', 'user_id'
 		)->where('addressable_type', 'User')->where('type', 'default');
 	}
 
 	public function clientOperators()
-    {
-        return $this->hasMany(ClientOperator::getProjectClassName());
-    }
+	{
+		return $this->hasMany(ClientOperator::getProjectClassName());
+	}
 
-    public function getName() : ? string
-    {
-        return $this->getUser()->getFullName();
-    }
+	public function getNameAttribute() : ?string
+	{
+		return $this->getName();
+	}
 
-    public function operatorContracttypes()
-    {
-        return $this->hasMany(OperatorContracttype::getProjectClassName());
-    }
+	public function getName() : ?string
+	{
+		return cache()->remember(
+			$this->cacheKey('getName'),
+			3600 * 24,
+			function()
+			{
+				return $this->getUser()?->getFullName();
+			}
+		);
+	}
 
-    public function contracttypes()
-    {
-        return $this->belongsToMany(
-            Contracttype::getProjectClassName(),
-            config('operators.models.operatorContracttype.table')
-        )->using(OperatorContracttype::getProjectClassName());
-    }
+	public function getUser()
+	{
+		return $this->user;
+	}
 
-    public function clients()
-    {
-        return $this->belongsToMany(
-            Client::getProjectClassName(),
-            config('operators.models.clientOperator.table')
-        )->using(ClientOperator::getProjectClassName());
-    }
+	public function operatorContracttypes()
+	{
+		return $this->hasMany(OperatorContracttype::getProjectClassName());
+	}
+
+	public function contracttypes()
+	{
+		return $this->belongsToMany(
+			Contracttype::getProjectClassName(), config('operators.models.operatorContracttype.table')
+		)->using(OperatorContracttype::getProjectClassName());
+	}
+
+	public function clients()
+	{
+		return $this->belongsToMany(
+			Client::getProjectClassName(), config('operators.models.clientOperator.table')
+		)->using(ClientOperator::getProjectClassName());
+	}
 
 	public function getClients()
 	{
 		return $this->clients;
 	}
 
-    public function employments()
-    {
-        return $this->belongsToMany(
-            Employment::getProjectClassName(),
-            config('operators.models.clientOperator.table')
-        )->distinct();
-    }
+	public function employments()
+	{
+		return $this->belongsToMany(
+			Employment::getProjectClassName(), config('operators.models.clientOperator.table')
+		)->distinct();
+	}
 
-    public function client()
-    {
-        return $this->hasOne(Client::getProjectClassName());
-    }
+	public function client()
+	{
+		return $this->hasOne(Client::getProjectClassName());
+	}
 
-    public function user()
-    {
-        return $this->belongsTo(User::getProjectClassName());
-    }
+	public function getUserId() : string
+	{
+		return $this->user_id;
+	}
 
-    public function getUserId() : string
-    {
-        return $this->user_id;
-    }
+	public function getUserdata() : Userdata
+	{
+		Log::critical('risolvere questo get userdata');
 
-    public function getUser()
-    {
-        return $this->user;
-    }
+		dd('risolvere questo get userdata');
 
-    public function userdata()
-    {
-        return $this->hasOne(Userdata::getProjectClassName(), 'user_id', 'user_id');
-    }
+		if ($this->userdata)
+			return $this->userdata;
 
-    public function getUserdata() : Userdata
-    {
-        Log::critical('risolvere questo get userdata');
+		if (! $userdata = $this->getUser()?->getUserdata())
+			$userdata = Userdata::getProjectClassName()::make();
 
-        dd('risolvere questo get userdata');
+		$this->userdata()->associate($userdata);
+		$this->save();
 
-        if($this->userdata)
-            return $this->userdata;
+		if ($user = $this->getUser())
+			$userdata->user()->save($user);
 
-        if(! $userdata = $this->getUser()?->getUserdata())
-            $userdata = Userdata::getProjectClassName()::make();
+		return $userdata;
+	}
 
-        $this->userdata()->associate($userdata);
-        $this->save();
+	public function userdata()
+	{
+		return $this->hasOne(Userdata::getProjectClassName(), 'user_id', 'user_id');
+	}
 
-        if($user = $this->getUser())
-            $userdata->user()->save($user);
+	public function user()
+	{
+		return $this->belongsTo(User::getProjectClassName());
+	}
 
-        return $userdata;
-    }
-
-	public function getAvatarImageUrl() : ? string
+	public function getLogoImageUrl() : ?string
 	{
 		return $this->getUser()?->getAvatarImageUrl();
 	}
-	public function getAvatarFetcherUrl() : string
-	{
-		return $this->getKeyedRoute('avatarFetcher');
-	}
-
-	public function getAvatarImageFetcher()
-	{
-		return new Fetcher([
-			'url' => $this->getAvatarFetcherUrl()
-		]);
-	}
-
 }
 
 
@@ -210,6 +213,5 @@ class Operator extends BaseModel implements SupplierInterface
 //     {
 //         return $this->hasOne(Client::getProjectClassName());
 //     }
-
 
 // }

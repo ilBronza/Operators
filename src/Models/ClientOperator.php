@@ -2,38 +2,37 @@
 
 namespace IlBronza\Operators\Models;
 
-use IlBronza\CRUD\Models\BaseModel;
+use IlBronza\CRUD\Models\BasePivotModel;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
-use IlBronza\Operators\Models\Employment;
 
-class ClientOperator extends BaseModel
+class ClientOperator extends BasePivotModel
 {
-    use CRUDUseUuidTrait;
+	use CRUDUseUuidTrait;
 
-    static $packageConfigPrefix = 'operators';
-    static $modelConfigPrefix = 'clientOperator';
+	static $packageConfigPrefix = 'operators';
+	static $modelConfigPrefix = 'clientOperator';
+	protected $keyType = 'string';
+	protected $casts = [
+		'started_at' => 'date',
+		'ended_at' => 'date'
+	];
 
-    protected $dates = [
-        'started_at',
-        'ended_at'
-    ];
+	use PackagedModelsTrait;
 
-    use PackagedModelsTrait;
+	public function client()
+	{
+		return $this->belongsTo(
+			config('clients.models.client.class')
+		);
+	}
 
-    public function client()
-    {
-        return $this->belongsTo(
-            config('clients.models.client.class')
-        );
-    }
-
-    public function operator()
-    {
-        return $this->belongsTo(
-            config('operators.models.operator.class')
-        );
-    }
+	public function operator()
+	{
+		return $this->belongsTo(
+			config('operators.models.operator.class')
+		);
+	}
 
 	public function employment()
 	{

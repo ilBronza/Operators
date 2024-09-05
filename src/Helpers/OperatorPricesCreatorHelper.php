@@ -3,6 +3,7 @@
 namespace IlBronza\Operators\Helpers;
 
 use Exception;
+use Illuminate\Support\Str;
 use IlBronza\Prices\Models\Price;
 use IlBronza\Prices\Providers\PriceCalculatorHelper;
 use IlBronza\Products\Models\Interfaces\SellableSupplierPriceCreatorBaseClass;
@@ -12,6 +13,8 @@ class OperatorPricesCreatorHelper extends SellableSupplierPriceCreatorBaseClass
 {
 	private function getPriceValue(string $type) : ? float
 	{
+		$type = Str::snake($type);
+
 		if($this->operatorContractype->$type)
 			return $this->operatorContractype->$type;
 
@@ -22,34 +25,14 @@ class OperatorPricesCreatorHelper extends SellableSupplierPriceCreatorBaseClass
 		return null;
 	}
 
-	private function setDailyPrice() : ? Price
+	private function setDayPrice(string $collectionId) : ? Price
 	{
 		$price = $this->createPrice();
 
+		$price->setCollectionId($collectionId);
 		$price->setMeasurementUnit('day');
 
-		$price->price = $this->getPriceValue('cost_company_day');
-		$price->data = [
-			'cost_gross' => $this->getPriceValue('cost_gross_day'),
-			'cost_neat' => $this->getPriceValue('cost_neat_day')
-		];
-
-		$price->save();
-
-		return $price;
-	}
-
-	private function setHourlyPrice() : ? Price
-	{
-		$price = $this->createPrice();
-
-		$price->setMeasurementUnit('hour');
-
-		$price->price = $this->getPriceValue('cost_company_hour');
-		$price->data = [
-			'cost_gross' => $this->getPriceValue('cost_gross_hour'),
-			'cost_neat' => $this->getPriceValue('cost_neat_hour')
-		];
+		$price->price = $this->getPriceValue($collectionId);
 
 		$price->save();
 
@@ -67,8 +50,9 @@ class OperatorPricesCreatorHelper extends SellableSupplierPriceCreatorBaseClass
 
 		$prices = collect();
 
-		$prices->push($this->setDailyPrice());
-		$prices->push($this->setHourlyPrice());
+		$prices->push($this->setDayPrice('costCompanyDay'));
+		$prices->push($this->setDayPrice('costGrossDay'));
+		$prices->push($this->setDayPrice('operatorNeatDay'));
 
 		return $prices;
 	}

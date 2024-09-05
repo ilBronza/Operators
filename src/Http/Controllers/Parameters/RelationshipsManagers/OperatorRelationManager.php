@@ -20,6 +20,7 @@ class OperatorRelationManager Extends RelationshipsManager
 					'fields' =>
 						[
 							'mySelfPrimary' => 'primary',
+							'mySelfEdit' => 'links.edit',
 							'contracttype.name' => 'flat',
 
 							'internal_approval_rating' => 'flat',
@@ -34,7 +35,13 @@ class OperatorRelationManager Extends RelationshipsManager
 				]
 			]
 		];
-		$relations['clientOperators'] = config('operators.models.clientOperator.controllers.index');
+
+		$relations['clientOperators'] = [
+			'controller' => config('operators.models.clientOperator.controllers.index'),
+			'fieldsGroups' => [
+				'base' => config('operators.models.clientOperator.fieldsGroupsFiles.byOperator')::getFieldsGroup()
+			]
+		];
 
 //		$relations['contracttypes'] = config('operators.models.contracttype.controllers.index');
 
@@ -43,10 +50,6 @@ class OperatorRelationManager Extends RelationshipsManager
 				'controller' => config('products.models.sellableSupplier.controllers.index'),
 				'elementGetterMethod' => 'getSellableSuppliersBySupplier'
 			];
-
-		if(config('filecabinet.enabled', false))
-			$relations['dossiers'] = config('filecabinet.models.dossier.controllers.index');
-
 
 		//		if(config('products.sellables.enabled', false))
 //			$relations['sellables'] = [
@@ -59,7 +62,7 @@ class OperatorRelationManager Extends RelationshipsManager
 
 		if(config('addresses.enabled', false))
 		{
-//			$relations['address'] = config('addresses.models.address.controllers.show');
+			//			$relations['address'] = config('addresses.models.address.controllers.show');
 			$relations['addresses'] = config('addresses.models.address.controllers.index');
 		}
 
@@ -75,7 +78,10 @@ class OperatorRelationManager Extends RelationshipsManager
 		if(config('filecabinet.enabled', false))
 			$relations['dossiers'] = [
 				'controller' => config('filecabinet.models.dossier.controllers.index'),
-				'elementGetterMethod' => 'getRelatedDossiersCollection'
+				'elementGetterMethod' => 'getRelatedDossiersCollection',
+				'buttonsMethods' => [
+					'getAssociateButton',
+				]
 			];
 
 		$relations['paymenttypes'] = config('payments.models.paymenttype.controllers.index');

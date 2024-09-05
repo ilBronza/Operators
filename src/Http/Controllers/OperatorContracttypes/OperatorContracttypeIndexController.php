@@ -25,7 +25,11 @@ class OperatorContracttypeIndexController extends OperatorContracttypeCRUD
 
     public function getIndexElements()
     {
-        return $this->getModelClass()::with('operator.user.userdata')->get();
+        return $this->getModelClass()::with(
+			'operator.user.userdata',
+			'contracttype',
+			'prices',
+		)->get();
     }
 
 }

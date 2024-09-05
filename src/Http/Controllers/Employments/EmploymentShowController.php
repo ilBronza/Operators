@@ -1,13 +1,11 @@
 <?php
 
-namespace IlBronza\Operators\Http\Controllers\Operators;
+namespace IlBronza\Operators\Http\Controllers\Employments;
 
 use IlBronza\CRUD\Traits\CRUDRelationshipTrait;
 use IlBronza\CRUD\Traits\CRUDShowTrait;
 
-use function config;
-
-class OperatorShowController extends OperatorCRUD
+class EmploymentShowController extends EmploymentCRUD
 {
     use CRUDShowTrait;
     use CRUDRelationshipTrait;
@@ -16,20 +14,18 @@ class OperatorShowController extends OperatorCRUD
 
     public function getGenericParametersFile() : ? string
     {
-		//OperatorCreateStoreFieldsetsParameters
-        return config('operators.models.operator.parametersFiles.show');
+        return config('operators.models.employment.parametersFiles.create');
     }
 
     public function getRelationshipsManagerClass()
     {
-		//OperatorRelationManager
         return config("operators.models.{$this->configModelClassName}.relationshipsManagerClasses.show");
     }
 
-    public function show(string $operator)
+    public function show(string $employment)
     {
-        $operator = $this->findModel($operator);
+        $employment = $this->findModel($employment);
 
-        return $this->_show($operator);
+        return $this->_show($employment);
     }
 }

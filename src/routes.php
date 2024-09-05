@@ -24,7 +24,7 @@ Route::group([
 		Route::group(['prefix' => 'operators'], function()
 		{
 
-			Route::get('{operator}/avatar-fetcher', [Operators::getController('operator', 'avatar'), 'avatarFetcher'])->name('operators.avatarFetcher');
+			Route::get('{operator}/avatar-fetcher', [Operators::getController('operator', 'avatar'), 'avatarFetcher'])->name('operators.logoFetcher');
 
 			Route::get('', [Operators::getController('operator', 'index'), 'index'])->name('operators.index');
 			Route::get('create', [Operators::getController('operator', 'create'), 'create'])->name('operators.create');

@@ -5,6 +5,8 @@ namespace IlBronza\Operators\Http\Controllers\Operators;
 use IlBronza\CRUD\Traits\CRUDEditUpdateTrait;
 use Illuminate\Http\Request;
 
+use function config;
+
 class OperatorEditUpdateController extends OperatorCRUD
 {
     use CRUDEditUpdateTrait;
@@ -16,7 +18,12 @@ class OperatorEditUpdateController extends OperatorCRUD
         return config('operators.models.operator.parametersFiles.edit');
     }
 
-    public function edit(string $operator)
+	public function getRelationshipsManagerClass()
+	{
+		return config("operators.models.{$this->configModelClassName}.relationshipsManagerClasses.show");
+	}
+
+	public function edit(string $operator)
     {
         $operator = $this->findModel($operator);
 

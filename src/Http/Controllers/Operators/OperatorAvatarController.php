@@ -2,16 +2,18 @@
 
 namespace IlBronza\Operators\Http\Controllers\Operators;
 
+use IlBronza\CRUD\Http\Controllers\Traits\ControllerLogoTrait;
+
 class OperatorAvatarController extends OperatorCRUD
 {
+	use ControllerLogoTrait;
+
     public $allowedMethods = ['avatarFetcher'];
 
     public function avatarFetcher(string $operator)
     {
-        $operator = $this->findModel($operator);
+        $this->modelInstance = $this->findModel($operator);
 
-		$url = $operator->getAvatarImageUrl();
-
-        return view('operators::operator._avatar', ['image' => $url]);
-    }
+		return $this->returnLogoImage();
+	}
 }

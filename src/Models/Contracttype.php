@@ -3,20 +3,17 @@
 namespace IlBronza\Operators\Models;
 
 use Carbon\Carbon;
+use Exception;
 use IlBronza\CRUD\Models\BaseModel;
 use IlBronza\CRUD\Traits\CRUDSluggableTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
 use IlBronza\Operators\Helpers\OperatorPricesCreatorHelper;
-use IlBronza\Operators\Models\Operator;
-use IlBronza\Operators\Models\OperatorContracttype;
 use IlBronza\Prices\Models\Interfaces\WithPriceInterface;
-use IlBronza\Prices\Models\Price;
 use IlBronza\Prices\Models\Traits\InteractsWithPriceTrait;
 use IlBronza\Prices\Providers\PriceData;
 use IlBronza\Products\Models\Interfaces\SellableItemInterface;
 use IlBronza\Products\Models\Interfaces\SellableSupplierPriceCreatorBaseClass;
-use IlBronza\Products\Models\Quotations\Quotation;
 use IlBronza\Products\Models\Sellables\Supplier;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSellableTrait;
 use Illuminate\Support\Collection;
@@ -25,98 +22,78 @@ use function dd;
 
 class Contracttype extends BaseModel implements SellableItemInterface, WithPriceInterface
 {
-    use PackagedModelsTrait;
+	use PackagedModelsTrait;
 
-    use CRUDUseUuidTrait;
-    use CRUDSluggableTrait;
-    use InteractsWithSellableTrait;
+	use CRUDUseUuidTrait;
+	use CRUDSluggableTrait;
+	use InteractsWithSellableTrait;
 	use InteractsWithPriceTrait;
 
-    static $packageConfigPrefix = 'operators';
-    static $modelConfigPrefix = 'contracttype';
+	static $packageConfigPrefix = 'operators';
+	static $modelConfigPrefix = 'contracttype';
+	public $deletingRelationships = [];
+	protected $keyType = 'string';
 
-    public $deletingRelationships = [];
-
-	public function getPriceModelClassName() : string
+	public function getNameForSellable(...$parameters) : string
 	{
-		return Price::getProjectClassName();
+		return "{$this->getName()} - {$this->getIstatCode()}";
 	}
 
-    public function getNameForSellable(... $parameters) : string
-    {
-        return "{$this->getName()} - {$this->getIstatCode()}";
-    }
+	public function getIstatCode() : ?string
+	{
+		return $this->istat_code;
+	}
 
-    public function getPossibleSuppliersElements() : Collection
-    {
-        return $this->operators()->with('supplier')->get()->pluck('supplier')->filter();
-    }
+	public function getPossibleSuppliersElements() : Collection
+	{
+		return $this->operators()->with('supplier')->get()->pluck('supplier')->filter();
+	}
 
-    public function getPriceCreator() : SellableSupplierPriceCreatorBaseClass
-    {
-        return new OperatorPricesCreatorHelper;
-    }
+	public function operators()
+	{
+		return $this->belongsToMany(
+			Operator::getProjectClassName(), config('operators.models.operatorContracttype.table')
+		)->using(OperatorContracttype::getProjectClassName());
+	}
 
-    public function getSellablePricesBySupplier(Supplier $supplier, ...$parameters) : array
-    {
-        dd($this->operatorContracttypes()->where('operator_id', $supplier->getTarget()->getKey())->first());
+	public function getPriceCreator() : SellableSupplierPriceCreatorBaseClass
+	{
+		return new OperatorPricesCreatorHelper;
+	}
 
-        dd($supplier->getTarget());
-        dd('qua');
-        return null;
-    }
+	public function getSellablePricesBySupplier(Supplier $supplier, ...$parameters) : array
+	{
+		dd($this->operatorContracttypes()->where('operator_id', $supplier->getTarget()->getKey())->first());
 
-    public function operators()
-    {
-        return $this->belongsToMany(
-            Operator::getProjectClassName(),
-            config('operators.models.operatorContracttype.table')
-        )->using(OperatorContracttype::getProjectClassName());
-    }
+		dd($supplier->getTarget());
+		dd('qua');
 
-    public function operatorContracttypes()
-    {
-        return $this->hasMany(OperatorContracttype::getProjectClassName());
-    }
+		return null;
+	}
 
-    public function getRelatedFullOperatorContracttypes() : Collection
-    {
-        return $this->operatorContracttypes()->with(
-            'operator.user.userdata'
-        )->get();
-    }
+	public function operatorContracttypes()
+	{
+		return $this->hasMany(OperatorContracttype::getProjectClassName());
+	}
 
-    public function getRelatedFullOperators() : Collection
-    {
-        return $this->operators()->with(
-            'user.extraFields',
-            'contracttypes',
-            'sellableSuppliers.directPrice',
-            'sellableSuppliers.sellable',
-            'employments'
-        )
-        ->withSupplierId()
-        ->get();
-    }
+	public function getRelatedFullOperatorContracttypes() : Collection
+	{
+		return $this->operatorContracttypes()->with(
+			'operator.user.userdata'
+		)->get();
+	}
 
-    public function getOperators() : Collection
-    {
-        return $this->operators;
-    }
+	public function getRelatedFullOperators() : Collection
+	{
+		return $this->operators()->with(
+			'user.extraFields', 'contracttypes', 'sellableSuppliers.directPrice', 'sellableSuppliers.sellable', 'employments'
+		)->withSupplierId()->get();
+	}
 
-
-    public function getIstatCode() : ? string
-    {
-        return $this->istat_code;
-    }
-
-
-
-
-
-
-
-
+	public function getOperators() : Collection
+	{
+		return $this->operators;
+	}
 
 	public function _calculatePriceData(PriceData $priceData) : PriceData
 	{
@@ -124,7 +101,7 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 	}
 
 	//must calculate the final price
-	public function _manageCalculationErrors(\Exception $e)
+	public function _manageCalculationErrors(Exception $e)
 	{
 		//TODO manage errors
 		dd('risolvere');
@@ -140,8 +117,7 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 	//get new price model base attributes to fill the price before its calculated
 	public function getPriceBaseAttributes()
 	{
-		return [
-		];
+		return [];
 	}
 
 
@@ -169,14 +145,19 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 	 **/
 	// public function getPriceRelatedKey();
 
-	public function getPriceValidityFrom() : ? Carbon
+	public function getPriceValidityFrom() : ?Carbon
 	{
 		return null;
 	}
 
-	public function getPriceValidityTo() : ? Carbon
+	public function getPriceValidityTo() : ?Carbon
 	{
 		return null;
+	}
+
+	public function getCostCompany() : ? float
+	{
+		return $this->cost_company_day;
 	}
 
 }
@@ -226,6 +207,5 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 //     {
 //         return $this->hasOne(Client::getProjectClassName());
 //     }
-
 
 // }

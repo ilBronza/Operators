@@ -7,13 +7,15 @@ use Illuminate\Http\Request;
 
 class ClientOperatorEditUpdateController extends ClientOperatorCRUD
 {
+	public $returnBack = true;
+
     use CRUDEditUpdateTrait;
 
     public $allowedMethods = ['edit', 'update'];
 
     public function getGenericParametersFile() : ? string
     {
-        return config('operators.models.clientOperator.parametersFiles.create');
+        return config('operators.models.clientOperator.parametersFiles.edit');
     }
 
     public function edit(string $clientOperator)

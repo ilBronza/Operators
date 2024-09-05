@@ -6,7 +6,7 @@ use IlBronza\Form\Helpers\FieldsetsProvider\FieldsetParametersFile;
 
 use function config;
 
-class OperatorContracttypeCreateStoreFieldsetsParameters extends FieldsetParametersFile
+class OperatorContracttypeEditUpdateFieldsetsParameters extends FieldsetParametersFile
 {
 	public function getRolesArray() : array
 	{

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class OperatorContracttypeEditUpdateController extends OperatorContracttypeCRUD
 {
+	public $returnBack = true;
+
     use CRUDEditUpdateTrait;
 
     public $allowedMethods = ['edit', 'update'];

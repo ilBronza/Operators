@@ -6,25 +6,30 @@ use IlBronza\Operators\Models\Operator;
 
 trait InteractsWithOperator
 {
-    public function operator()
-    {
-        return $this->hasOne(Operator::getProjectClassname());
-    }
+	public function operator()
+	{
+		return $this->hasOne(Operator::getProjectClassName());
+	}
 
-    public function getOperator() : ? Operator
-    {
-        return $this->operator;
-    }
+	public function getOperator() : ?Operator
+	{
+		return $this->operator;
+	}
 
-    public function getOrCreateOperator() : Operator
-    {
-        if($operator = $this->getOperator())
-            return $operator;
+	public function createOperator() : Operator
+	{
+		$operator = Operator::getProjectClassName()::make();
 
-        $operator = Operator::getProjectClassname()::make();
+		$this->operator()->save($operator);
 
-        $this->operator()->save($operator);
+		return $operator;
+	}
 
-        return $operator;
-    }
+	public function getOrCreateOperator() : Operator
+	{
+		if ($operator = $this->getOperator())
+			return $operator;
+
+		return $this->createOperator();
+	}
 }

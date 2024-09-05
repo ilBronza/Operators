@@ -1,0 +1,14 @@
+{
+  "name": "{\"id\":\"448e0a90-e525-40c5-9155-af59ef8dd555\",\"addressable_type\":\"User\",\"addressable_id\":\"3313\",\"type\":\"default\",\"street\":\"C\\/Constituci\\u00f3n\",\"number\":\"72 Pa 13 Torrent (Valencia)\",\"zip\":\"46900\",\"town\":null,\"city\":\"_\",\"province\":\"_\",\"region\":null,\"state\":null,\"latitude\":null,\"longitude\":null,\"place_id\":null,\"url\":null,\"deleted_at\":null,\"created_at\":\"2024-08-23T14:34:37.000000Z\",\"updated_at\":\"2024-08-23T14:34:37.000000Z\"}\t",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ilBronza/Operators.git"
+  },
+  "private": true
+}

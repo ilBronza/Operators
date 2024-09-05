@@ -8,25 +8,36 @@ use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
 
 class OperatorContracttype extends BasePivotModel
 {
-    use CRUDUseUuidTrait;
+	use CRUDUseUuidTrait;
 
-    static $packageConfigPrefix = 'operators';
-    static $modelConfigPrefix = 'operatorContracttype';
+	static $packageConfigPrefix = 'operators';
+	static $modelConfigPrefix = 'operatorContracttype';
+	protected $keyType = 'string';
 
-    use PackagedModelsTrait;
+	use PackagedModelsTrait;
 
-    public function contracttype()
-    {
-        return $this->belongsTo(
-            config('operators.models.contracttype.class')
-        );
-    }
+	public function contracttype()
+	{
+		return $this->belongsTo(
+			config('operators.models.contracttype.class')
+		);
+	}
 
-    public function operator()
-    {
-        return $this->belongsTo(
-            config('operators.models.operator.class')
-        );
-    }
+	public function operator()
+	{
+		return $this->belongsTo(
+			config('operators.models.operator.class')
+		);
+	}
+
+	public function getContracttypeName() : ?string
+	{
+		return $this->getContracttype()?->getName();
+	}
+
+	public function getContracttype() : ?Contracttype
+	{
+		return $this->contracttype;
+	}
 
 }
