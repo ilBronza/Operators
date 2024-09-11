@@ -2,6 +2,7 @@
 
 namespace IlBronza\Operators\Models;
 
+use App\Models\ExtraFields\OperatorExtraFields;
 use IlBronza\AccountManager\Models\User;
 use IlBronza\AccountManager\Models\Userdata;
 use IlBronza\Addresses\Models\Address;
@@ -11,8 +12,11 @@ use IlBronza\Clients\Models\Client;
 use IlBronza\Clients\Models\Traits\InteractsWithDestinationTrait;
 use IlBronza\Contacts\Models\Traits\InteractsWithContact;
 use IlBronza\CRUD\Models\BaseModel;
+use IlBronza\CRUD\Models\Casts\ExtraField;
+use IlBronza\CRUD\Models\Casts\ExtraFieldDate;
 use IlBronza\CRUD\Traits\CRUDSluggableTrait;
 use IlBronza\CRUD\Traits\IlBronzaPackages\CRUDLogoTrait;
+use IlBronza\CRUD\Traits\Model\CRUDModelExtraFieldsTrait;
 use IlBronza\CRUD\Traits\Model\CRUDParentingTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
@@ -31,12 +35,64 @@ class Operator extends BaseModel implements SupplierInterface
 	use InteractsWithSupplierTrait;
 	use InteractsWithDestinationTrait;
 	use CRUDLogoTrait;
+	use CRUDModelExtraFieldsTrait;
 
 	static $packageConfigPrefix = 'operators';
 	static $modelConfigPrefix = 'operator';
 	public $deletingRelationships = [];
 	protected $with = ['user'];
 	protected $keyType = 'string';
+
+	protected $casts = [
+		'first_name' => ExtraField::class . ':userdata',
+		'surname' => ExtraField::class . ':userdata',
+		'fiscal_code' => ExtraField::class . ':userdata',
+
+		'street' => ExtraField::class . ':address',
+		'number' => ExtraField::class . ':address',
+		'zip' => ExtraField::class . ':address',
+		'town' => ExtraField::class . ':address',
+		'city' => ExtraField::class . ':address',
+		'province' => ExtraField::class . ':address',
+		'region' => ExtraField::class . ':address',
+		'state' => ExtraField::class . ':address',
+
+		'employment_id' => ExtraField::class . ':lastClientOperator',
+		'social_security_code' => ExtraField::class . ':lastClientOperator',
+		'social_security_institution' => ExtraField::class . ':lastClientOperator',
+		'started_at' => ExtraFieldDate::class . ':lastClientOperator',
+		'ended_at' => ExtraFieldDate::class . ':lastClientOperator',
+		//		'street' => ExtraField::class . ':address',
+	];
+
+	public function provideLastClientOperatorModelForExtraFields() : ? ClientOperator
+	{
+		if($this->lastClientOperator)
+			return $this->lastClientOperator;
+
+		dd('jere');
+	}
+
+	public function provideAddressModelForExtraFields() : Address
+	{
+		if ($this->address)
+			return $this->address;
+
+		return $this->getUser()->createDefaultAddress();
+	}
+
+	public function provideUserdataModelForExtraFields() : Userdata
+	{
+		if ($this->userdata)
+			return $this->userdata;
+
+		return $this->getUser()->createUserdata();
+	}
+
+	public function getExtraFieldsClass() : ? string
+	{
+		return null;
+	}
 
 	public function getMorphClass()
 	{
@@ -70,6 +126,18 @@ class Operator extends BaseModel implements SupplierInterface
 	public function clientOperators()
 	{
 		return $this->hasMany(ClientOperator::getProjectClassName());
+	}
+
+	public function getLastClientOperator()
+	{
+		return $this->lastClientOperator;
+	}
+
+	public function lastClientOperator()
+	{
+		return $this->hasOne(ClientOperator::getProjectClassName())
+		            ->where('client_id', Client::getProjectClassName()::getOneCompany()->getKey())
+		            ->ofMany('ended_at', 'max');
 	}
 
 	public function getNameAttribute() : ?string
@@ -169,6 +237,11 @@ class Operator extends BaseModel implements SupplierInterface
 	public function getLogoImageUrl() : ?string
 	{
 		return $this->getUser()?->getAvatarImageUrl();
+	}
+
+	public function getPossibleEmploymentValuesArray() : array
+	{
+		return Employment::getSelfPossibleValuesArray(null, 'label');
 	}
 }
 

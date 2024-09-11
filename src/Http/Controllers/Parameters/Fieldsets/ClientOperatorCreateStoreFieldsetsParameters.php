@@ -71,12 +71,9 @@ class ClientOperatorCreateStoreFieldsetsParameters extends FieldsetParametersFil
             'costs' => [
                 'translationPrefix' => 'operators::fields',
                 'fields' => [
-                    'cost_company_hour' => ['number' => 'numeric|nullable'],
-                    'cost_gross_hour' => ['number' => 'numeric|nullable'],
-                    'cost_neat_hour' => ['number' => 'numeric|nullable'],
                     'cost_company_day' => ['number' => 'numeric|nullable'],
                     'cost_gross_day' => ['number' => 'numeric|nullable'],
-                    'cost_neat_day' => ['number' => 'numeric|nullable'],
+                    'operator_neat_day' => ['number' => 'numeric|nullable'],
                     'cost_charge_coefficient' => ['number' => 'numeric|nullable'],
                 ],
                 'width' => ["1-3@l", '1-2@m']

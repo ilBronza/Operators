@@ -45,7 +45,7 @@ class OperatorContracttypeCreateStoreFieldsetsParameters extends FieldsetParamet
 					'name' => [
 						'type' => 'text',
 						'readOnly' => true,
-						'rules'=> 'string|required|max:255'
+						'rules' => 'string|required|max:255'
 					],
 				],
 				'width' => ["1-3@l", '1-2@m']
@@ -55,7 +55,7 @@ class OperatorContracttypeCreateStoreFieldsetsParameters extends FieldsetParamet
 				'fields' => [
 					'cost_company_day' => ['number' => 'numeric|nullable'],
 					'cost_gross_day' => ['number' => 'numeric|nullable'],
-					'cost_neat_day' => ['number' => 'numeric|nullable'],
+					'operator_neat_day' => ['number' => 'numeric|nullable'],
 					//                    'cost_charge_coefficient' => ['number' => 'numeric|nullable'],
 				],
 				'width' => ["1-3@l", '1-2@m']

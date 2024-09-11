@@ -8,22 +8,22 @@ use function config;
 
 class ClientOperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 {
-//    public function getRolesArray() : array
-//    {
-//        return Role::all()->pluck('name', 'id')->toArray();
-//    }
-//
-//    public function getModelsArray() : array
-//    {
-//        return config('schedules.applicableTo');
-//    }
+	//    public function getRolesArray() : array
+	//    {
+	//        return Role::all()->pluck('name', 'id')->toArray();
+	//    }
+	//
+	//    public function getModelsArray() : array
+	//    {
+	//        return config('schedules.applicableTo');
+	//    }
 
-    public function _getFieldsetsParameters() : array
-    {
-        return [
-            'base' => [
-                'translationPrefix' => 'operators::fields',
-                'fields' => [
+	public function _getFieldsetsParameters() : array
+	{
+		return [
+			'base' => [
+				'translationPrefix' => 'operators::fields',
+				'fields' => [
 					'operator_id' => [
 						'readOnly' => true,
 						'type' => 'select',
@@ -53,7 +53,7 @@ class ClientOperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 						'relation' => 'contracttype'
 					],
 
-                    'social_security_institution' => ['text' => 'string|required|max:255'],
+					'social_security_institution' => ['text' => 'string|required|max:255'],
 					'social_security_code' => ['text' => 'string|nullable|max:255'],
 					'level' => ['text' => 'string|nullable|max:255'],
 
@@ -66,22 +66,19 @@ class ClientOperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 					'started_at' => ['date' => 'date|nullable'],
 					'ended_at' => ['date' => 'date|nullable'],
 
-                ],
-                'width' => ["1-3@l", '1-2@m']
-            ],
-            'costs' => [
-                'translationPrefix' => 'operators::fields',
-                'fields' => [
-                    'cost_company_hour' => ['number' => 'numeric|nullable'],
-                    'cost_gross_hour' => ['number' => 'numeric|nullable'],
-                    'cost_neat_hour' => ['number' => 'numeric|nullable'],
-                    'cost_company_day' => ['number' => 'numeric|nullable'],
-                    'cost_gross_day' => ['number' => 'numeric|nullable'],
-                    'cost_neat_day' => ['number' => 'numeric|nullable'],
-                    'cost_charge_coefficient' => ['number' => 'numeric|nullable'],
-                ],
-                'width' => ["1-3@l", '1-2@m']
-            ]
-        ];
-    }
+				],
+				'width' => ["1-3@l", '1-2@m']
+			],
+			'costs' => [
+				'translationPrefix' => 'operators::fields',
+				'fields' => [
+					'cost_company_day' => ['number' => 'numeric|nullable'],
+					'cost_gross_day' => ['number' => 'numeric|nullable'],
+					'operator_neat_day' => ['number' => 'numeric|nullable'],
+					'cost_charge_coefficient' => ['number' => 'numeric|nullable'],
+				],
+				'width' => ["1-3@l", '1-2@m']
+			]
+		];
+	}
 }

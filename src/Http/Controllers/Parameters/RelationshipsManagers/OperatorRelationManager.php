@@ -6,9 +6,9 @@ use IlBronza\CRUD\Providers\RelationshipsManager\RelationshipsManager;
 
 use function config;
 
-class OperatorRelationManager Extends RelationshipsManager
+class OperatorRelationManager extends RelationshipsManager
 {
-	public  function getAllRelationsParameters() : array
+	public function getAllRelationsParameters() : array
 	{
 		$relations = [];
 
@@ -17,21 +17,20 @@ class OperatorRelationManager Extends RelationshipsManager
 			'fieldsGroups' => [
 				'base' => [
 					'translationPrefix' => 'operators::fields',
-					'fields' =>
-						[
-							'mySelfPrimary' => 'primary',
-							'mySelfEdit' => 'links.edit',
-							'contracttype.name' => 'flat',
+					'fields' => [
+						'mySelfPrimary' => 'primary',
+						'mySelfEdit' => 'links.edit',
+						'contracttype.name' => 'flat',
 
-							'internal_approval_rating' => 'flat',
-							'level' => 'flat',
+						'internal_approval_rating' => 'flat',
+						'level' => 'flat',
 
-							'cost_company_day' => 'flat',
-							'cost_gross_day' => 'flat',
-							'cost_neat_day' => 'flat',
+						'cost_company_day' => 'flat',
+						'cost_gross_day' => 'flat',
+						'operator_neat_day' => 'flat',
 
-							'mySelfDelete' => 'links.delete'
-						]
+						'mySelfDelete' => 'links.delete'
+					]
 				]
 			]
 		];
@@ -43,39 +42,39 @@ class OperatorRelationManager Extends RelationshipsManager
 			]
 		];
 
-//		$relations['contracttypes'] = config('operators.models.contracttype.controllers.index');
+		//		$relations['contracttypes'] = config('operators.models.contracttype.controllers.index');
 
-		if(config('products.sellables.enabled', false))
+		if (config('products.sellables.enabled', false))
 			$relations['sellableSuppliers'] = [
 				'controller' => config('products.models.sellableSupplier.controllers.index'),
 				'elementGetterMethod' => 'getSellableSuppliersBySupplier'
 			];
 
 		//		if(config('products.sellables.enabled', false))
-//			$relations['sellables'] = [
-//				'controller' => config('products.models.sellable.controllers.index'),
-//				'elementGetterMethod' => 'getSellablesBySupplier'
-//			];
+		//			$relations['sellables'] = [
+		//				'controller' => config('products.models.sellable.controllers.index'),
+		//				'elementGetterMethod' => 'getSellablesBySupplier'
+		//			];
 
-		if(config('contacts.enabled', false))
+		if (config('contacts.enabled', false))
 			$relations['contacts'] = config('contacts.models.contact.controllers.index');
 
-		if(config('addresses.enabled', false))
+		if (config('addresses.enabled', false))
 		{
 			//			$relations['address'] = config('addresses.models.address.controllers.show');
 			$relations['addresses'] = config('addresses.models.address.controllers.index');
 		}
 
-		if(config('products.sellables.enabled', false))
+		if (config('products.sellables.enabled', false))
 			$relations['sellables'] = [
 				'controller' => config('products.models.sellable.controllers.index'),
 				'elementGetterMethod' => 'getSellablesBySupplier'
 			];
 
-		if(config('products.sellables.enabled', false))
+		if (config('products.sellables.enabled', false))
 			$relations['supplier'] = config('products.models.supplier.controllers.show');
 
-		if(config('filecabinet.enabled', false))
+		if (config('filecabinet.enabled', false))
 			$relations['dossiers'] = [
 				'controller' => config('filecabinet.models.dossier.controllers.index'),
 				'elementGetterMethod' => 'getRelatedDossiersCollection',
@@ -87,7 +86,7 @@ class OperatorRelationManager Extends RelationshipsManager
 		$relations['paymenttypes'] = config('payments.models.paymenttype.controllers.index');
 		$relations['user'] = config('accountmanager.models.user.controllers.show');
 
-		if(config('payments.enabled'))
+		if (config('payments.enabled'))
 			$relations['paymenttypes'] = config('payments.models.paymenttype.controllers.index');
 
 		//		 if(config('products.sellables.enabled'))
@@ -98,7 +97,6 @@ class OperatorRelationManager Extends RelationshipsManager
 		//		 		'controller' => config('products.models.quotation.controllers.index'),
 		//		 		'elementGetterMethod' => 'getQuotationsBySupplier'
 		//		 	];
-
 
 		return [
 			'show' => [

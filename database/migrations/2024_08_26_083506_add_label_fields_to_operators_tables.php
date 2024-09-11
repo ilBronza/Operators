@@ -13,7 +13,7 @@ return new class extends Migration
 	{
 		Schema::table(config('operators.models.employment.table'), function (Blueprint $table)
 		{
-			$table->string('label', 8)->after('slug')->nullable();
+			$table->string('label', 16)->after('slug')->nullable();
 			$table->string('hex_rgba', 8)->after('slug')->nullable();
 		});
 

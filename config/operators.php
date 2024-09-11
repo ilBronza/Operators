@@ -33,6 +33,8 @@ use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ContracttypeFields
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ContracttypeRelatedFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\EmploymentFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\EmploymentRelatedFieldsGroupParametersFile;
+use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorByEmploymentFieldsGroupParametersFile;
+use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorContracttypeByContracttypeFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorContracttypeFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorContracttypeRelatedFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorFieldsGroupParametersFile;
@@ -40,6 +42,7 @@ use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\ClientOperatorCreat
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\ClientOperatorEditUpdateFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\ContracttypeCreateStoreFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\EmploymentCreateStoreFieldsetsParameters;
+use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\EmploymentEditUpdateFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorContracttypeCreateStoreFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorContracttypeEditUpdateFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorCreateStoreFieldsetsParameters;
@@ -53,12 +56,15 @@ use IlBronza\Operators\Models\Contracttype;
 use IlBronza\Operators\Models\Employment;
 use IlBronza\Operators\Models\Operator;
 use IlBronza\Operators\Models\OperatorContracttype;
+use IlBronza\Operators\Models\WorkingDay;
 
 return [
     'routePrefix' => 'operators',
 	'missingImageUrl' => '/img/no_user.png',
 
-    'models' => [
+	'enabled' => true,
+
+	'models' => [
         'skill' => [
             'table' => 'operators__skills'
         ],
@@ -67,7 +73,8 @@ return [
 			'class' => OperatorContracttype::class,
 			'fieldsGroupsFiles' => [
 				'index' => OperatorContracttypeFieldsGroupParametersFile::class,
-				'related' => OperatorContracttypeRelatedFieldsGroupParametersFile::class
+				'related' => OperatorContracttypeRelatedFieldsGroupParametersFile::class,
+				'byContracttype' => OperatorContracttypeByContracttypeFieldsGroupParametersFile::class
 			],
 			'relationshipsManagerClasses' => [
 				'show' => OperatorContracttypeRelationManager::class
@@ -145,7 +152,8 @@ return [
 				'show' => EmploymentRelationManager::class
 			],
 			'parametersFiles' => [
-				'create' => EmploymentCreateStoreFieldsetsParameters::class
+				'create' => EmploymentCreateStoreFieldsetsParameters::class,
+				'edit' => EmploymentEditUpdateFieldsetsParameters::class
 			],
 			'controllers' => [
 				'index' => EmploymentIndexController::class,
@@ -161,13 +169,15 @@ return [
 			'class' => Operator::class,
 			'table' => 'operators__operators',
 			'fieldsGroupsFiles' => [
-				'index' => OperatorFieldsGroupParametersFile::class
+				'index' => OperatorFieldsGroupParametersFile::class,
+				'byEmployment' => OperatorByEmploymentFieldsGroupParametersFile::class
 			],
 			'relationshipsManagerClasses' => [
 				'show' => OperatorRelationManager::class
 			],
 			'parametersFiles' => [
 				'create' => OperatorCreateStoreFieldsetsParameters::class,
+				'show' => OperatorEditUpdateFieldsetsParameters::class,
 				'edit' => OperatorEditUpdateFieldsetsParameters::class
 			],
 			'controllers' => [
@@ -180,6 +190,10 @@ return [
 				'update' => OperatorEditUpdateController::class,
 				'destroy' => OperatorDestroyController::class,
 			]
-		]
+		],
+	    'workingDay' => [
+		    'class' => WorkingDay::class,
+		    'table' => 'operators__working_days',
+	    ],
     ]
 ];

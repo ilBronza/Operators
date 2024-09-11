@@ -2,15 +2,7 @@
 
 namespace IlBronza\Operators\Http\Controllers\Parameters\Fieldsets;
 
-use IlBronza\AccountManager\Http\Parameters\FieldsetsParameters\UserCreateSlimFieldsetsParameters;
-
-use IlBronza\Category\Models\Category;
-
 use IlBronza\Form\Helpers\FieldsetsProvider\FieldsetParametersFile;
-
-use function array_keys;
-use function config;
-use function implode;
 
 class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 {
@@ -75,15 +67,15 @@ class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 			'base' => [
 				'translationPrefix' => 'operators::fields',
 				'fields' => [
-//					'company_site_slug' => [
-//						'type' => 'select',
-//						'multiple' => false,
-//						'rules' => 'string|nullable|in:pd,mi',
-//						'list' => [
-//							'mi' => 'MI',
-//							'pd' => 'PD'
-//						]
-//					],
+					//					'company_site_slug' => [
+					//						'type' => 'select',
+					//						'multiple' => false,
+					//						'rules' => 'string|nullable|in:pd,mi',
+					//						'list' => [
+					//							'mi' => 'MI',
+					//							'pd' => 'PD'
+					//						]
+					//					],
 					'first_name' => ['text' => 'string|required|max:255'],
 					'surname' => ['text' => 'string|required|max:255'],
 					'fiscal_code' => ['text' => 'string|required|max:16'],
@@ -192,7 +184,7 @@ class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 			//					'cost_neat_hour' => ['number' => 'numeric|nullable'],
 			//					'cost_company_day' => ['number' => 'numeric|nullable'],
 			//					'cost_gross_day' => ['number' => 'numeric|nullable'],
-			//					'cost_neat_day' => ['number' => 'numeric|nullable'],
+			//					'operator_neat_day' => ['number' => 'numeric|nullable'],
 			//					'cost_charge_coefficient' => ['number' => 'numeric|nullable'],
 			//				],
 			//				'width' => ["1-3@l", '1-2@m']
