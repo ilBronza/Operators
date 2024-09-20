@@ -15,15 +15,15 @@ return new class extends Migration
 		{
 			$table->uuid('id')->primary();
 
-			$table->date('date');
+			$table->date('date')->index();
+
+			$table->string('type', 16)->index()->nullable();
 
 			$table->string('status', 16)->nullable();
-			$table->string('formal_status', 16)->nullable();
 
 			$table->uuid('operator_id')->nullable();
 			$table->foreign('operator_id')->references('id')->on(config('operators.models.operator.table'));
 
-			$table->text('parameters')->nullable();
 			$table->softDeletes();
 		});
 	}

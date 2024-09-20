@@ -42,4 +42,8 @@ return array (
 	'user.userdata.tmp_codice' => 'tmp Codice',
 	'mySelfPrices.sellableSuppliers' => 'Prezzi',
 	'employments' => 'Impieghi',
+	'calculated_holiday_days' => 'Ferie',
+	'calculated_flexibility_days' => 'Flex',
+	'calculated_rol_days' => 'Rol',
+	'clientOperators' => 'Mansione',
 );

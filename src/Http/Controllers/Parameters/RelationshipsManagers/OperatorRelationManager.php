@@ -14,6 +14,7 @@ class OperatorRelationManager extends RelationshipsManager
 
 		$relations['operatorContracttypes'] = [
 			'controller' => config('operators.models.operatorContracttype.controllers.index'),
+			'translatedTitle' => __('operators::contracttypes.contracttypes'),
 			'fieldsGroups' => [
 				'base' => [
 					'translationPrefix' => 'operators::fields',

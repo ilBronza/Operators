@@ -78,7 +78,7 @@ class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 					//					],
 					'first_name' => ['text' => 'string|required|max:255'],
 					'surname' => ['text' => 'string|required|max:255'],
-					'fiscal_code' => ['text' => 'string|required|max:16'],
+					'fiscal_code' => ['text' => 'string|nullable|max:16'],
 					//					'slug' => ['text' => 'string|nullable|max:255'],
 					//					'description' => ['text' => 'string|nullable|max:255'],
 					//					'istat_code' => ['text' => 'string|nullable|max:255'],

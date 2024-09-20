@@ -50,6 +50,12 @@ Route::group([
 			Route::delete('{contracttype}/delete', [Operators::getController('contracttype', 'destroy'), 'destroy'])->name('contracttypes.destroy');
 		});
 
+		Route::group(['prefix' => 'working-days'], function()
+		{
+			Route::put('by-operator/{operator}/day/{day}', [Operators::getController('workingDay', 'update'), 'updateByOperatorDay'])->name('workingDays.updateByOperatorDay');
+			Route::get('calendar', [Operators::getController('workingDay', 'calendar'), 'calendar'])->name('workingDays.calendar');
+		});
+
 
 		Route::group(['prefix' => 'client-operators'], function()
 		{

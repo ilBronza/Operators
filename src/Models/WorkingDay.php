@@ -2,18 +2,23 @@
 
 namespace IlBronza\Operators\Models;
 
+use Carbon\Carbon;
 use IlBronza\CRUD\Models\PackagedBaseModel;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
+
+use function in_array;
 
 class WorkingDay extends PackagedBaseModel
 {
 	use CRUDUseUuidTrait;
 
 	protected $casts = [
-		'date' => 'date',
+		'date' => 'date:Y-m-d',
 		'deleted_at' => 'date'
 	];
 
+	public $timestamps = false;
+	
 	static function getWorkingDaySelectArray() : array
 	{
 		//TODO
@@ -37,5 +42,25 @@ class WorkingDay extends PackagedBaseModel
 	public function getDate() : Carbon
 	{
 		return $this->date;
+	}
+
+	public function getType() : string
+	{
+		return $this->type;
+	}
+
+	public function getStatus() : ? string
+	{
+		return $this->status;
+	}
+
+	public function hasBeenWorked() : bool
+	{
+		return in_array($this->getStatus(), WorkingDay::gpc()::getWorkingStatusArray());
+	}
+
+	static function getUpdateByOperatorDay($operator, $day) : string
+	{
+		return app('operators')->route('workingDays.updateByOperatorDay', [$operator, $day]);
 	}
 }

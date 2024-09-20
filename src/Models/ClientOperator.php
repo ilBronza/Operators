@@ -44,8 +44,18 @@ class ClientOperator extends BasePivotModel
 		return $this->belongsTo(Contracttype::getProjectClassName());
 	}
 
+	public function getContracttype() : ? Contracttype
+	{
+		return $this->contracttype;
+	}
+
 	public function remuneration()
 	{
 		return $this->price()->where('collection_id', 'remuneration');
+	}
+
+	public function getContracttypeName() : ? string
+	{
+		return $this->getContracttype()?->getName();
 	}
 }

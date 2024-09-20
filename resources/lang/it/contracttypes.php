@@ -1,5 +1,6 @@
 <?php
 
 return array (
-  'index' => 'Tipi contratto',
+	'index' => 'Tipi contratto',
+	'contracttypes' => 'Mansioni',
 );

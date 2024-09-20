@@ -2,7 +2,8 @@
 
 namespace IlBronza\Operators\Models;
 
-use App\Models\ExtraFields\OperatorExtraFields;
+use Carbon\Carbon;
+use DB;
 use IlBronza\AccountManager\Models\User;
 use IlBronza\AccountManager\Models\Userdata;
 use IlBronza\Addresses\Models\Address;
@@ -20,9 +21,12 @@ use IlBronza\CRUD\Traits\Model\CRUDModelExtraFieldsTrait;
 use IlBronza\CRUD\Traits\Model\CRUDParentingTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
+use IlBronza\Operators\Models\Traits\OperatorWorkingDaysBonusCalculatorTrait;
 use IlBronza\Products\Models\Interfaces\SupplierInterface;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSupplierTrait;
 use Illuminate\Support\Facades\Log;
+
+use function dd;
 
 class Operator extends BaseModel implements SupplierInterface
 {
@@ -36,6 +40,8 @@ class Operator extends BaseModel implements SupplierInterface
 	use InteractsWithDestinationTrait;
 	use CRUDLogoTrait;
 	use CRUDModelExtraFieldsTrait;
+
+	use OperatorWorkingDaysBonusCalculatorTrait;
 
 	static $packageConfigPrefix = 'operators';
 	static $modelConfigPrefix = 'operator';
@@ -57,20 +63,104 @@ class Operator extends BaseModel implements SupplierInterface
 		'region' => ExtraField::class . ':address',
 		'state' => ExtraField::class . ':address',
 
-		'employment_id' => ExtraField::class . ':lastClientOperator',
-		'social_security_code' => ExtraField::class . ':lastClientOperator',
-		'social_security_institution' => ExtraField::class . ':lastClientOperator',
-		'started_at' => ExtraFieldDate::class . ':lastClientOperator',
-		'ended_at' => ExtraFieldDate::class . ':lastClientOperator',
+		'employment_id' => ExtraField::class . ':validClientOperator',
+		'social_security_code' => ExtraField::class . ':validClientOperator',
+		'social_security_institution' => ExtraField::class . ':validClientOperator',
+		'started_at' => ExtraFieldDate::class . ':validClientOperator',
+		'ended_at' => ExtraFieldDate::class . ':validClientOperator',
 		//		'street' => ExtraField::class . ':address',
 	];
 
-	public function provideLastClientOperatorModelForExtraFields() : ? ClientOperator
+	static function getPossibleWorkingDaysValuesArray() : array
 	{
-		if($this->lastClientOperator)
-			return $this->lastClientOperator;
+		return WorkingDay::gpc()::getWorkingDaySelectArray();
+	}
 
-		dd('jere');
+	public function providevalidClientOperatorModelForExtraFields() : ?ClientOperator
+	{
+		if ($this->validClientOperator)
+			return $this->validClientOperator;
+
+		if ($possible = $this->clientOperators()->orderBy(DB::raw('ended_at, ISNULL(ended_at)'), 'DESC')->first())
+		{
+			$this->setRelation('validClientOperator', $possible);
+
+			return $this->validClientOperator;
+		}
+
+		$clientOperator = ClientOperator::getProjectClassName()::make();
+
+		$clientOperator->client_id = Client::getProjectClassName()::getOneCompany()->getKey();
+
+		$this->clientOperators()->save($clientOperator);
+		$this->setRelation('validClientOperator', $clientOperator);
+
+		return $this->validClientOperator;
+	}
+
+	public function clientOperators()
+	{
+		return $this->hasMany(ClientOperator::getProjectClassName());
+	}
+
+	public function scopeByEmployments($query, array $employmentIds)
+	{
+		$query->whereHas('clientOperators', function ($query) use ($employmentIds)
+		{
+			$query->whereIn('employment_id', $employmentIds);
+		});
+	}
+
+	public function scopeValid($query)
+	{
+		$query->whereHas('clientOperators', function ($query)
+		{
+			$query->whereDate('ended_at', '<=', Carbon::now())->orWhereNull('ended_at');
+		});
+	}
+
+	public function getFirstName() : ?string
+	{
+		if ($this->relationLoaded('userdata'))
+			return $this->first_name;
+
+		if ($this->relationLoaded('user'))
+			return $this->getUser()->getFirstName();
+
+		return $this->first_name;
+	}
+
+	public function getUser()
+	{
+		return $this->user;
+	}
+
+	public function getSecondName() : ?string
+	{
+		return $this->getSurname();
+	}
+
+	public function getSurname() : ?string
+	{
+		if ($this->relationLoaded('userdata'))
+			return $this->surname;
+
+		if ($this->relationLoaded('user'))
+			return $this->getUser()->getSurname();
+
+		return $this->surname;
+	}
+
+	public function scopeByValidEmployments($query, array $employmentIds)
+	{
+		$query->byEmployments($employmentIds)->valid();
+	}
+
+	public function validClientOperator()
+	{
+		return $this->hasOne(ClientOperator::getProjectClassName())->where('client_id', Client::getProjectClassName()::getOneCompany()->getKey())->ofMany([
+			'started_at' => 'max',
+		]);
 	}
 
 	public function provideAddressModelForExtraFields() : Address
@@ -89,7 +179,7 @@ class Operator extends BaseModel implements SupplierInterface
 		return $this->getUser()->createUserdata();
 	}
 
-	public function getExtraFieldsClass() : ? string
+	public function getExtraFieldsClass() : ?string
 	{
 		return null;
 	}
@@ -123,21 +213,9 @@ class Operator extends BaseModel implements SupplierInterface
 		)->where('addressable_type', 'User')->where('type', 'default');
 	}
 
-	public function clientOperators()
+	public function getValidClientOperator()
 	{
-		return $this->hasMany(ClientOperator::getProjectClassName());
-	}
-
-	public function getLastClientOperator()
-	{
-		return $this->lastClientOperator;
-	}
-
-	public function lastClientOperator()
-	{
-		return $this->hasOne(ClientOperator::getProjectClassName())
-		            ->where('client_id', Client::getProjectClassName()::getOneCompany()->getKey())
-		            ->ofMany('ended_at', 'max');
+		return $this->validClientOperator;
 	}
 
 	public function getNameAttribute() : ?string
@@ -148,18 +226,30 @@ class Operator extends BaseModel implements SupplierInterface
 	public function getName() : ?string
 	{
 		return cache()->remember(
-			$this->cacheKey('getName'),
-			3600 * 24,
-			function()
-			{
-				return $this->getUser()?->getFullName();
-			}
+			$this->cacheKey('getName'), 3600 * 24, function ()
+		{
+			return $this->getUser()?->getFullName();
+		}
 		);
 	}
 
-	public function getUser()
+	static function getSelfPossibleList() : array
 	{
-		return $this->user;
+		return cache()->remember(
+			static::staticCacheKey('getSelfPossibleList'), 3600, function ()
+		{
+			$elements = static::with('user.userdata')->get();
+
+			$result = [];
+
+			foreach ($elements as $operator)
+				$result[$operator->getKey()] = $operator->getName();
+
+			asort($result);
+
+			return $result;
+		}
+		);
 	}
 
 	public function operatorContracttypes()
@@ -243,6 +333,7 @@ class Operator extends BaseModel implements SupplierInterface
 	{
 		return Employment::getSelfPossibleValuesArray(null, 'label');
 	}
+
 }
 
 

@@ -38,6 +38,7 @@ use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorContractty
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorContracttypeFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorContracttypeRelatedFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorFieldsGroupParametersFile;
+use IlBronza\Operators\Http\Controllers\Parameters\Datatables\WorkingDayFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\ClientOperatorCreateStoreFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\ClientOperatorEditUpdateFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\ContracttypeCreateStoreFieldsetsParameters;
@@ -51,6 +52,8 @@ use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\Contrac
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\EmploymentRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorContracttypeRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorRelationManager;
+use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarController;
+use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayUpdateEditController;
 use IlBronza\Operators\Models\ClientOperator;
 use IlBronza\Operators\Models\Contracttype;
 use IlBronza\Operators\Models\Employment;
@@ -194,6 +197,13 @@ return [
 	    'workingDay' => [
 		    'class' => WorkingDay::class,
 		    'table' => 'operators__working_days',
+		    'controllers' => [
+			    'update' => WorkingDayUpdateEditController::class,
+			    'calendar' => WorkingDayCalendarController::class,
+		    ],
+		    'fieldsGroupsFiles' => [
+			    'calendar' => WorkingDayFieldsGroupParametersFile::class,
+		    ],
 	    ],
     ]
 ];
