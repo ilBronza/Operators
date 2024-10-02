@@ -14,20 +14,32 @@ class OperatorFieldsGroupParametersFile extends FieldsGroupParametersFile
             [
                 'mySelfPrimary' => 'primary',
                 'mySelfEdit' => 'links.edit',
-                'mySelfSee' => 'links.see',
+//                'mySelfSee' => 'links.see',
 
-				'user.userdata.surname' => [
-					'type' => 'flat',
-					'order' => [
-						'priority' => 10
-					],
-				],
-				'user.userdata.first_name' => [
-					'type' => 'flat',
-					'order' => [
-						'priority' => 100
-					],
-				],
+
+	            'user.userdata.surname' => [
+		            'type' => 'flat',
+		            'order' => [
+			            'priority' => 10
+		            ],
+	            ],
+
+	            'user.userdata.first_name' => [
+		            'type' => 'flat',
+		            'order' => [
+			            'priority' => 100
+		            ],
+	            ],
+
+	            'mySelfContacts.contacts' => [
+		            'type' => 'iterators.each',
+		            'childParameters' => [
+			            'type' => 'function',
+			            'function' => 'getFullString'
+		            ],
+		            'width' => '250px'
+	            ],
+
                 'user.email' => 'links.email',
 
                 'vat' => 'flat',
@@ -55,6 +67,24 @@ class OperatorFieldsGroupParametersFile extends FieldsGroupParametersFile
                     ],
                     'width' => '280px'
                 ],
+
+	            'mySelfEnte.clientOperators' => [
+		            'type' => 'iterators.each',
+		            'childParameters' => [
+			            'type' => 'flat',
+			            'property' => 'social_security_institution'
+		            ]
+	            ],
+
+	            'mySelfUnilav.clientOperators' => [
+		            'type' => 'iterators.each',
+		            'childParameters' => [
+			            'type' => 'flat',
+			            'property' => 'iscr_liste'
+		            ]
+	            ],
+
+	            'clients' => 'relations.belongsToMany',
 
                 'employments' => 'relations.belongsToMany',
                 'contracttypes' => 'relations.belongsToMany',

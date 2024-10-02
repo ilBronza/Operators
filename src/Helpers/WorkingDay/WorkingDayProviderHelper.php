@@ -11,11 +11,14 @@ use IlBronza\Operators\Models\WorkingDay;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
+use Illuminate\Support\Facades\Log;
+
 use function count;
 use function dd;
 use function is_array;
 use function is_null;
 use function is_string;
+use function strpos;
 
 class WorkingDayProviderHelper
 {
@@ -39,8 +42,31 @@ class WorkingDayProviderHelper
 		return $workingDays->first();
 	}
 
-	static function provideByParameters(Operator $operator, $date, $section, $partOfDay) : WorkingDay
+	static function provideByParameters(Operator $operator, string|Carbon $date, $section, $partOfDay) : WorkingDay
 	{
+		if(is_string($date))
+			$date = Carbon::parse($date);
+
+		if($operator->relationLoaded('workingDays'))
+		{
+			foreach($operator->workingDays as $workingDay)
+			{
+				if($workingDay->date == $date)
+					if(strpos($workingDay->type, $section) !== false)
+						if(strpos($workingDay->type, $partOfDay) !== false)
+							return $workingDay;
+			}
+
+			$workingDay = WorkingDay::gpc()::make();
+
+			$workingDay->operator_id = $operator->getKey();
+			$workingDay->date = $date;
+			$workingDay->type = "{$section}_{$partOfDay}";
+
+			return $workingDay;
+		}
+
+
 		if ($workingDay = static::getByParameters($operator, $date, $section, $partOfDay))
 			return $workingDay;
 
@@ -55,6 +81,8 @@ class WorkingDayProviderHelper
 
 	static function getQueryByOperatorRange(Operator $operator, Carbon $startsAt, Carbon $endsAt, string $section = null, string $partOfDay = null, array|string $status = null) : Builder
 	{
+		//TODO('qua usare lo scope per le section e orari');
+
 		$query = WorkingDay::gpc()::where('operator_id', $operator->getKey())
 		                   ->whereDate('date', '>=', $startsAt)
 		                   ->whereDate('date', '<=', $endsAt);

@@ -46,4 +46,11 @@ return array (
 	'calculated_flexibility_days' => 'Flex',
 	'calculated_rol_days' => 'Rol',
 	'clientOperators' => 'Mansione',
+	'date_from' => 'Dal',
+	'date_to' => 'Al',
+	'operatorType' => 'Tipologia operatore',
+	'current_operator_client_client_id' => 'Azienda',
+	'mySelfContacts.contacts' => 'Contatti',
+	'mySelfUnilav.clientOperators' => 'Unilav',
+	'mySelfEnte.clientOperators' => 'Ente'
 );

@@ -26,11 +26,14 @@ class OperatorIndexController extends OperatorCRUD
 
     public function getIndexElements()
     {
-        return $this->getModelClass()::with(
+        return $this->getModelClass()::active()->with(
 			'user.extraFields',
 			'user.address',
 			'address',
             'contracttypes',
+	        'clientOperators.client',
+	        'clientOperators.extraFields',
+			'clients',
             'sellableSuppliers.directPrice',
             'sellableSuppliers.sellable',
             'employments'

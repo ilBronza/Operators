@@ -90,7 +90,7 @@ class Operator extends BaseModel implements SupplierInterface
 
 		$clientOperator = ClientOperator::getProjectClassName()::make();
 
-		$clientOperator->client_id = Client::getProjectClassName()::getOneCompany()->getKey();
+		$clientOperator->client_id = Client::getProjectClassName()::getOwnerCompany()->getKey();
 
 		$this->clientOperators()->save($clientOperator);
 		$this->setRelation('validClientOperator', $clientOperator);
@@ -108,6 +108,17 @@ class Operator extends BaseModel implements SupplierInterface
 		$query->whereHas('clientOperators', function ($query) use ($employmentIds)
 		{
 			$query->whereIn('employment_id', $employmentIds);
+		});
+	}
+
+	public function scopeByClient($query, Client|string $clientId)
+	{
+		if ($clientId instanceof Client)
+			$clientId = $clientId->getKey();
+
+		$query->whereHas('clientOperators', function ($query) use ($clientId)
+		{
+			$query->where('client_id', $clientId);
 		});
 	}
 
@@ -156,9 +167,15 @@ class Operator extends BaseModel implements SupplierInterface
 		$query->byEmployments($employmentIds)->valid();
 	}
 
+	public function scopeActive($query)
+	{
+		$query->whereNull('active')
+			->orWhere('active', true);
+	}
+
 	public function validClientOperator()
 	{
-		return $this->hasOne(ClientOperator::getProjectClassName())->where('client_id', Client::getProjectClassName()::getOneCompany()->getKey())->ofMany([
+		return $this->hasOne(ClientOperator::getProjectClassName())->where('client_id', Client::getProjectClassName()::getOwnerCompany()->getKey())->ofMany([
 			'started_at' => 'max',
 		]);
 	}
@@ -169,6 +186,11 @@ class Operator extends BaseModel implements SupplierInterface
 			return $this->address;
 
 		return $this->getUser()->createDefaultAddress();
+	}
+
+	public function getAddress() : ? Address
+	{
+		return $this->address;
 	}
 
 	public function provideUserdataModelForExtraFields() : Userdata
@@ -268,7 +290,12 @@ class Operator extends BaseModel implements SupplierInterface
 	{
 		return $this->belongsToMany(
 			Client::getProjectClassName(), config('operators.models.clientOperator.table')
-		)->using(ClientOperator::getProjectClassName());
+		)->using(ClientOperator::getProjectClassName())->withTimestamps();
+	}
+
+	public function workingDays()
+	{
+		return $this->hasMany(WorkingDay::gpc());
 	}
 
 	public function getClients()
@@ -291,6 +318,21 @@ class Operator extends BaseModel implements SupplierInterface
 	public function getUserId() : string
 	{
 		return $this->user_id;
+	}
+
+	public function getCurrentOperatorClientClientIdAttribute() : ?string
+	{
+		if (! $clientOperator = $this->getModel()->lastClientOperator()->first())
+			return null;
+
+		return $clientOperator->getClientId();
+	}
+
+	public function lastClientOperator()
+	{
+		return $this->hasOne(ClientOperator::getProjectClassName())->ofMany([
+			'created_at' => 'max',
+		]);
 	}
 
 	public function getUserdata() : Userdata
@@ -331,7 +373,19 @@ class Operator extends BaseModel implements SupplierInterface
 
 	public function getPossibleEmploymentValuesArray() : array
 	{
-		return Employment::getSelfPossibleValuesArray(null, 'label');
+		return Employment::getSelfPossibleValuesArray(null, 'label_text');
+	}
+
+	public function getPossibleClientsValuesArray() : array
+	{
+		$category = Category::gpc()::findCachedByName('Fornitore Videoservizi');
+
+		return Client::gpc()::byGeneralCategory($category)->select('name', 'id')->pluck('name', 'id')->toArray();
+	}
+
+	public function hasPermanentJob()
+	{
+		dd($this);
 	}
 
 }

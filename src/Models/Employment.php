@@ -12,44 +12,39 @@ use function config;
 
 class Employment extends BaseModel
 {
-    use CRUDGetOrCreateTrait;
-    use PackagedModelsTrait;
+	use CRUDGetOrCreateTrait;
+	use PackagedModelsTrait;
 
-    use CRUDSluggableTrait;
+	use CRUDSluggableTrait;
 
-    static $packageConfigPrefix = 'operators';
-    static $modelConfigPrefix = 'employment';
+	static $packageConfigPrefix = 'operators';
+	static $modelConfigPrefix = 'employment';
 
-    public $deletingRelationships = [];
+	public $deletingRelationships = [];
 
-	public function getShortName() : ? string
+	public function getShortName() : ?string
 	{
-		return $this->label;
-	}
-
-	public function operators()
-	{
-		return $this->belongsToMany(
-			Operator::getProjectClassName(),
-			config('operators.models.clientOperator.table')
-		)->distinct();
+		return $this->label_text;
 	}
 
 	public function getRelatedOperators()
 	{
 		return $this->operators()->with(
-			'user.extrafields',
-			'address',
-			'contracttypes',
-			'employments'
+			'user.extrafields', 'address', 'contracttypes', 'employments'
 		)->get();
+	}
+
+	public function operators()
+	{
+		return $this->belongsToMany(
+			Operator::getProjectClassName(), config('operators.models.clientOperator.table')
+		)->distinct();
 	}
 
 	public function clients()
 	{
 		return $this->belongsToMany(
-			Client::getProjectClassName(),
-			config('operators.models.clientOperator.table')
+			Client::getProjectClassName(), config('operators.models.clientOperator.table')
 		)->distinct();
 	}
 

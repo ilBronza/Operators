@@ -2,9 +2,11 @@
 
 namespace IlBronza\Operators\Models;
 
+use App\Models\ProjectSpecific\SellableSupplier;
 use IlBronza\CRUD\Models\BasePivotModel;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
+use IlBronza\Products\Providers\Helpers\Sellables\SellableCreatorHelper;
 
 class OperatorContracttype extends BasePivotModel
 {
@@ -30,6 +32,11 @@ class OperatorContracttype extends BasePivotModel
 		);
 	}
 
+	public function getOperator() : ? Operator
+	{
+		return $this->operator;
+	}
+
 	public function getContracttypeName() : ?string
 	{
 		return $this->getContracttype()?->getName();
@@ -38,6 +45,17 @@ class OperatorContracttype extends BasePivotModel
 	public function getContracttype() : ?Contracttype
 	{
 		return $this->contracttype;
+	}
+
+	public function getSellableSupplier() : ? SellableSupplier
+	{
+		if (! $sellable = $this->getContracttype()->sellables()->first())
+			return null;
+
+		if (! $supplier = $this->getOperator()->getSupplier())
+			return null;
+
+		return SellableCreatorHelper::getSellableSupplier($supplier, $sellable);
 	}
 
 }

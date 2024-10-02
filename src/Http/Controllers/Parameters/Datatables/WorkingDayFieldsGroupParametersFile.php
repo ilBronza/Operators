@@ -13,11 +13,8 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
             'fields' => 
             [
                 'mySelfPrimary' => 'primary',
-//                'mySelfEdit' => 'links.edit',
-//                'mySelfSee' => 'links.see',
 	            'name' => [
 					'type' => 'flat',
-		            'width' => '195px'
 	            ],
 	            'clientOperators' => [
 					'type' => 'iterators.each',
@@ -27,9 +24,10 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 		            ],
 		            'width' => '125px'
 	            ],
-	            'calculated_holiday_days' => 'flat',
-	            'calculated_flexibility_days' => 'flat',
-	            'calculated_rol_days' => 'flat'
+	            'calculated_holiday_days' => 'dates.daysToString',
+	            'calculated_flexibility_days' => 'dates.daysToString',
+	            'calculated_rol_days' => 'dates.daysToString',
+	            'calculated_bb_days' => 'dates.daysToString'
             ]
         ];
 	}

@@ -12,6 +12,7 @@ use IlBronza\Operators\Models\Operator;
 use Illuminate\Http\Request;
 
 use function config;
+use function request;
 
 class WorkingDayCalendarController extends OperatorCRUD
 {
@@ -23,24 +24,36 @@ class WorkingDayCalendarController extends OperatorCRUD
 	{
 		//WorkingDayFieldsGroupParametersFile
 		return WorkingDayFieldsGroupsHelper::getCalendarFieldsGroupsByDates(
-			config('operators.models.workingDay.fieldsGroupsFiles.calendar'),
-			$request->startsAt ?? Carbon::now()->startOfMonth(),
-			$request->endsAt ?? Carbon::now()->endOfMonth(),
+			config('operators.models.workingDay.fieldsGroupsFiles.calendar'), $this->getStartsAt(), $this->getEndsAt()
 		);
+	}
+
+	public function getStartsAt()
+	{
+		return request()->startsAt ?? Carbon::now()->startOfMonth();
+	}
+
+	public function getEndsAt()
+	{
+		return request()->endsAt ?? Carbon::now()->endOfMonth();
 	}
 
 	public function getIndexElements()
 	{
-		$employments = Employment::gpc()::select('id')->where('name', 'LIKE', '%dipend%')->pluck('id')->toArray();
+		$employments = Employment::gpc()::getSubordinedEmployemnts()->toArray();
 
-		return Operator::gpc()::with(['clientOperators' => function ($query)
-								{
-									$query->where('client_id', Client::gpc()::getOneCompany()->getKey());
-								}])
-		                      ->byValidEmployments($employments)
-		                      ->distinct()
-		                      ->take(10)
-		                      ->get();
+		return Operator::gpc()::with([
+			'clientOperators' => function ($query)
+			{
+				$query->where('client_id', Client::gpc()::getOwnerCompany()->getKey());
+			}
+		])->with([
+				'workingDays' => function ($query)
+				{
+					$query->whereDate('date', '>=', $this->getStartsAt());
+					$query->whereDate('date', '<=', $this->getEndsAt());
+				}
+			])->byValidEmployments($employments)->distinct()->take(10)->get();
 	}
 
 	public function calendar(Request $request)

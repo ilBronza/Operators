@@ -13,13 +13,13 @@ return new class extends Migration
 	{
 		Schema::table(config('operators.models.employment.table'), function (Blueprint $table)
 		{
-			$table->string('label', 16)->after('slug')->nullable();
+			$table->string('label_text', 16)->after('slug')->nullable();
 			$table->string('hex_rgba', 8)->after('slug')->nullable();
 		});
 
 		Schema::table(config('operators.models.contracttype.table'), function (Blueprint $table)
 		{
-			$table->string('label', 8)->after('slug')->nullable();
+			$table->string('label_text', 8)->after('slug')->nullable();
 			$table->string('hex_rgba', 8)->after('slug')->nullable();
 		});
 
@@ -36,13 +36,13 @@ return new class extends Migration
 	{
 		Schema::table(config('operators.models.employment.table'), function (Blueprint $table)
 		{
-			$table->dropColumn('label');
+			$table->dropColumn('label_text');
 			$table->dropColumn('hex_rgba');
 		});
 
 		Schema::table(config('operators.models.contracttype.table'), function (Blueprint $table)
 		{
-			$table->dropColumn('label');
+			$table->dropColumn('label_text');
 			$table->dropColumn('hex_rgba');
 		});
 

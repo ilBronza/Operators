@@ -1,6 +1,6 @@
 <?php
 
-return array (
-	'index' => 'Tipi contratto',
+return [
+	'index' => 'Mansioni',
 	'contracttypes' => 'Mansioni',
-);
+];

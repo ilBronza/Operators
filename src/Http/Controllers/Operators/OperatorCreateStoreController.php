@@ -44,7 +44,11 @@ class OperatorCreateStoreController extends OperatorCRUD
 		$operator = $user->createOperator();
 
 		if($request->client)
-			$operator->clients()->sync([$request->client]);
+		{
+			$operator->clients()->sync([$request->client => [
+				'employment_id' => $request->input('employment'),
+			]]);
+		}
 
 		return redirect()->to(
 			$operator->getEditUrl()

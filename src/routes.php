@@ -23,10 +23,14 @@ Route::group([
 
 		Route::group(['prefix' => 'operators'], function()
 		{
+			Route::get('document-creation-index', [Operators::getController('operator', 'documents'), 'index'])->name('operators.documentCreation');
 
 			Route::get('{operator}/avatar-fetcher', [Operators::getController('operator', 'avatar'), 'avatarFetcher'])->name('operators.logoFetcher');
 
+			//IlBronza\Operators\Http\Controllers\Operators\OperatorIndexController
 			Route::get('', [Operators::getController('operator', 'index'), 'index'])->name('operators.index');
+			//IlBronza\Operators\Http\Controllers\Operators\OperatorArchiveController
+			Route::get('archive', [Operators::getController('operator', 'archive'), 'index'])->name('operators.archive');
 			Route::get('create', [Operators::getController('operator', 'create'), 'create'])->name('operators.create');
 			Route::post('', [Operators::getController('operator', 'store'), 'store'])->name('operators.store');
 			Route::get('{operator}', [Operators::getController('operator', 'show'), 'show'])->name('operators.show');
@@ -61,8 +65,13 @@ Route::group([
 		{
 			Route::get('', [Operators::getController('clientOperator', 'index'), 'index'])->name('clientOperators.index');
 			Route::get('create', [Operators::getController('clientOperator', 'create'), 'create'])->name('clientOperators.create');
+
+			Route::get('create-by-operator/{operator}', [Operators::getController('clientOperator', 'create'), 'createByOperator'])->name('clientOperators.createByOperator');
+
 			Route::post('', [Operators::getController('clientOperator', 'store'), 'store'])->name('clientOperators.store');
 			Route::get('{clientOperator}', [Operators::getController('clientOperator', 'show'), 'show'])->name('clientOperators.show');
+
+			//IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorEditUpdateController
 			Route::get('{clientOperator}/edit', [Operators::getController('clientOperator', 'edit'), 'edit'])->name('clientOperators.edit');
 			Route::put('{clientOperator}', [Operators::getController('clientOperator', 'edit'), 'update'])->name('clientOperators.update');
 
@@ -73,6 +82,9 @@ Route::group([
 		{
 			Route::get('', [Operators::getController('operatorContracttype', 'index'), 'index'])->name('operatorContracttypes.index');
 			Route::get('create', [Operators::getController('operatorContracttype', 'create'), 'create'])->name('operatorContracttypes.create');
+
+			Route::get('create-by-operator/{operator}', [Operators::getController('operatorContracttype', 'create'), 'createByOperator'])->name('operatorContracttypes.createByOperator');
+
 			Route::post('', [Operators::getController('operatorContracttype', 'store'), 'store'])->name('operatorContracttypes.store');
 			Route::get('{operatorContracttype}', [Operators::getController('operatorContracttype', 'show'), 'show'])->name('operatorContracttypes.show');
 			Route::get('{operatorContracttype}/edit', [Operators::getController('operatorContracttype', 'edit'), 'edit'])->name('operatorContracttypes.edit');

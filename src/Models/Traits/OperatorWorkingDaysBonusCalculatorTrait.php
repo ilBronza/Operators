@@ -9,36 +9,10 @@ use IlBronza\Operators\Helpers\WorkingDay\WorkingDayProviderHelper;
 use IlBronza\Operators\Models\WorkingDay;
 
 use function config;
-use function dd;
-use function in_array;
+use function round;
 
 trait OperatorWorkingDaysBonusCalculatorTrait
 {
-	public function getWorkingDayResetDate(string $datName)
-	{
-		$fieldName = "{$datName}_reset_date";
-
-		if ($this->$fieldName)
-			return $this->$fieldName;
-
-		return $this->created_at;
-	}
-
-	public function getHolidaysResetDate() : Carbon
-	{
-		return $this->getWorkingDayResetDate('holidays');
-	}
-
-	public function getFlexibilityResetDate() : Carbon
-	{
-		return $this->getWorkingDayResetDate('flexibility');
-	}
-
-	public function getRolResetDate() : Carbon
-	{
-		return $this->getWorkingDayResetDate('rol');
-	}
-
 	public function getCalculatedHolidayDaysAttribute() : float
 	{
 		$resetDate = $this->getHolidaysResetDate();
@@ -51,6 +25,24 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 		return round($holidayAccumulatedDays - ($holidayWorkingDaysPortions * 0.5), 2);
 	}
 
+	public function getHolidaysResetDate() : Carbon
+	{
+		return $this->getWorkingDayResetDate('holidays');
+	}
+
+	public function getWorkingDayResetDate(string $datName)
+	{
+		$fieldName = "{$datName}_reset_date";
+
+		if ($this->$fieldName)
+			return $this->$fieldName;
+
+		if ($first = WorkingDay::gpc()::orderBy('date')->first())
+			return $first->date;
+
+		return Carbon::now()->startOfMonth();
+	}
+
 	public function getCalculatedFlexibilityDaysAttribute() : float
 	{
 		$resetDate = $this->getFlexibilityResetDate();
@@ -59,38 +51,70 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 
 		$result = 0;
 
-		foreach($allDays as $day)
+		foreach ($allDays as $day)
 		{
-			if(WorkingDayCheckerHelper::isHoliday($day->getDate()))
+			if (WorkingDayCheckerHelper::isWeekendOrHoliday($day->getDate()))
 			{
-				if($day->hasBeenWorked())
+				if ($day->hasBeenWorked())
 					$result += 0.5;
 			}
 			else
-			{
-				if(! $day->hasBeenWorked())
-					$result -= 0.5;
-			}
+				$result -= $day->getFlexUsedDayCoefficient();
 		}
 
 		return $result;
+	}
+
+	public function getFlexibilityResetDate() : Carbon
+	{
+		return $this->getWorkingDayResetDate('flexibility');
 	}
 
 	public function getCalculatedRolDaysAttribute() : float
 	{
 		$resetDate = $this->getRolResetDate();
 
-		$holidayWorkingDaysPortions = WorkingDayProviderHelper::getByOperatorRange($this, $resetDate, Carbon::now(), 'bureau', null, WorkingDay::gpc()::getPermissionsStatusArray());
+		$rolConsumingDaysPortions = WorkingDayProviderHelper::getByOperatorRange($this, $resetDate, Carbon::now(), 'bureau', null, WorkingDay::gpc()::getPermissionsStatusArray());
 
 		$rolHoursEnojyed = 0;
 
-		foreach($holidayWorkingDaysPortions as $type => $elements)
-			foreach($elements as $holidayWorkingDaysPortion)
-				$rolHoursEnojyed += WorkingDayCalculationsHelper::getRolHoursByWorkingDayStatus($holidayWorkingDaysPortion->getStatus());
+		foreach ($rolConsumingDaysPortions as $type => $elements)
+			foreach($elements as $day)
+				$rolHoursEnojyed += $day->getRolUsedDayCoefficient();
 
 		$months = WorkingDayCalculationsHelper::getMonthsSince($resetDate);
 
 		return round(($months * config('one.rolInAMonth')) - ($rolHoursEnojyed / 8), 2);
+	}
+
+	public function getCalculatedBBDaysAttribute() : float
+	{
+		$resetDate = $this->getBBResetDate();
+
+		$bpCount = WorkingDayProviderHelper::getByOperatorRangeCount($this, $resetDate, Carbon::now(), 'bureau', null, ['bp']);
+		$bmCount = WorkingDayProviderHelper::getByOperatorRangeCount($this, $resetDate, Carbon::now(), 'bureau', null, ['bm']);
+
+		return ($bpCount - $bmCount) * 0.5;
+
+//		$rolHoursEnojyed = 0;
+//
+//		foreach ($rolConsumingDaysPortions as $type => $elements)
+//			foreach($elements as $day)
+//				$rolHoursEnojyed += $day->getRolUsedDayCoefficient();
+//
+//		$months = WorkingDayCalculationsHelper::getMonthsSince($resetDate);
+//
+//		return round(($months * config('one.rolInAMonth')) - ($rolHoursEnojyed / 8), 2);
+	}
+
+	public function getRolResetDate() : Carbon
+	{
+		return $this->getWorkingDayResetDate('rol');
+	}
+
+	public function getBBResetDate() : Carbon
+	{
+		return $this->getWorkingDayResetDate('bb');
 	}
 
 }

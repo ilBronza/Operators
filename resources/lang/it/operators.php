@@ -2,6 +2,7 @@
 
 return array (
   'manager' => 'Operatori',
+  'documents' => 'Documenti operatore',
   'list' => 'Operatori',
   'operators' => 'Operatore',
   'contracttypes' => 'Tipi mansione',

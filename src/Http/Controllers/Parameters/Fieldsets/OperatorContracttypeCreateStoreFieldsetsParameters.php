@@ -25,7 +25,6 @@ class OperatorContracttypeCreateStoreFieldsetsParameters extends FieldsetParamet
 				'translationPrefix' => 'operators::fields',
 				'fields' => [
 					'operator_id' => [
-						'readOnly' => true,
 						'type' => 'select',
 						'select2' => false,
 						'multiple' => false,
@@ -33,7 +32,6 @@ class OperatorContracttypeCreateStoreFieldsetsParameters extends FieldsetParamet
 						'relation' => 'operator'
 					],
 					'contracttype_id' => [
-						'readOnly' => true,
 						'type' => 'select',
 						'select2' => false,
 						'multiple' => false,
@@ -42,11 +40,6 @@ class OperatorContracttypeCreateStoreFieldsetsParameters extends FieldsetParamet
 					],
 					'level' => ['text' => 'string|nullable|max:255'],
 					'internal_approval_rating' => ['text' => 'string|nullable|max:255'],
-					'name' => [
-						'type' => 'text',
-						'readOnly' => true,
-						'rules' => 'string|required|max:255'
-					],
 				],
 				'width' => ["1-3@l", '1-2@m']
 			],

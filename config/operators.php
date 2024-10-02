@@ -20,9 +20,11 @@ use IlBronza\Operators\Http\Controllers\OperatorContracttypes\OperatorContractty
 use IlBronza\Operators\Http\Controllers\OperatorContracttypes\OperatorContracttypeEditUpdateController;
 use IlBronza\Operators\Http\Controllers\OperatorContracttypes\OperatorContracttypeIndexController;
 use IlBronza\Operators\Http\Controllers\OperatorContracttypes\OperatorContracttypeShowController;
+use IlBronza\Operators\Http\Controllers\Operators\OperatorArchiveController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorAvatarController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorCreateStoreController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorDestroyController;
+use IlBronza\Operators\Http\Controllers\Operators\OperatorDocumentsController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorEditUpdateController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorIndexController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorShowController;
@@ -173,6 +175,7 @@ return [
 			'table' => 'operators__operators',
 			'fieldsGroupsFiles' => [
 				'index' => OperatorFieldsGroupParametersFile::class,
+				'archive' => OperatorArchiveFieldsGroupParametersFile::class,
 				'byEmployment' => OperatorByEmploymentFieldsGroupParametersFile::class
 			],
 			'relationshipsManagerClasses' => [
@@ -184,8 +187,10 @@ return [
 				'edit' => OperatorEditUpdateFieldsetsParameters::class
 			],
 			'controllers' => [
+				'documents' => OperatorDocumentsController::class,
 				'avatar' => OperatorAvatarController::class,
 				'index' => OperatorIndexController::class,
+				'archive' => OperatorArchiveController::class,
 				'create' => OperatorCreateStoreController::class,
 				'store' => OperatorCreateStoreController::class,
 				'show' => OperatorShowController::class,

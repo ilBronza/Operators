@@ -15,6 +15,7 @@ class OperatorRelationManager extends RelationshipsManager
 		$relations['operatorContracttypes'] = [
 			'controller' => config('operators.models.operatorContracttype.controllers.index'),
 			'translatedTitle' => __('operators::contracttypes.contracttypes'),
+			'hasCreateButton' => true,
 			'fieldsGroups' => [
 				'base' => [
 					'translationPrefix' => 'operators::fields',
@@ -38,6 +39,7 @@ class OperatorRelationManager extends RelationshipsManager
 
 		$relations['clientOperators'] = [
 			'controller' => config('operators.models.clientOperator.controllers.index'),
+			'hasCreateButton' => true,
 			'fieldsGroups' => [
 				'base' => config('operators.models.clientOperator.fieldsGroupsFiles.byOperator')::getFieldsGroup()
 			]
@@ -45,17 +47,18 @@ class OperatorRelationManager extends RelationshipsManager
 
 		//		$relations['contracttypes'] = config('operators.models.contracttype.controllers.index');
 
+		//IlBronza\Products\Http\Controllers\SellableSupplier\SellableSupplierIndexController
 		if (config('products.sellables.enabled', false))
 			$relations['sellableSuppliers'] = [
 				'controller' => config('products.models.sellableSupplier.controllers.index'),
 				'elementGetterMethod' => 'getSellableSuppliersBySupplier'
 			];
 
-		//		if(config('products.sellables.enabled', false))
-		//			$relations['sellables'] = [
-		//				'controller' => config('products.models.sellable.controllers.index'),
-		//				'elementGetterMethod' => 'getSellablesBySupplier'
-		//			];
+				if(config('products.sellables.enabled', false))
+					$relations['sellables'] = [
+						'controller' => config('products.models.sellable.controllers.index'),
+						'elementGetterMethod' => 'getSellablesBySupplier'
+					];
 
 		if (config('contacts.enabled', false))
 			$relations['contacts'] = config('contacts.models.contact.controllers.index');

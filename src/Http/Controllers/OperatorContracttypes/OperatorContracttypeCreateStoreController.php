@@ -5,6 +5,9 @@ namespace IlBronza\Operators\Http\Controllers\OperatorContracttypes;
 use IlBronza\CRUD\Traits\CRUDCreateStoreTrait;
 use IlBronza\CRUD\Traits\CRUDRelationshipTrait;
 use IlBronza\CRUD\Traits\CRUDShowTrait;
+use IlBronza\Operators\Models\Operator;
+use IlBronza\Products\Providers\Helpers\Sellables\SellableCreatorHelper;
+use IlBronza\Products\Providers\Helpers\Sellables\SupplierCreatorHelper;
 
 class OperatorContracttypeCreateStoreController extends OperatorContracttypeCRUD
 {
@@ -12,7 +15,9 @@ class OperatorContracttypeCreateStoreController extends OperatorContracttypeCRUD
     use CRUDShowTrait;
     use CRUDRelationshipTrait;
 
-    public $allowedMethods = ['create', 'store', 'edit', 'update', 'show'];
+	public $returnBack = true;
+
+    public $allowedMethods = ['create', 'createByOperator', 'store', 'edit', 'update', 'show'];
 
     public function getGenericParametersFile() : ? string
     {
@@ -30,4 +35,26 @@ class OperatorContracttypeCreateStoreController extends OperatorContracttypeCRUD
 
         return $this->_show($operatorContracttype);
     }
+
+	public function createByOperator(string $operator)
+	{
+		$operator = Operator::gpc()::find($operator);
+
+		$this->setParentModel($operator);
+
+		return $this->create();
+	}
+
+	public function performAdditionalOperations()
+	{
+		$operatorSupplier = SupplierCreatorHelper::getOrCreateSupplierFromTarget($this->getModel()->getOperator());
+		$contracttypeSellable = SellableCreatorHelper::getOrcreateSellableByTarget(
+			$this->getModel()->getContracttype(), [], 'service'
+		);
+
+		$sellableSupplier = SellableCreatorHelper::createSellableSupplier($operatorSupplier, $contracttypeSellable);
+
+		$sellableSupplier->cost_company_day = $this->getModel()->cost_company_day;
+		$sellableSupplier->save();
+	}
 }

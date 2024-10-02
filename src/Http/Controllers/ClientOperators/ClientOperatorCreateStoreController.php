@@ -6,6 +6,7 @@ use IlBronza\CRUD\Traits\CRUDCreateStoreTrait;
 use IlBronza\CRUD\Traits\CRUDRelationshipTrait;
 use IlBronza\CRUD\Traits\CRUDShowTrait;
 use IlBronza\Operators\Models\ClientOperator;
+use IlBronza\Operators\Models\Operator;
 
 class ClientOperatorCreateStoreController extends ClientOperatorCRUD
 {
@@ -13,7 +14,7 @@ class ClientOperatorCreateStoreController extends ClientOperatorCRUD
     use CRUDShowTrait;
     use CRUDRelationshipTrait;
 
-    public $allowedMethods = ['create', 'store', 'edit', 'update', 'show'];
+    public $allowedMethods = ['create', 'createByOperator', 'store'];
 
     public function getGenericParametersFile() : ? string
     {
@@ -31,4 +32,18 @@ class ClientOperatorCreateStoreController extends ClientOperatorCRUD
 
         return $this->_show($clientOperator);
     }
+
+	public function createByOperator(string $operator)
+	{
+		$operator = Operator::gpc()::find($operator);
+
+		$this->setParentModel($operator);
+
+		return $this->create();
+	}
+
+	public function getAfterStoredRedirectUrl()
+	{
+		return $this->getModel()->getEditUrl();
+	}
 }

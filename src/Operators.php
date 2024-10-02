@@ -48,7 +48,13 @@ class Operators implements RoutedObjectInterface
 				'icon' => 'helmet-safety',
 				'text' => 'operators::employments.index',
 				'href' => $this->route('employments.index')
-			]
+				],
+	            [
+		            'name' => 'operators.archive',
+		            'icon' => 'database',
+		            'text' => 'operators::operators.archive',
+		            'href' => $this->route('operators.archive')
+	            ],
             ]
         ]);
 

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use IlBronza\CRUD\Models\PackagedBaseModel;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 
+use function array_pop;
 use function in_array;
 
 class WorkingDay extends PackagedBaseModel
@@ -62,5 +63,36 @@ class WorkingDay extends PackagedBaseModel
 	static function getUpdateByOperatorDay($operator, $day) : string
 	{
 		return app('operators')->route('workingDays.updateByOperatorDay', [$operator, $day]);
+	}
+
+	public function getWorkingDayParameters() : array
+	{
+		$result = array_filter(
+			$this->getDateStatusArray(),
+			function($subarray)
+			{
+				return isset($subarray['key']) && $subarray['key'] == $this->getStatus();
+			});
+
+		return array_pop($result);
+	}
+
+	public function getFlexUsedCoefficient() : ? float
+	{
+		$parameters = $this->getWorkingDayParameters();
+
+		return $parameters['flexUsedCoefficient'] ?? 0;
+	}
+
+	public function getRolUsedDayCoefficient() : ? float
+	{
+		$parameters = $this->getWorkingDayParameters();
+
+		return $parameters['rolUsedCoefficient'] ?? 0;
+	}
+
+	public function getFlexUsedDayCoefficient()
+	{
+		return $this->getFlexUsedCoefficient() / 8;
 	}
 }
