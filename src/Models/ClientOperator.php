@@ -7,6 +7,10 @@ use IlBronza\Clients\Models\Client;
 use IlBronza\CRUD\Models\BasePivotModel;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
+use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
+
+use function dd;
 
 class ClientOperator extends BasePivotModel
 {
@@ -29,7 +33,7 @@ class ClientOperator extends BasePivotModel
 		);
 	}
 
-	public function getClientId() : ? string
+	public function getClientId() : ?string
 	{
 		return $this->client_id;
 	}
@@ -41,7 +45,7 @@ class ClientOperator extends BasePivotModel
 		);
 	}
 
-	public function getOperator() : ? Operator
+	public function getOperator() : ?Operator
 	{
 		return $this->operator;
 	}
@@ -51,19 +55,9 @@ class ClientOperator extends BasePivotModel
 		return $this->belongsTo(Employment::getProjectClassName());
 	}
 
-	public function getEmployment() : ? Employment
-	{
-		return $this->employment;
-	}
-
 	public function contracttype()
 	{
 		return $this->belongsTo(Contracttype::getProjectClassName());
-	}
-
-	public function getContracttype() : ? Contracttype
-	{
-		return $this->contracttype;
 	}
 
 	public function remuneration()
@@ -71,44 +65,76 @@ class ClientOperator extends BasePivotModel
 		return $this->price()->where('collection_id', 'remuneration');
 	}
 
-	public function getContracttypeName() : ? string
+	public function getContracttypeName() : ?string
 	{
 		return $this->getContracttype()?->getName();
 	}
 
-	public function getEmploymentString() : ? string
+	public function getContracttype() : ?Contracttype
+	{
+		return $this->contracttype;
+	}
+
+	public function getEmploymentString() : ?string
 	{
 		return $this->getEmployment()->getName();
 	}
 
-	public function getStartedAt() : ? Carbon
+	public function getEmployment() : ?Employment
+	{
+		return $this->employment;
+	}
+
+	public function getStartedAt() : ?Carbon
 	{
 		return $this->started_at;
 	}
 
-	public function getEndedAt() : ? Carbon
+	public function isValid() : bool
+	{
+		if ($endedAt = $this->getEndedAt())
+			return $endedAt->endOfDay() > Carbon::now();
+
+		if ($this->hasExternalCompany())
+			return true;
+
+		if ($this->hasPermanentJob())
+			return true;
+
+		return false;
+	}
+
+	public function getEndedAt() : ?Carbon
 	{
 		return $this->ended_at;
 	}
 
-	public function hasPermanentJob() : ? bool
+	public function hasExternalCompany() : bool
+	{
+		return $this->client_id != Client::gpc()::getOwnerCompany()->getKey();
+	}
+
+	public function hasPermanentJob() : ?bool
 	{
 		return $this->getEmployment()?->isPermanent() ?? false;
 	}
 
-	public function hasExternalCompany() : bool
+
+
+	protected static function boot()
 	{
-		return $this->client_id == Client::gpc()::getOwnerCompany()->getKey();
-	}
+		parent::boot();
 
-	public function isValid() : bool
-	{
-		if($endedAt = $this->getEndedAt())
-			return $endedAt >= Carbon::now();
+		static::saving(function ($clientOperator)
+		{
+			if($clientOperator->isDirty('contracttype_id'))
+			{
+				if($contracttype = $clientOperator->contracttype)
+				{
+					$clientOperator->operator?->contracttypes()->syncWithoutDetaching([$contracttype->getKey()]);
+				}
 
-		if($this->hasExternalCompany())
-			return true;
-
-		return $this->hasPermanentJob();
+			}
+		});
 	}
 }

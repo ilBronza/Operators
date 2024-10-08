@@ -24,12 +24,20 @@ class OperatorRelationManager extends RelationshipsManager
 						'mySelfEdit' => 'links.edit',
 						'contracttype.name' => 'flat',
 
-						'internal_approval_rating' => 'flat',
-						'level' => 'flat',
+						'internal_approval_rating' => 'editor.numeric',
 
-						'cost_company_day' => 'flat',
-						'cost_gross_day' => 'flat',
-						'operator_neat_day' => 'flat',
+						'cost_company_day' => [
+							'type' => 'editor.numeric',
+							'width' => '85px'
+						],
+						'cost_gross_day' => [
+							'type' => 'editor.numeric',
+							'width' => '85px'
+						],
+						'operator_neat_day' => [
+							'type' => 'editor.numeric',
+							'width' => '85px'
+						],
 
 						'mySelfDelete' => 'links.delete'
 					]
@@ -48,20 +56,20 @@ class OperatorRelationManager extends RelationshipsManager
 		//		$relations['contracttypes'] = config('operators.models.contracttype.controllers.index');
 
 		//IlBronza\Products\Http\Controllers\SellableSupplier\SellableSupplierIndexController
-		if (config('products.sellables.enabled', false))
-			$relations['sellableSuppliers'] = [
-				'controller' => config('products.models.sellableSupplier.controllers.index'),
-				'elementGetterMethod' => 'getSellableSuppliersBySupplier'
-			];
+//		if (config('products.sellables.enabled', false))
+//			$relations['sellableSuppliers'] = [
+//				'controller' => config('products.models.sellableSupplier.controllers.index'),
+//				'elementGetterMethod' => 'getSellableSuppliersBySupplier'
+//			];
+//
+//				if(config('products.sellables.enabled', false))
+//					$relations['sellables'] = [
+//						'controller' => config('products.models.sellable.controllers.index'),
+//						'elementGetterMethod' => 'getSellablesBySupplier'
+//					];
 
-				if(config('products.sellables.enabled', false))
-					$relations['sellables'] = [
-						'controller' => config('products.models.sellable.controllers.index'),
-						'elementGetterMethod' => 'getSellablesBySupplier'
-					];
-
-		if (config('contacts.enabled', false))
-			$relations['contacts'] = config('contacts.models.contact.controllers.index');
+//		if (config('contacts.enabled', false))
+//			$relations['contacts'] = config('contacts.models.contact.controllers.index');
 
 		if (config('addresses.enabled', false))
 		{
@@ -69,14 +77,14 @@ class OperatorRelationManager extends RelationshipsManager
 			$relations['addresses'] = config('addresses.models.address.controllers.index');
 		}
 
-		if (config('products.sellables.enabled', false))
-			$relations['sellables'] = [
-				'controller' => config('products.models.sellable.controllers.index'),
-				'elementGetterMethod' => 'getSellablesBySupplier'
-			];
-
-		if (config('products.sellables.enabled', false))
-			$relations['supplier'] = config('products.models.supplier.controllers.show');
+//		if (config('products.sellables.enabled', false))
+//			$relations['sellables'] = [
+//				'controller' => config('products.models.sellable.controllers.index'),
+//				'elementGetterMethod' => 'getSellablesBySupplier'
+//			];
+//
+//		if (config('products.sellables.enabled', false))
+//			$relations['supplier'] = config('products.models.supplier.controllers.show');
 
 		if (config('filecabinet.enabled', false))
 			$relations['dossiers'] = [

@@ -64,7 +64,7 @@ class Operator extends BaseModel implements SupplierInterface
 		'state' => ExtraField::class . ':address',
 
 		'employment_id' => ExtraField::class . ':validClientOperator',
-		'social_security_code' => ExtraField::class . ':validClientOperator',
+		'unilav' => ExtraField::class . ':validClientOperator',
 		'social_security_institution' => ExtraField::class . ':validClientOperator',
 		'started_at' => ExtraFieldDate::class . ':validClientOperator',
 		'ended_at' => ExtraFieldDate::class . ':validClientOperator',
@@ -169,8 +169,7 @@ class Operator extends BaseModel implements SupplierInterface
 
 	public function scopeActive($query)
 	{
-		$query->whereNull('active')
-			->orWhere('active', true);
+		$query->whereNull('active')->orWhere('active', true);
 	}
 
 	public function validClientOperator()
@@ -188,7 +187,7 @@ class Operator extends BaseModel implements SupplierInterface
 		return $this->getUser()->createDefaultAddress();
 	}
 
-	public function getAddress() : ? Address
+	public function getAddress() : ?Address
 	{
 		return $this->address;
 	}

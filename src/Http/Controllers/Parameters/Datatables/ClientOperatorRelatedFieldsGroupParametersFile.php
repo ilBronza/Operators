@@ -16,7 +16,7 @@ class ClientOperatorRelatedFieldsGroupParametersFile extends FieldsGroupParamete
 				'mySelfSee' => 'links.see',
 
 				'social_security_institution' => 'flat',
-				'social_security_code' => 'flat',
+				'unilav' => 'flat',
 
 				'started_at' => 'dates.date',
 				'ended_at' => 'dates.date',

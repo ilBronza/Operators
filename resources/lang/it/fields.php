@@ -1,9 +1,9 @@
 <?php
 
-return array (
+return [
 	'employment_id' => 'Impiego',
 	'contract' => 'Contratto',
-	'operator_neat_day' => 'Operatore giornaliero',
+	'operator_neat_day' => '€/d netto',
 	'costs' => 'Costi',
 	'mySelfPrimary' => 'Chiave primaria',
 	'name' => 'Nome',
@@ -39,8 +39,9 @@ return array (
 	'user.userdata.first_name' => 'Nome',
 	'sellables' => 'Beni disponibili',
 	'user.userdata.fiscal_code' => 'Codice fiscale',
-	'user.userdata.tmp_codice' => 'tmp Codice',
+	'user.userdata.tmp_codice' => 'Sigla',
 	'mySelfPrices.sellableSuppliers' => 'Prezzi',
+	'calculated_bb_days' => 'BB',
 	'employments' => 'Impieghi',
 	'calculated_holiday_days' => 'Ferie',
 	'calculated_flexibility_days' => 'Flex',
@@ -53,4 +54,4 @@ return array (
 	'mySelfContacts.contacts' => 'Contatti',
 	'mySelfUnilav.clientOperators' => 'Unilav',
 	'mySelfEnte.clientOperators' => 'Ente'
-);
+];

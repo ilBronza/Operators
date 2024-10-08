@@ -53,8 +53,8 @@ class ClientOperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 						'relation' => 'contracttype'
 					],
 
-					'social_security_institution' => ['text' => 'string|required|max:255'],
-					'social_security_code' => ['text' => 'string|nullable|max:255'],
+					'social_security_institution' => ['text' => 'string|nullable|max:255'],
+					'unilav' => ['text' => 'string|nullable|max:255'],
 					'level' => ['text' => 'string|nullable|max:255'],
 
 					'status' => ['text' => 'string|nullable|max:255'],

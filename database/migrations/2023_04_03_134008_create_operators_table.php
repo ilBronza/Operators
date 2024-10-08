@@ -97,7 +97,7 @@ class CreateOperatorsTable extends Migration
 
 			$table->string('level')->nullable();
 			$table->string('social_security_institution')->nullable();
-			$table->string('social_security_code')->nullable();
+			$table->string('unilav')->nullable();
 
 			$table->decimal('cost_company_hour', 8, 2)->nullable();
 			$table->decimal('cost_gross_hour', 8, 2)->nullable();

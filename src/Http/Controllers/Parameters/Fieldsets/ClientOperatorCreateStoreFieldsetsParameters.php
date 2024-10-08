@@ -2,6 +2,7 @@
 
 namespace IlBronza\Operators\Http\Controllers\Parameters\Fieldsets;
 
+use IlBronza\Clients\Models\Client;
 use IlBronza\Form\Helpers\FieldsetsProvider\FieldsetParametersFile;
 
 use function config;
@@ -10,6 +11,8 @@ class ClientOperatorCreateStoreFieldsetsParameters extends FieldsetParametersFil
 {
 	public function _getFieldsetsParameters() : array
 	{
+		$owner = Client::gpc()::getOwnerCompany();
+
 		return [
 			'base' => [
 				'translationPrefix' => 'operators::fields',
@@ -32,6 +35,7 @@ class ClientOperatorCreateStoreFieldsetsParameters extends FieldsetParametersFil
 					'client_id' => [
 						'type' => 'select',
 						'multiple' => false,
+						'default' => $owner->getKey(),
 						'rules' => 'string|nullable',
 						'relation' => 'client'
 					],

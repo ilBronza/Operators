@@ -17,13 +17,13 @@ class OperatorCreateStoreFieldsetsParameters extends UserCreateSlimFieldsetsPara
 	{
 		$result = parent::_getFieldsetsParameters();
 
-		$oneCompany = Client::gpc()::getOwnerCompany();
+		$owner = Client::gpc()::getOwnerCompany();
 
 		$result['base']['fields']['client'] = [
 			'type' => 'select',
 			'label' => 'Azienda',
 			'multiple' => false,
-			'default' => $oneCompany->getKey(),
+			'default' => $owner->getKey(),
 			'list' => $this->getPossibleClientsList(),
 			'rules' => 'string|required|in:' . implode(',', array_keys($this->getPossibleClientsList())),
 			'relation' => 'clients'

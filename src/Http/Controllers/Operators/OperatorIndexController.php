@@ -31,6 +31,7 @@ class OperatorIndexController extends OperatorCRUD
 			'user.address',
 			'address',
             'contracttypes',
+			'contacts.contacttype',
 	        'clientOperators.client',
 	        'clientOperators.extraFields',
 			'clients',

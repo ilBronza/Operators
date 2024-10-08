@@ -18,6 +18,8 @@ class WorkingDayCalendarController extends OperatorCRUD
 {
 	use CRUDIndexTrait;
 
+	public $mustPrintIntestation = false;
+
 	public $allowedMethods = ['calendar'];
 
 	public function getIndexFieldsArray()
@@ -40,7 +42,7 @@ class WorkingDayCalendarController extends OperatorCRUD
 
 	public function getIndexElements()
 	{
-		$employments = Employment::gpc()::getSubordinedEmployemnts()->toArray();
+		$employments = Employment::gpc()::getPermanentEmployment();
 
 		return Operator::gpc()::with([
 			'clientOperators' => function ($query)
@@ -53,7 +55,9 @@ class WorkingDayCalendarController extends OperatorCRUD
 					$query->whereDate('date', '>=', $this->getStartsAt());
 					$query->whereDate('date', '<=', $this->getEndsAt());
 				}
-			])->byValidEmployments($employments)->distinct()->take(10)->get();
+			])->byValidEmployments([$employments->getKey()])->distinct()
+//		                                        ->take(10)
+		                                        ->get();
 	}
 
 	public function calendar(Request $request)

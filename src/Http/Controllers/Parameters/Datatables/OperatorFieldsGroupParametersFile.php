@@ -40,49 +40,52 @@ class OperatorFieldsGroupParametersFile extends FieldsGroupParametersFile
 		            'width' => '250px'
 	            ],
 
-                'user.email' => 'links.email',
+//                'user.email' => [
+//					'translatedName' => 'accountEmail',
+//					'type' => 'links.email',
+//                ],
 
                 'vat' => 'flat',
                 'user.userdata.fiscal_code' => 'flat',
                 'user.userdata.tmp_codice' => 'flat',
-                'code' => 'flat',
+//                'code' => 'flat',
 
 				'address.city' => 'flat',
 				'address.province' => 'flat',
 
-                'mySelfPrices.sellableSuppliers' => [
-                    'type' => 'iterators.each',
-                    'childParameters' => [
-                        'type' => 'function',
-                        'function' => 'getDirectPriceString'
-                    ],
-                    'width' => '60px'
-                ],
+//                'mySelfPrices.sellableSuppliers' => [
+//                    'type' => 'iterators.each',
+//                    'childParameters' => [
+//                        'type' => 'function',
+//                        'function' => 'getDirectPriceString'
+//                    ],
+//                    'width' => '60px'
+//                ],
 
-                'mySelfSellables.sellableSuppliers' => [
-                    'type' => 'iterators.each',
-                    'childParameters' => [
-                        'type' => 'function',
-                        'function' => 'getSellableName'
-                    ],
-                    'width' => '280px'
-                ],
-
-	            'mySelfEnte.clientOperators' => [
-		            'type' => 'iterators.each',
-		            'childParameters' => [
-			            'type' => 'flat',
-			            'property' => 'social_security_institution'
-		            ]
-	            ],
-
-	            'mySelfUnilav.clientOperators' => [
-		            'type' => 'iterators.each',
-		            'childParameters' => [
-			            'type' => 'flat',
-			            'property' => 'iscr_liste'
-		            ]
-	            ],
+//                'mySelfSellables.sellableSuppliers' => [
+//                    'type' => 'iterators.each',
+//                    'childParameters' => [
+//                        'type' => 'function',
+//                        'function' => 'getSellableName'
+//                    ],
+//                    'width' => '280px'
+//                ],
+//
+//	            'mySelfEnte.clientOperators' => [
+//		            'type' => 'iterators.each',
+//		            'childParameters' => [
+//			            'type' => 'flat',
+//			            'property' => 'social_security_institution'
+//		            ]
+//	            ],
+//
+//	            'mySelfUnilav.clientOperators' => [
+//		            'type' => 'iterators.each',
+//		            'childParameters' => [
+//			            'type' => 'flat',
+//			            'property' => 'iscr_liste'
+//		            ]
+//	            ],
 
 	            'clients' => 'relations.belongsToMany',
 

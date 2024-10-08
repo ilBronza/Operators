@@ -34,7 +34,6 @@ class ClientOperatorEditUpdateController extends ClientOperatorCRUD
 
 	public function getAfterUpdatedRedirectUrl()
 	{
-		dd($this->getModel());
 		return $this->getModel()->getOperator()->getShowUrl();
 	}
 }
