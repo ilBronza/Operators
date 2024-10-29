@@ -44,7 +44,7 @@ class OperatorPricesCreatorHelper extends SellableSupplierPriceCreatorBaseClass
 		$this->operator = $this->supplier->getTarget();
 		$this->contracttype = $this->sellable->getTarget();
 
-		$this->operatorContractype = $this->operator->operatorContracttypes()->where('operator_id', $this->operator->getKey())->first();
+		$this->operatorContractype = $this->operator->operatorContracttypes()->where('contracttype_id', $this->contracttype->getKey())->first();
 
 		$this->clientOperators = $this->operator->clientOperators()->where('contracttype_id', $this->contracttype->getKey())->orderByDesc('ended_at')->get();
 

@@ -178,7 +178,7 @@ class Operator extends BaseModel implements SupplierInterface
 			'started_at' => 'max',
 		]);
 	}
-
+	
 	public function provideAddressModelForExtraFields() : Address
 	{
 		if ($this->address)
@@ -375,6 +375,11 @@ class Operator extends BaseModel implements SupplierInterface
 		return Employment::getSelfPossibleValuesArray(null, 'label_text');
 	}
 
+	public function getPossibleContracttypeValuesArray() : array
+	{
+		return Contracttype::getSelfPossibleValuesArray(null, 'name');
+	}
+	
 	public function getPossibleClientsValuesArray() : array
 	{
 		$category = Category::gpc()::findCachedByName('Fornitore Videoservizi');

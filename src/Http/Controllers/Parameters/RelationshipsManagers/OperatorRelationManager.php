@@ -14,7 +14,7 @@ class OperatorRelationManager extends RelationshipsManager
 
 		$relations['operatorContracttypes'] = [
 			'controller' => config('operators.models.operatorContracttype.controllers.index'),
-			'translatedTitle' => __('operators::contracttypes.contracttypes'),
+			'translatedTitle' => __('operators::contracttypes.otherContracttypes'),
 			'hasCreateButton' => true,
 			'fieldsGroups' => [
 				'base' => [
@@ -22,6 +22,7 @@ class OperatorRelationManager extends RelationshipsManager
 					'fields' => [
 						'mySelfPrimary' => 'primary',
 						'mySelfEdit' => 'links.edit',
+						'id' => 'flat',
 						'contracttype.name' => 'flat',
 
 						'internal_approval_rating' => 'editor.numeric',
@@ -32,6 +33,7 @@ class OperatorRelationManager extends RelationshipsManager
 						],
 						'cost_gross_day' => [
 							'type' => 'editor.numeric',
+							'reloadTable' => true,
 							'width' => '85px'
 						],
 						'operator_neat_day' => [
@@ -56,20 +58,20 @@ class OperatorRelationManager extends RelationshipsManager
 		//		$relations['contracttypes'] = config('operators.models.contracttype.controllers.index');
 
 		//IlBronza\Products\Http\Controllers\SellableSupplier\SellableSupplierIndexController
-//		if (config('products.sellables.enabled', false))
-//			$relations['sellableSuppliers'] = [
-//				'controller' => config('products.models.sellableSupplier.controllers.index'),
-//				'elementGetterMethod' => 'getSellableSuppliersBySupplier'
-//			];
-//
-//				if(config('products.sellables.enabled', false))
-//					$relations['sellables'] = [
-//						'controller' => config('products.models.sellable.controllers.index'),
-//						'elementGetterMethod' => 'getSellablesBySupplier'
-//					];
+		if (config('products.sellables.enabled', false))
+			$relations['sellableSuppliers'] = [
+				'controller' => config('products.models.sellableSupplier.controllers.index'),
+				'elementGetterMethod' => 'getSellableSuppliersBySupplier'
+			];
+		//
+		//				if(config('products.sellables.enabled', false))
+		//					$relations['sellables'] = [
+		//						'controller' => config('products.models.sellable.controllers.index'),
+		//						'elementGetterMethod' => 'getSellablesBySupplier'
+		//					];
 
-//		if (config('contacts.enabled', false))
-//			$relations['contacts'] = config('contacts.models.contact.controllers.index');
+		//		if (config('contacts.enabled', false))
+		//			$relations['contacts'] = config('contacts.models.contact.controllers.index');
 
 		if (config('addresses.enabled', false))
 		{
@@ -77,14 +79,14 @@ class OperatorRelationManager extends RelationshipsManager
 			$relations['addresses'] = config('addresses.models.address.controllers.index');
 		}
 
-//		if (config('products.sellables.enabled', false))
-//			$relations['sellables'] = [
-//				'controller' => config('products.models.sellable.controllers.index'),
-//				'elementGetterMethod' => 'getSellablesBySupplier'
-//			];
-//
-//		if (config('products.sellables.enabled', false))
-//			$relations['supplier'] = config('products.models.supplier.controllers.show');
+		//		if (config('products.sellables.enabled', false))
+		//			$relations['sellables'] = [
+		//				'controller' => config('products.models.sellable.controllers.index'),
+		//				'elementGetterMethod' => 'getSellablesBySupplier'
+		//			];
+		//
+		//		if (config('products.sellables.enabled', false))
+		//			$relations['supplier'] = config('products.models.supplier.controllers.show');
 
 		if (config('filecabinet.enabled', false))
 			$relations['dossiers'] = [
@@ -95,11 +97,11 @@ class OperatorRelationManager extends RelationshipsManager
 				]
 			];
 
-		$relations['paymenttypes'] = config('payments.models.paymenttype.controllers.index');
+		//		$relations['paymenttypes'] = config('payments.models.paymenttype.controllers.index');
 		$relations['user'] = config('accountmanager.models.user.controllers.show');
 
-		if (config('payments.enabled'))
-			$relations['paymenttypes'] = config('payments.models.paymenttype.controllers.index');
+		//		if (config('payments.enabled'))
+		//			$relations['paymenttypes'] = config('payments.models.paymenttype.controllers.index');
 
 		//		 if(config('products.sellables.enabled'))
 		//		 	$relations['projects'] = config('products.models.project.controllers.index');

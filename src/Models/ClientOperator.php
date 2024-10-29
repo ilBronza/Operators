@@ -8,6 +8,7 @@ use IlBronza\CRUD\Models\BasePivotModel;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Ramsey\Uuid\Uuid;
 
 use function dd;
@@ -117,6 +118,13 @@ class ClientOperator extends BasePivotModel
 	public function hasPermanentJob() : ?bool
 	{
 		return $this->getEmployment()?->isPermanent() ?? false;
+	}
+	public function scopeByEmployments($query, array|Collection $employments)
+	{
+		if($employments instanceof Collection)
+			$employments = $employments->pluck('id');
+
+		$query->whereIn('employment_id', $employments);
 	}
 
 

@@ -1,6 +1,7 @@
 <?php
 
 return [
+	'anagraphical_data' => 'Anagrafica',
 	'employment_id' => 'Impiego',
 	'contract' => 'Contratto',
 	'operator_neat_day' => '€/d netto',
