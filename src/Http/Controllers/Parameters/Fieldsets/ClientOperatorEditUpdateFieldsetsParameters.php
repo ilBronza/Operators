@@ -63,6 +63,10 @@ class ClientOperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 					'azienda' => ['text' => 'string|nullable|max:255'],
 					'iscr_liste' => ['text' => 'string|nullable|max:255'],
 
+					'holidays_reset_date' => ['date' => 'date|nullable'],
+					'flexibility_reset_date' => ['date' => 'date|nullable'],
+					'rol_reset_date' => ['date' => 'date|nullable'],
+
 					'started_at' => ['date' => 'date|nullable'],
 					'ended_at' => ['date' => 'date|nullable'],
 

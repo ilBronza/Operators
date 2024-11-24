@@ -27,6 +27,22 @@ class WorkingDayFieldsGroupsHelper
 		return $helper->getMergedFieldsGroups();
 	}
 
+	static function getDaysArrayResultByDates(Carbon $startsAt, Carbon $endsAt)
+	{
+		$result = [];
+
+		$date = $startsAt->copy();
+
+		while ($date->lte($endsAt))
+		{
+			$result[] = $date->format('d');
+
+			$date->addDays(1);
+		}
+
+		return $result;
+	}
+
 	static function getFieldsParametersByDates(Carbon $startsAt, Carbon $endsAt)
 	{
 		$fields = [];

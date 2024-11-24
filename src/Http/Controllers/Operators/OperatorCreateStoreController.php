@@ -47,6 +47,7 @@ class OperatorCreateStoreController extends OperatorCRUD
 		{
 			$operator->clients()->sync([$request->client => [
 				'employment_id' => $request->input('employment'),
+				'contracttype_id' => $request->input('contracttype'),
 			]]);
 		}
 

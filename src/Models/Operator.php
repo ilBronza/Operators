@@ -26,6 +26,7 @@ use IlBronza\Products\Models\Interfaces\SupplierInterface;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSupplierTrait;
 use Illuminate\Support\Facades\Log;
 
+use function cache;
 use function dd;
 
 class Operator extends BaseModel implements SupplierInterface
@@ -62,6 +63,10 @@ class Operator extends BaseModel implements SupplierInterface
 		'province' => ExtraField::class . ':address',
 		'region' => ExtraField::class . ':address',
 		'state' => ExtraField::class . ':address',
+
+		'holidays_reset_date' => ExtraFieldDate::class . ':validClientOperator',
+		'flexibility_reset_date' => ExtraFieldDate::class . ':validClientOperator',
+		'rol_reset_date' => ExtraFieldDate::class . ':validClientOperator',
 
 		'employment_id' => ExtraField::class . ':validClientOperator',
 		'unilav' => ExtraField::class . ':validClientOperator',
@@ -108,6 +113,14 @@ class Operator extends BaseModel implements SupplierInterface
 		$query->whereHas('clientOperators', function ($query) use ($employmentIds)
 		{
 			$query->whereIn('employment_id', $employmentIds);
+		});
+	}
+
+	public function scopeByUsernames($query, array $usernames)
+	{
+		$query->whereHas('user', function ($query) use ($usernames)
+		{
+			$query->whereIn('name', $usernames);
 		});
 	}
 
@@ -178,7 +191,7 @@ class Operator extends BaseModel implements SupplierInterface
 			'started_at' => 'max',
 		]);
 	}
-	
+
 	public function provideAddressModelForExtraFields() : Address
 	{
 		if ($this->address)
@@ -269,6 +282,16 @@ class Operator extends BaseModel implements SupplierInterface
 			asort($result);
 
 			return $result;
+		}
+		);
+	}
+
+	public function getSignatureName() : string
+	{
+		return cache()->remember(
+			$this->cacheKey('getSignatureName'), 3600 * 24, function ()
+		{
+			return $this->getUser()?->getSignatureFullName();
 		}
 		);
 	}
@@ -379,7 +402,7 @@ class Operator extends BaseModel implements SupplierInterface
 	{
 		return Contracttype::getSelfPossibleValuesArray(null, 'name');
 	}
-	
+
 	public function getPossibleClientsValuesArray() : array
 	{
 		$category = Category::gpc()::findCachedByName('Fornitore Videoservizi');

@@ -5,6 +5,7 @@ namespace IlBronza\Operators\Http\Controllers\Parameters\Fieldsets;
 use IlBronza\AccountManager\Http\Parameters\FieldsetsParameters\UserCreateSlimFieldsetsParameters;
 use IlBronza\Category\Models\Category;
 use IlBronza\Clients\Models\Client;
+use IlBronza\Operators\Models\Contracttype;
 use IlBronza\Operators\Models\Employment;
 
 use function array_keys;
@@ -38,6 +39,15 @@ class OperatorCreateStoreFieldsetsParameters extends UserCreateSlimFieldsetsPara
 			'relation' => 'employments'
 		];
 
+		$result['base']['fields']['contracttype'] = [
+			'type' => 'select',
+			'label' => 'Mansione',
+			'multiple' => false,
+			'list' => $this->getPossibleContracttypeList(),
+			'rules' => 'string|required|in:' . implode(',', array_keys($this->getPossibleContracttypeList())),
+			'relation' => 'employments'
+		];
+
 		return $result;
 	}
 
@@ -46,6 +56,11 @@ class OperatorCreateStoreFieldsetsParameters extends UserCreateSlimFieldsetsPara
 		$category = Category::getProjectClassName()::where('name', 'Fornitore Videoservizi')->first();
 
 		return config('clients.models.client.class')::byGeneralCategory($category)->orderBy('name')->get()->pluck('name', 'id')->toArray();
+	}
+
+	public function getPossibleContracttypeList()
+	{
+		return Contracttype::gpc()::getSelfPossibleValuesArray();
 	}
 
 	public function getPossibleEmploymentList()

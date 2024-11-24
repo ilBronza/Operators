@@ -55,6 +55,7 @@ use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\Employm
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorContracttypeRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorRelationManager;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarController;
+use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayPrintCalendarController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayUpdateEditController;
 use IlBronza\Operators\Models\ClientOperator;
 use IlBronza\Operators\Models\Contracttype;
@@ -205,6 +206,7 @@ return [
 		    'controllers' => [
 			    'update' => WorkingDayUpdateEditController::class,
 			    'calendar' => WorkingDayCalendarController::class,
+			    'printCalendar' => WorkingDayPrintCalendarController::class,
 		    ],
 		    'fieldsGroupsFiles' => [
 			    'calendar' => WorkingDayFieldsGroupParametersFile::class,
