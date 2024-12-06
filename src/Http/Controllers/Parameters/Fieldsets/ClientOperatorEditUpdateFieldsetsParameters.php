@@ -63,10 +63,6 @@ class ClientOperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 					'azienda' => ['text' => 'string|nullable|max:255'],
 					'iscr_liste' => ['text' => 'string|nullable|max:255'],
 
-					'holidays_reset_date' => ['date' => 'date|nullable'],
-					'flexibility_reset_date' => ['date' => 'date|nullable'],
-					'rol_reset_date' => ['date' => 'date|nullable'],
-
 					'started_at' => ['date' => 'date|nullable'],
 					'ended_at' => ['date' => 'date|nullable'],
 
@@ -81,7 +77,17 @@ class ClientOperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 					'operator_neat_day' => ['number' => 'numeric|nullable'],
 					'cost_charge_coefficient' => ['number' => 'numeric|nullable'],
 				],
-				'width' => ["1-3@l", '1-2@m']
+				'width' => ['1-3@l', '1-2@m']
+			],
+			'datesReset' => [
+				'translationPrefix' => 'operators::fields',
+				'fields' => [
+					'holidays_reset_date' => ['date' => 'date|nullable'],
+					'flexibility_reset_date' => ['date' => 'date|nullable'],
+					'rol_reset_date' => ['date' => 'date|nullable'],
+
+				],
+				'width' => ['1-3@l', '1-2@m']
 			]
 		];
 	}

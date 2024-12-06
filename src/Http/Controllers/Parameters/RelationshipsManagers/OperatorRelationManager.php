@@ -12,6 +12,7 @@ class OperatorRelationManager extends RelationshipsManager
 	{
 		$relations = [];
 
+
 		$relations['operatorContracttypes'] = [
 			'controller' => config('operators.models.operatorContracttype.controllers.index'),
 			'translatedTitle' => __('operators::contracttypes.otherContracttypes'),
@@ -22,7 +23,6 @@ class OperatorRelationManager extends RelationshipsManager
 					'fields' => [
 						'mySelfPrimary' => 'primary',
 						'mySelfEdit' => 'links.edit',
-						'id' => 'flat',
 						'contracttype.name' => 'flat',
 
 						'internal_approval_rating' => 'editor.numeric',
@@ -46,7 +46,7 @@ class OperatorRelationManager extends RelationshipsManager
 				]
 			]
 		];
-
+		
 		$relations['clientOperators'] = [
 			'controller' => config('operators.models.clientOperator.controllers.index'),
 			'hasCreateButton' => true,

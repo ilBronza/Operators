@@ -286,6 +286,16 @@ class Operator extends BaseModel implements SupplierInterface
 		);
 	}
 
+	public function getInvertedName() : ?string
+	{
+		return cache()->remember(
+			$this->cacheKey('getInvertedName'), 3600 * 24, function ()
+		{
+			return $this->getUser()?->getFullInvertedName();
+		}
+		);
+	}
+
 	public function getSignatureName() : string
 	{
 		return cache()->remember(

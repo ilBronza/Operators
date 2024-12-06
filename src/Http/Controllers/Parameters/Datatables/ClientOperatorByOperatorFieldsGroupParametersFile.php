@@ -26,9 +26,9 @@ class ClientOperatorByOperatorFieldsGroupParametersFile extends FieldsGroupParam
 				'internal_approval_rating' => 'flat',
 				'level' => 'flat',
 
-				'cost_company_day' => 'flat',
-				'cost_gross_day' => 'flat',
-				'operator_neat_day' => 'flat',
+				'cost_company_day' => 'editor.numeric',
+				'cost_gross_day' => 'editor.numeric',
+				'operator_neat_day' => 'editor.numeric',
 
 				'mySelfDelete' => 'links.delete'
 			]

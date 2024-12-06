@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
 
 use function count;
 use function is_array;
+use function is_null;
 use function is_string;
 use function strpos;
 
@@ -26,8 +27,11 @@ class WorkingDayProviderHelper
 		return static::filterWorkingDaysByHalfDays($workingDays, $row);
 	}
 
-	static function getByOperatorRange(Operator $operator, Carbon $startsAt, Carbon $endsAt, string $section = null, string $partOfDay = null, array|string $status = null) : array
+	static function getByOperatorRange(Operator $operator, Carbon $startsAt = null, Carbon $endsAt = null, string $section = null, string $partOfDay = null, array|string $status = null) : array
 	{
+		if ((is_null($startsAt)) || (is_null($endsAt)))
+			return [];
+
 		$elements = static::getByOperatorRangeRaw($operator, $startsAt, $endsAt, $section, $partOfDay, $status);
 
 		$results = [
