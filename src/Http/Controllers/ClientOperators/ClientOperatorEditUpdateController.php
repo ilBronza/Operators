@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class ClientOperatorEditUpdateController extends ClientOperatorCRUD
 {
 	public $returnBack = true;
+	public ?bool $updateEditor = false;
 
     use CRUDEditUpdateTrait;
 

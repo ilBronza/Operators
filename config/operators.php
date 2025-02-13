@@ -22,11 +22,13 @@ use IlBronza\Operators\Http\Controllers\OperatorContracttypes\OperatorContractty
 use IlBronza\Operators\Http\Controllers\OperatorContracttypes\OperatorContracttypeShowController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorArchiveController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorAvatarController;
+use IlBronza\Operators\Http\Controllers\Operators\OperatorByRoleIndexController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorCreateStoreController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorDestroyController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorDocumentsController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorEditUpdateController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorIndexController;
+use IlBronza\Operators\Http\Controllers\Operators\OperatorReorderController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorShowController;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorByOperatorFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorFieldsGroupParametersFile;
@@ -35,6 +37,7 @@ use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ContracttypeFields
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ContracttypeRelatedFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\EmploymentFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\EmploymentRelatedFieldsGroupParametersFile;
+use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorArchiveFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorByEmploymentFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorContracttypeByContracttypeFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorContracttypeFieldsGroupParametersFile;
@@ -188,9 +191,11 @@ return [
 				'edit' => OperatorEditUpdateFieldsetsParameters::class
 			],
 			'controllers' => [
+				'reorder' => OperatorReorderController::class,
 				'documents' => OperatorDocumentsController::class,
 				'avatar' => OperatorAvatarController::class,
 				'index' => OperatorIndexController::class,
+				'byRole' => OperatorByRoleIndexController::class,
 				'archive' => OperatorArchiveController::class,
 				'create' => OperatorCreateStoreController::class,
 				'store' => OperatorCreateStoreController::class,

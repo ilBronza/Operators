@@ -8,6 +8,8 @@ use IlBronza\CRUD\Traits\CRUDShowTrait;
 use IlBronza\Operators\Models\ClientOperator;
 use IlBronza\Operators\Models\Operator;
 
+use function config;
+
 class ClientOperatorCreateStoreController extends ClientOperatorCRUD
 {
     use CRUDCreateStoreTrait;

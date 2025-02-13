@@ -25,6 +25,8 @@ class ClientOperator extends BasePivotModel
 		'ended_at' => 'date'
 	];
 
+	static $deletingRelationships = [];
+
 	use PackagedModelsTrait;
 
 	public function client()

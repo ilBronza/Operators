@@ -6,8 +6,11 @@ use IlBronza\Operators\Models\ClientOperator;
 use IlBronza\Operators\Models\Contracttype;
 use IlBronza\Operators\Models\Operator;
 use IlBronza\Operators\Models\OperatorContracttype;
+use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
+
+use function array_replace_recursive;
 
 class OperatorsServiceProvider extends ServiceProvider
 {
@@ -53,6 +56,17 @@ class OperatorsServiceProvider extends ServiceProvider
 		{
 			return new Operators;
 		});
+	}
+
+	protected function mergeConfigFrom($path, $key)
+	{
+		if (! ($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
+			$config = $this->app->make('config');
+
+			$config->set($key, array_replace_recursive(
+				require $path, $config->get($key, [])
+			));
+		}
 	}
 
 	/**

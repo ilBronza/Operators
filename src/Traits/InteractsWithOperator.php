@@ -18,7 +18,7 @@ trait InteractsWithOperator
 
 	public function createOperator() : Operator
 	{
-		$operator = Operator::getProjectClassName()::make();
+		$operator = Operator::gpc()::make();
 
 		$this->operator()->save($operator);
 

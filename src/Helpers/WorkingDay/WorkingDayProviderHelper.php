@@ -4,13 +4,16 @@ namespace IlBronza\Operators\Helpers\WorkingDay;
 
 use Carbon\Carbon;
 use Exception;
+use IlBronza\Operators\Models\Interfaces\HasWorkingDays;
 use IlBronza\Operators\Models\Operator;
 use IlBronza\Operators\Models\WorkingDay;
 use IlBronza\Products\Models\ProductPackageBaseModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
+use function class_basename;
 use function count;
+use function dd;
 use function is_array;
 use function is_null;
 use function is_string;
@@ -18,21 +21,21 @@ use function strpos;
 
 class WorkingDayProviderHelper
 {
-	static function getWorkingDaysInterval(Operator $operator, ProductPackageBaseModel $row, string $section) : array
+	static function getWorkingDaysInterval(HasWorkingDays $workingObject, ProductPackageBaseModel $row, string $section) : array
 	{
 		$workingDays = static::getByOperatorRange(
-			$operator, $row->getStartsAt(), $row->getEndsAt(), $section
+			$workingObject, $row->getStartsAt(), $row->getEndsAt(), $section
 		);
 
 		return static::filterWorkingDaysByHalfDays($workingDays, $row);
 	}
 
-	static function getByOperatorRange(Operator $operator, Carbon $startsAt = null, Carbon $endsAt = null, string $section = null, string $partOfDay = null, array|string $status = null) : array
+	static function getByOperatorRange(HasWorkingDays $workingObject, Carbon $startsAt = null, Carbon $endsAt = null, string $section = null, string $partOfDay = null, array|string $status = null) : array
 	{
 		if ((is_null($startsAt)) || (is_null($endsAt)))
 			return [];
 
-		$elements = static::getByOperatorRangeRaw($operator, $startsAt, $endsAt, $section, $partOfDay, $status);
+		$elements = static::getByOperatorRangeRaw($workingObject, $startsAt, $endsAt, $section, $partOfDay, $status);
 
 		$results = [
 			'real_am' => [],
@@ -45,18 +48,31 @@ class WorkingDayProviderHelper
 		return $results;
 	}
 
-	static function getByOperatorRangeRaw(Operator $operator, Carbon $startsAt, Carbon $endsAt, string $section = null, string $partOfDay = null, array|string $status = null) : Collection
+	static function getByOperatorRangeRaw(HasWorkingDays $workingObject, Carbon $startsAt, Carbon $endsAt, string $section = null, string $partOfDay = null, array|string $status = null) : Collection
 	{
-		$query = static::getQueryByOperatorRange($operator, $startsAt, $endsAt, $section, $partOfDay, $status);
+		if(! $workingObject->relationLoaded('workingDays'))
+			return static::getQueryByOperatorRange($workingObject, $startsAt, $endsAt, $section, $partOfDay, $status)->get();
 
-		return $query->get();
+		if(count($workingObject->workingDays))
+			return $workingObject->workingDays->filter(function($workingDay) use($startsAt, $endsAt)
+			{
+				if($workingDay->date < $startsAt)
+					return false;
+
+				if($workingDay->date > $endsAt)
+					return false;
+
+				return true;
+			});
+
+		return collect();
 	}
 
-	static function getQueryByOperatorRange(Operator $operator, Carbon $startsAt, Carbon $endsAt, string $section = null, string $partOfDay = null, array|string $status = null) : Builder
+	static function getQueryByOperatorRange(HasWorkingDays $workingObject, Carbon $startsAt, Carbon $endsAt, string $section = null, string $partOfDay = null, array|string $status = null) : Builder
 	{
 		//TODO('qua usare lo scope per le section e orari');
 
-		$query = WorkingDay::gpc()::where('operator_id', $operator->getKey())->whereDate('date', '>=', $startsAt)->whereDate('date', '<=', $endsAt);
+		$query = WorkingDay::gpc()::where('operator_id', $workingObject->getKey())->whereDate('date', '>=', $startsAt)->whereDate('date', '<=', $endsAt);
 
 		if ($section && $partOfDay)
 			$query->where('type', "{$section}_{$partOfDay}");
@@ -93,14 +109,14 @@ class WorkingDayProviderHelper
 		return $workingDays;
 	}
 
-	static function provideByParameters(Operator $operator, string|Carbon $date, $section, $partOfDay) : WorkingDay
+	static function provideByParameters(HasWorkingDays $workingObject, string|Carbon $date, $section, $partOfDay) : WorkingDay
 	{
 		if (is_string($date))
 			$date = Carbon::parse($date);
 
-		if ($operator->relationLoaded('workingDays'))
+		if ($workingObject->relationLoaded('workingDays'))
 		{
-			foreach ($operator->workingDays as $workingDay)
+			foreach ($workingObject->workingDays as $workingDay)
 			{
 				if ($workingDay->date == $date)
 					if (strpos($workingDay->type, $section) !== false)
@@ -110,29 +126,39 @@ class WorkingDayProviderHelper
 
 			$workingDay = WorkingDay::gpc()::make();
 
-			$workingDay->operator_id = $operator->getKey();
+			if(class_basename($workingObject) == 'Operator')
+				$workingDay->operator_id = $workingObject->getKey();
+			else
+				$workingDay->sellable_supplier_id = $workingObject->getKey();
+
 			$workingDay->date = $date;
 			$workingDay->type = "{$section}_{$partOfDay}";
 
 			return $workingDay;
 		}
 
-		if ($workingDay = static::getByParameters($operator, $date, $section, $partOfDay))
+		if ($workingDay = static::getByParameters($workingObject, $date, $section, $partOfDay))
 			return $workingDay;
 
 		$workingDay = WorkingDay::gpc()::make();
 
-		$workingDay->operator_id = $operator->getKey();
+		if(class_basename($workingObject) == 'Operator')
+			$workingDay->operator_id = $workingObject->getKey();
+		else
+			$workingDay->sellable_supplier_id = $workingObject->getKey();
+
 		$workingDay->date = $date;
 		$workingDay->type = "{$section}_{$partOfDay}";
 
 		return $workingDay;
 	}
 
-	static function getByParameters(Operator $operator, $date, $section, $partOfDay) : ?WorkingDay
+	static function getByParameters(HasWorkingDays $workingObject, $date, $section, $partOfDay) : ?WorkingDay
 	{
+		$foreign = (class_basename($workingObject) == 'Operator') ? 'operator_id' : 'sellable_supplier_id';
+
 		$workingDays = WorkingDay::gpc()::where([
-			'operator_id' => $operator->getKey(),
+			$foreign => $workingObject->getKey(),
 			'date' => $date,
 			'type' => "{$section}_{$partOfDay}"
 		])->get();
@@ -151,16 +177,16 @@ class WorkingDayProviderHelper
 		return $workingDays->first();
 	}
 
-	static function getByOperatorRow(Operator $operator, ProductPackageBaseModel $row)
+	static function getByOperatorRow(HasWorkingDays$workingObject, ProductPackageBaseModel $row)
 	{
-		$workingDays = static::getByOperatorRange($operator, $row->getStartsAt(), $row->getEndsAt());
+		$workingDays = static::getByOperatorRange($workingObject, $row->getStartsAt(), $row->getEndsAt());
 
 		return static::filterWorkingDaysByHalfDays($workingDays, $row);
 	}
 
-	static function getByOperatorRangeCount(Operator $operator, Carbon $startsAt, Carbon $endsAt, string $section = null, string $partOfDay = null, array|string $status = null) : int
+	static function getByOperatorRangeCount(HasWorkingDays$workingObject, Carbon $startsAt, Carbon $endsAt, string $section = null, string $partOfDay = null, array|string $status = null) : int
 	{
-		$query = static::getQueryByOperatorRange($operator, $startsAt, $endsAt, $section, $partOfDay, $status);
+		$query = static::getQueryByOperatorRange($workingObject, $startsAt, $endsAt, $section, $partOfDay, $status);
 
 		return $query->count();
 	}

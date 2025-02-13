@@ -20,8 +20,20 @@ class ClientOperatorByOperatorFieldsGroupParametersFile extends FieldsGroupParam
 				'enpals' => 'flat',
 				'iscr_liste' => 'flat',
 
-				'started_at' => 'dates.date',
-				'ended_at' => 'dates.date',
+				'started_at' => [
+					'type' => 'dates.date',
+					'order' => [
+						'priority' => 100,
+						'type' => 'DESC'
+					]
+				],
+				'ended_at' => [
+					'type' => 'dates.date',
+					'order' => [
+						'priority' => 90,
+						'type' => 'DESC'
+					]
+				],
 
 				'internal_approval_rating' => 'flat',
 				'level' => 'flat',

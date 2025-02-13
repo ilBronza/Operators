@@ -14,16 +14,21 @@ class ContracttypeFieldsGroupParametersFile extends FieldsGroupParametersFile
 				'mySelfPrimary' => 'primary',
 				'mySelfEdit' => 'links.edit',
 				'mySelfSee' => 'links.see',
-				'name' => 'flat',
-				'slug' => 'flat',
-				'operators_count' => 'flat',
+				'name' => [
+					'type' => 'flat',
+					'order' => [
+						'priority' => 100
+					]
+				],
+				//				'slug' => 'flat',
+				//				'operators_count' => 'flat',
 				'description' => 'flat',
-				'istat_code' => 'flat',
+				'istat_code' => 'editor.text',
 
-				'cost_company_day' => 'flat',
-				'cost_gross_day' => 'flat',
-				'operator_neat_day' => 'flat',
-				'cost_charge_coefficient' => 'flat',
+				'operator_neat_day' => 'editor.numeric',
+				'cost_gross_day' => 'editor.numeric',
+				'cost_company_day' => 'editor.numeric',
+				//				'cost_charge_coefficient' => 'flat',
 
 				'mySelfDelete' => 'links.delete'
 			]

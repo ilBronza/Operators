@@ -29,7 +29,15 @@ class Operators implements RoutedObjectInterface
 					'name' => 'operators.index',
 					'icon' => 'address-book',
 					'text' => 'operators::operators.list',
-					'href' => $this->route('operators.index')
+					'href' => $this->route('operators.index'),
+					'children' => [
+						[
+							'name' => 'operators.archive',
+							'icon' => 'address-book',
+							'text' => 'operators::operators.archive',
+							'href' => $this->route('operators.archive'),
+						]
+					]
 				],
 				[
 					'name' => 'operatorContracttypes.index',

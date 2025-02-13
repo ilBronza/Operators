@@ -21,16 +21,21 @@ use IlBronza\CRUD\Traits\Model\CRUDModelExtraFieldsTrait;
 use IlBronza\CRUD\Traits\Model\CRUDParentingTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
+use IlBronza\Operators\Models\Interfaces\HasWorkingDays;
 use IlBronza\Operators\Models\Traits\OperatorWorkingDaysBonusCalculatorTrait;
 use IlBronza\Products\Models\Interfaces\SupplierInterface;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSupplierTrait;
 use Illuminate\Support\Facades\Log;
 
+use Spatie\Permission\Traits\HasRoles;
+
 use function cache;
+use function config;
 use function dd;
 
-class Operator extends BaseModel implements SupplierInterface
+class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 {
+	use HasRoles;
 	use InteractsWithCategoryTrait;
 	use InteractsWithContact;
 	use PackagedModelsTrait;
@@ -49,6 +54,7 @@ class Operator extends BaseModel implements SupplierInterface
 	public $deletingRelationships = [];
 	protected $with = ['user'];
 	protected $keyType = 'string';
+	protected $guard_name = 'web';
 
 	protected $casts = [
 		'first_name' => ExtraField::class . ':userdata',
@@ -93,9 +99,9 @@ class Operator extends BaseModel implements SupplierInterface
 			return $this->validClientOperator;
 		}
 
-		$clientOperator = ClientOperator::getProjectClassName()::make();
+		$clientOperator = ClientOperator::gpc()::make();
 
-		$clientOperator->client_id = Client::getProjectClassName()::getOwnerCompany()->getKey();
+		$clientOperator->client_id = Client::gpc()::getOwnerCompany()->getKey();
 
 		$this->clientOperators()->save($clientOperator);
 		$this->setRelation('validClientOperator', $clientOperator);
@@ -105,7 +111,7 @@ class Operator extends BaseModel implements SupplierInterface
 
 	public function clientOperators()
 	{
-		return $this->hasMany(ClientOperator::getProjectClassName());
+		return $this->hasMany(ClientOperator::gpc());
 	}
 
 	public function scopeByEmployments($query, array $employmentIds)
@@ -187,8 +193,9 @@ class Operator extends BaseModel implements SupplierInterface
 
 	public function validClientOperator()
 	{
-		return $this->hasOne(ClientOperator::getProjectClassName())->where('client_id', Client::getProjectClassName()::getOwnerCompany()->getKey())->ofMany([
+		return $this->hasOne(ClientOperator::gpc())->where('client_id', Client::gpc()::getOwnerCompany()->getKey())->ofMany([
 			'started_at' => 'max',
+			'ended_at' => 'max',
 		]);
 	}
 
@@ -225,7 +232,7 @@ class Operator extends BaseModel implements SupplierInterface
 
 	public function getCategoryModel() : string
 	{
-		return Category::getProjectClassName();
+		return Category::gpc();
 	}
 
 	public function getCategoriesCollection() : ?string
@@ -236,14 +243,14 @@ class Operator extends BaseModel implements SupplierInterface
 	public function addresses()
 	{
 		return $this->hasMany(
-			Address::getProjectClassName(), 'addressable_id', 'user_id'
+			Address::gpc(), 'addressable_id', 'user_id'
 		)->where('addressable_type', 'User');
 	}
 
 	public function address()
 	{
 		return $this->hasOne(
-			Address::getProjectClassName(), 'addressable_id', 'user_id'
+			Address::gpc(), 'addressable_id', 'user_id'
 		)->where('addressable_type', 'User')->where('type', 'default');
 	}
 
@@ -259,12 +266,26 @@ class Operator extends BaseModel implements SupplierInterface
 
 	public function getName() : ?string
 	{
+		if(! $this->exists)
+			return $this->getUser()?->getFullName();
+
 		return cache()->remember(
 			$this->cacheKey('getName'), 3600 * 24, function ()
+			{
+				return $this->getUser()?->getFullName();
+			});
+	}
+
+	public function getEmail()
+	{
+		if(! $this->exists)
+			return $this->getUser()?->getEmail();
+
+		return cache()->remember(
+			$this->cacheKey('getEmail'), 3600 * 24, function ()
 		{
-			return $this->getUser()?->getFullName();
-		}
-		);
+			return $this->getUser()?->getEmail();
+		});
 	}
 
 	static function getSelfPossibleList() : array
@@ -308,21 +329,21 @@ class Operator extends BaseModel implements SupplierInterface
 
 	public function operatorContracttypes()
 	{
-		return $this->hasMany(OperatorContracttype::getProjectClassName());
+		return $this->hasMany(OperatorContracttype::gpc());
 	}
 
 	public function contracttypes()
 	{
 		return $this->belongsToMany(
-			Contracttype::getProjectClassName(), config('operators.models.operatorContracttype.table')
-		)->using(OperatorContracttype::getProjectClassName());
+			Contracttype::gpc(), config('operators.models.operatorContracttype.table')
+		)->using(OperatorContracttype::gpc());
 	}
 
 	public function clients()
 	{
 		return $this->belongsToMany(
-			Client::getProjectClassName(), config('operators.models.clientOperator.table')
-		)->using(ClientOperator::getProjectClassName())->withTimestamps();
+			Client::gpc(), config('operators.models.clientOperator.table')
+		)->using(ClientOperator::gpc())->withTimestamps();
 	}
 
 	public function workingDays()
@@ -338,13 +359,13 @@ class Operator extends BaseModel implements SupplierInterface
 	public function employments()
 	{
 		return $this->belongsToMany(
-			Employment::getProjectClassName(), config('operators.models.clientOperator.table')
+			Employment::gpc(), config('operators.models.clientOperator.table')
 		)->distinct();
 	}
 
 	public function client()
 	{
-		return $this->hasOne(Client::getProjectClassName());
+		return $this->hasOne(Client::gpc());
 	}
 
 	public function getUserId() : string
@@ -362,7 +383,7 @@ class Operator extends BaseModel implements SupplierInterface
 
 	public function lastClientOperator()
 	{
-		return $this->hasOne(ClientOperator::getProjectClassName())->ofMany([
+		return $this->hasOne(ClientOperator::gpc())->ofMany([
 			'created_at' => 'max',
 		]);
 	}
@@ -377,7 +398,7 @@ class Operator extends BaseModel implements SupplierInterface
 			return $this->userdata;
 
 		if (! $userdata = $this->getUser()?->getUserdata())
-			$userdata = Userdata::getProjectClassName()::make();
+			$userdata = Userdata::gpc()::make();
 
 		$this->userdata()->associate($userdata);
 		$this->save();
@@ -390,12 +411,12 @@ class Operator extends BaseModel implements SupplierInterface
 
 	public function userdata()
 	{
-		return $this->hasOne(Userdata::getProjectClassName(), 'user_id', 'user_id');
+		return $this->hasOne(Userdata::gpc(), 'user_id', 'user_id');
 	}
 
 	public function user()
 	{
-		return $this->belongsTo(User::getProjectClassName());
+		return $this->belongsTo(User::gpc());
 	}
 
 	public function getLogoImageUrl() : ?string
@@ -456,17 +477,17 @@ class Operator extends BaseModel implements SupplierInterface
 
 //     public function clientOperators()
 //     {
-//         return $this->hasMany(ClientOperator::getProjectClassName());
+//         return $this->hasMany(ClientOperator::gpc());
 //     }
 
 //     public function clients()
 //     {
-//         return $this->belongsToMany(Client::getProjectClassName());
+//         return $this->belongsToMany(Client::gpc());
 //     }
 
 //     public function client()
 //     {
-//         return $this->hasOne(Client::getProjectClassName());
+//         return $this->hasOne(Client::gpc());
 //     }
 
 // }

@@ -4,7 +4,8 @@ namespace IlBronza\Operators\Http\Controllers\Operators;
 
 use IlBronza\CRUD\Traits\CRUDIndexTrait;
 use IlBronza\CRUD\Traits\CRUDPlainIndexTrait;
-use IlBronza\Operators\Http\Controllers\Operators\VehicleCRUD;
+
+use function config;
 
 class OperatorIndexController extends OperatorCRUD
 {
@@ -15,6 +16,7 @@ class OperatorIndexController extends OperatorCRUD
 
     public function getIndexFieldsArray()
     {
+		//OperatorFieldsGroupParametersFile
         return config('operators.models.operator.fieldsGroupsFiles.index')::getFieldsGroup();
     }
 
@@ -31,6 +33,8 @@ class OperatorIndexController extends OperatorCRUD
 			'user.address',
 			'address',
             'contracttypes',
+	        'validClientOperator.client',
+	        'validClientOperator.employment',
 			'contacts.contacttype',
 	        'clientOperators.client',
 	        'clientOperators.extraFields',

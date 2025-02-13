@@ -78,9 +78,7 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 
 	public function getRelatedFullOperatorContracttypes() : Collection
 	{
-		return $this->operatorContracttypes()->with(
-			'operator.user.userdata'
-		)->get();
+		return $this->operatorContracttypes()->with(['operator.user.userdata', 'operator.address', 'operator.contracttypes', 'prices'])->get();
 	}
 
 	public function getRelatedFullOperators() : Collection
@@ -161,51 +159,3 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// class Operator extends BaseModel
-// {
-
-//     use ClientsPackageBaseModelTrait;
-//     use CRUDUseUuidTrait;
-//     use CRUDSluggableTrait;
-
-//     public function clientOperators()
-//     {
-//         return $this->hasMany(ClientOperator::getProjectClassName());
-//     }
-
-//     public function clients()
-//     {
-//         return $this->belongsToMany(Client::getProjectClassName());
-//     }
-
-//     public function client()
-//     {
-//         return $this->hasOne(Client::getProjectClassName());
-//     }
-
-// }

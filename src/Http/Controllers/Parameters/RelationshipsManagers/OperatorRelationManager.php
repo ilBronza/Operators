@@ -46,15 +46,16 @@ class OperatorRelationManager extends RelationshipsManager
 				]
 			]
 		];
-		
+
 		$relations['clientOperators'] = [
 			'controller' => config('operators.models.clientOperator.controllers.index'),
 			'hasCreateButton' => true,
 			'fieldsGroups' => [
+				//ClientOperatorByOperatorFieldsGroupParametersFile
 				'base' => config('operators.models.clientOperator.fieldsGroupsFiles.byOperator')::getFieldsGroup()
 			]
 		];
-
+		
 		//		$relations['contracttypes'] = config('operators.models.contracttype.controllers.index');
 
 		//IlBronza\Products\Http\Controllers\SellableSupplier\SellableSupplierIndexController

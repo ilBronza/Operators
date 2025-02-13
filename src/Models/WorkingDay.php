@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use IlBronza\CRUD\Models\PackagedBaseModel;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 
+use function app;
 use function array_pop;
 use function in_array;
 
@@ -63,6 +64,11 @@ class WorkingDay extends PackagedBaseModel
 	static function getUpdateByOperatorDay($operator, $day) : string
 	{
 		return app('operators')->route('workingDays.updateByOperatorDay', [$operator, $day]);
+	}
+
+	static function getUpdateBySellableSupplierDay($sellableSupplier, $day) : string
+	{
+		return app('operators')->route('workingDays.updateBySellableSupplierDay', [$sellableSupplier, $day]);
 	}
 
 	public function getWorkingDayParameters() : array

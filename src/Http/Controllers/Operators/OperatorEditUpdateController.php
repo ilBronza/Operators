@@ -6,6 +6,7 @@ use IlBronza\CRUD\Traits\CRUDEditUpdateTrait;
 use Illuminate\Http\Request;
 
 use function config;
+use function dd;
 
 class OperatorEditUpdateController extends OperatorCRUD
 {

@@ -14,8 +14,9 @@ class ContracttypeRelationManager Extends RelationshipsManager
 			'show' => [
 				'relations' => [
 					'operatorContracttypes' => [
-						'translatedTitle' => __('operators:operators.princing'),
+						'translatedTitle' => __('operators::operators.princingTable'),
 						'controller' => config('operators.models.operatorContracttype.controllers.index'),
+						//OperatorContracttypeByContracttypeFieldsGroupParametersFile
 						'fieldsGroupsParametersFile' => config('operators.models.operatorContracttype.fieldsGroupsFiles.byContracttype'),
 						'elementGetterMethod' => 'getRelatedFullOperatorContracttypes'
 					],

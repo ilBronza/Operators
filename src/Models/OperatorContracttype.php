@@ -12,6 +12,8 @@ class OperatorContracttype extends BasePivotModel
 {
 	use CRUDUseUuidTrait;
 
+	static $deletingRelationships = [];
+
 	static $packageConfigPrefix = 'operators';
 	static $modelConfigPrefix = 'operatorContracttype';
 	protected $keyType = 'string';

@@ -8,4 +8,5 @@ return array (
   'contracttypes' => 'Tipi mansione',
   'operator' => 'Operatore',
   'operatorContracttypes' => 'Contratti operatore',
+	'princingTable' => 'Operatori e tariffe'
 );

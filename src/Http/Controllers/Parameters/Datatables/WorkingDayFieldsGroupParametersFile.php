@@ -18,12 +18,12 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 						'priority' => 100
 					]
 				],
-				'clientOperators' => [
-					'type' => 'iterators.each',
-					'childParameters' => [
+				'validClientOperator' => [
+//					'type' => 'iterators.each',
+//					'childParameters' => [
 						'type' => 'function',
-						'function' => 'getContracttypeName'
-					],
+						'function' => 'getContracttypeName',
+//					],
 					'width' => '125px'
 				],
 				'holidays_reset_date' => [
