@@ -73,6 +73,8 @@ return [
 
 	'enabled' => true,
 
+	'roles' => ['administrator'],
+
 	'models' => [
         'skill' => [
             'table' => 'operators__skills'

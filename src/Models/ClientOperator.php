@@ -53,6 +53,11 @@ class ClientOperator extends BasePivotModel
 		return $this->operator;
 	}
 
+	public function getClient() : ?Client
+	{
+		return $this->client;
+	}
+
 	public function employment()
 	{
 		return $this->belongsTo(Employment::getProjectClassName());
@@ -93,10 +98,13 @@ class ClientOperator extends BasePivotModel
 		return $this->started_at;
 	}
 
-	public function isValid() : bool
+	public function isValid(Carbon $date = null) : bool
 	{
+		if(! $date)
+			$date = Carbon::now();
+
 		if ($endedAt = $this->getEndedAt())
-			return $endedAt->endOfDay() > Carbon::now();
+			return $endedAt->endOfDay() > $date;
 
 		if ($this->hasExternalCompany())
 			return true;

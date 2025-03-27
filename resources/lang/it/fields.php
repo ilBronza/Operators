@@ -61,10 +61,13 @@ return [
 	'mySelfUnilav.clientOperators' => 'Unilav',
 	'mySelfEnte.clientOperators' => 'Ente',
 	'validClientOperator.client.name' => 'Azienda',
-	'validClientOperator.ended_at' => 'Termine',
-	'validClientOperator.employment.label_text' => 'Impiego',
+	'inUseClientOperator.ended_at' => 'Termine',
+	'inUseClientOperator.employment.label_text' => 'Impiego',
 	'employment' => 'Impiego',
+	'contractData' => 'Contratto',
 
 	'operator.address.city' => 'Città',
 	'operator.address.province' => 'Prov',
+	'inUseClientOperator.client.name' => 'Azienda',
+	'inUseClientOperator.ended_at' => 'Termine',
 	];

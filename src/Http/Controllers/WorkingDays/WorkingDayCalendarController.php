@@ -36,6 +36,11 @@ class WorkingDayCalendarController extends OperatorCRUD
 
 	public function addIndexButtons()
 	{
+		$this->getTable()->setCaption(trans('operators::workingDays.calendarFromTo', [
+			'from' => $this->getStartsAt()->format('d/m/Y'),
+			'to' => $this->getEndsAt()->format('d/m/Y')
+		]));
+
 		$this->getTable()->createPostButton([
 			'href' => app('operators')->route('workingDays.printCalendarExcel'),
 			'translatedText' => trans('crud::crud.excel'),
@@ -51,11 +56,17 @@ class WorkingDayCalendarController extends OperatorCRUD
 
 	public function getStartsAt()
 	{
+		if(($year = request()->year)&&($month = request()->month))
+			return Carbon::createFromDate($year, $month)->startOfMonth();
+
 		return request()->startsAt ?? Carbon::now()->startOfMonth();
 	}
 
 	public function getEndsAt()
 	{
+		if(($year = request()->year)&&($month = request()->month))
+			return Carbon::createFromDate($year, $month)->endOfMonth();
+
 		return request()->endsAt ?? Carbon::now()->endOfMonth();
 	}
 

@@ -53,6 +53,9 @@ class WorkingDayPrintCalendarController extends WorkingDayCalendarController
 
 		foreach($elements as $element)
 		{
+			if($element->getName() == 'Gianolli Andrea')
+				continue;
+
 			foreach(['bureau', 'real'] as $workingDayType)
 			{
 				$rowIndex ++;

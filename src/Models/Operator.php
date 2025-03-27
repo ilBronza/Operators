@@ -26,7 +26,6 @@ use IlBronza\Operators\Models\Traits\OperatorWorkingDaysBonusCalculatorTrait;
 use IlBronza\Products\Models\Interfaces\SupplierInterface;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSupplierTrait;
 use Illuminate\Support\Facades\Log;
-
 use Spatie\Permission\Traits\HasRoles;
 
 use function cache;
@@ -230,6 +229,38 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 		return 'Operator';
 	}
 
+	public function getName() : ?string
+	{
+		if (! $this->exists)
+			return $this->getUser()?->getFullName();
+
+		return cache()->remember(
+			$this->cacheKey('getName'), 3600 * 24, function ()
+		{
+			return $this->getUser()?->getFullName();
+		}
+		);
+	}
+
+	static function getSelfPossibleList() : array
+	{
+		return cache()->remember(
+			static::staticCacheKey('getSelfPossibleList'), 3600, function ()
+		{
+			$elements = static::with('user.userdata')->get();
+
+			$result = [];
+
+			foreach ($elements as $operator)
+				$result[$operator->getKey()] = $operator->getName();
+
+			asort($result);
+
+			return $result;
+		}
+		);
+	}
+
 	public function getCategoryModel() : string
 	{
 		return Category::gpc();
@@ -254,55 +285,25 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 		)->where('addressable_type', 'User')->where('type', 'default');
 	}
 
-	public function getValidClientOperator()
-	{
-		return $this->validClientOperator;
-	}
+	//	public function getValidClientOperator()
+	//	{
+	//		return $this->validClientOperator;
+	//	}
 
 	public function getNameAttribute() : ?string
 	{
 		return $this->getName();
 	}
 
-	public function getName() : ?string
-	{
-		if(! $this->exists)
-			return $this->getUser()?->getFullName();
-
-		return cache()->remember(
-			$this->cacheKey('getName'), 3600 * 24, function ()
-			{
-				return $this->getUser()?->getFullName();
-			});
-	}
-
 	public function getEmail()
 	{
-		if(! $this->exists)
+		if (! $this->exists)
 			return $this->getUser()?->getEmail();
 
 		return cache()->remember(
 			$this->cacheKey('getEmail'), 3600 * 24, function ()
 		{
 			return $this->getUser()?->getEmail();
-		});
-	}
-
-	static function getSelfPossibleList() : array
-	{
-		return cache()->remember(
-			static::staticCacheKey('getSelfPossibleList'), 3600, function ()
-		{
-			$elements = static::with('user.userdata')->get();
-
-			$result = [];
-
-			foreach ($elements as $operator)
-				$result[$operator->getKey()] = $operator->getName();
-
-			asort($result);
-
-			return $result;
 		}
 		);
 	}
@@ -381,10 +382,15 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 		return $clientOperator->getClientId();
 	}
 
+	public function getLastClientOperator() : ?ClientOperator
+	{
+		return $this->lastClientOperator;
+	}
+
 	public function lastClientOperator()
 	{
 		return $this->hasOne(ClientOperator::gpc())->ofMany([
-			'created_at' => 'max',
+			'started_at' => 'max',
 		]);
 	}
 

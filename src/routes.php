@@ -25,6 +25,7 @@ Route::group([
 		Route::post('/reorder', [Operators::getController('operator', 'reorder'), 'storeReorder'])->name('operators.storeReorder');
 
 
+		//OperatorByRoleIndexController
 		Route::get('by-role/{role}', [Operators::getController('operator', 'byRole'), 'index'])->name('operators.byRole');
 
 		//OperatorDocumentsController
@@ -32,6 +33,8 @@ Route::group([
 
 		//OperatorAvatarController
 		Route::get('{operator}/avatar-fetcher', [Operators::getController('operator', 'avatar'), 'avatarFetcher'])->name('operators.logoFetcher');
+		Route::get('{operator}/avatar-fetcher-form', [Operators::getController('operator', 'avatar'), 'logoUploadForm'])->name('operators.logoUploadForm');
+		Route::put('{operator}/avatar-fetcher-form', [Operators::getController('operator', 'avatar'), 'logoUpdate'])->name('operators.logoUpdate');
 
 		//IlBronza\Operators\Http\Controllers\Operators\OperatorIndexController
 		Route::get('', [Operators::getController('operator', 'index'), 'index'])->name('operators.index');
@@ -41,6 +44,8 @@ Route::group([
 		Route::get('create', [Operators::getController('operator', 'create'), 'create'])->name('operators.create');
 		Route::post('', [Operators::getController('operator', 'store'), 'store'])->name('operators.store');
 		Route::get('{operator}', [Operators::getController('operator', 'show'), 'show'])->name('operators.show');
+
+		//OperatorEditUpdateController
 		Route::get('{operator}/edit', [Operators::getController('operator', 'edit'), 'edit'])->name('operators.edit');
 		Route::put('{operator}', [Operators::getController('operator', 'edit'), 'update'])->name('operators.update');
 
@@ -65,10 +70,11 @@ Route::group([
 		Route::put('by-sellable-supplier/{sellableSupplier}/day/{day}', [Operators::getController('workingDay', 'update'), 'updateBySellableSupplierDay'])->name('workingDays.updateBySellableSupplierDay');
 		//WorkingDayUpdateEditController
 		Route::put('by-operator/{operator}/day/{day}', [Operators::getController('workingDay', 'update'), 'updateByOperatorDay'])->name('workingDays.updateByOperatorDay');
+		Route::get('by-operator/{operator}/day/{day}', [Operators::getController('workingDay', 'update'), 'getDutyPopup'])->name('workingDays.getDutyPopup');
 
 
 		//WorkingDayCalendarController
-		Route::get('calendar', [Operators::getController('workingDay', 'calendar'), 'calendar'])->name('workingDays.calendar');
+		Route::get('calendar/{year?}/{month?}', [Operators::getController('workingDay', 'calendar'), 'calendar'])->name('workingDays.calendar');
 
 		//WorkingDayPrintCalendarController
 		Route::post('print-calendar', [Operators::getController('workingDay', 'printCalendar'), 'printCalendarExcel'])->name('workingDays.printCalendarExcel');

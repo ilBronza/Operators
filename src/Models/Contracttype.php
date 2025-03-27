@@ -36,7 +36,12 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 
 	public function getNameForSellable(...$parameters) : string
 	{
-		return "{$this->getName()} - {$this->getIstatCode()}";
+		return $this->getName();
+	}
+
+	public function getDescription()
+	{
+		return $this->description;
 	}
 
 	public function getIstatCode() : ?string
@@ -47,13 +52,6 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 	public function getPossibleSuppliersElements() : Collection
 	{
 		return $this->operators()->with('supplier')->get()->pluck('supplier')->filter();
-	}
-
-	public function operators()
-	{
-		return $this->belongsToMany(
-			Operator::getProjectClassName(), config('operators.models.operatorContracttype.table')
-		)->using(OperatorContracttype::getProjectClassName());
 	}
 
 	public function getPriceCreator() : SellableSupplierPriceCreatorBaseClass
@@ -69,6 +67,13 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 		dd('qua');
 
 		return null;
+	}
+
+	public function operators()
+	{
+		return $this->belongsToMany(
+			Operator::getProjectClassName(), config('operators.models.operatorContracttype.table')
+		)->using(OperatorContracttype::getProjectClassName());
 	}
 
 	public function operatorContracttypes()
@@ -153,7 +158,7 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 		return null;
 	}
 
-	public function getCostCompany() : ? float
+	public function getCostCompany() : ?float
 	{
 		return $this->cost_company_day;
 	}

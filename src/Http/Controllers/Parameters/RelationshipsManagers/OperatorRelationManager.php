@@ -12,7 +12,6 @@ class OperatorRelationManager extends RelationshipsManager
 	{
 		$relations = [];
 
-
 		$relations['operatorContracttypes'] = [
 			'controller' => config('operators.models.operatorContracttype.controllers.index'),
 			'translatedTitle' => __('operators::contracttypes.otherContracttypes'),
@@ -28,16 +27,16 @@ class OperatorRelationManager extends RelationshipsManager
 						'internal_approval_rating' => 'editor.numeric',
 
 						'cost_company_day' => [
-							'type' => 'editor.numeric',
+							'type' => 'editor.price',
 							'width' => '85px'
 						],
 						'cost_gross_day' => [
-							'type' => 'editor.numeric',
+							'type' => 'editor.price',
 							'reloadTable' => true,
 							'width' => '85px'
 						],
 						'operator_neat_day' => [
-							'type' => 'editor.numeric',
+							'type' => 'editor.price',
 							'width' => '85px'
 						],
 
@@ -55,7 +54,7 @@ class OperatorRelationManager extends RelationshipsManager
 				'base' => config('operators.models.clientOperator.fieldsGroupsFiles.byOperator')::getFieldsGroup()
 			]
 		];
-		
+
 		//		$relations['contracttypes'] = config('operators.models.contracttype.controllers.index');
 
 		//IlBronza\Products\Http\Controllers\SellableSupplier\SellableSupplierIndexController

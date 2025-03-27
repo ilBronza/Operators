@@ -25,9 +25,13 @@ class ContracttypeFieldsGroupParametersFile extends FieldsGroupParametersFile
 				'description' => 'flat',
 				'istat_code' => 'editor.text',
 
-				'operator_neat_day' => 'editor.numeric',
-				'cost_gross_day' => 'editor.numeric',
-				'cost_company_day' => 'editor.numeric',
+				'operator_neat_day' => [
+					'type' => 'editor.price',
+					'refreshRow' => true,
+				],
+				'cost_gross_day' => 'editor.price',
+				'sum_test' => 'flat',
+				'cost_company_day' => 'editor.price',
 				//				'cost_charge_coefficient' => 'flat',
 
 				'mySelfDelete' => 'links.delete'

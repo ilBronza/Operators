@@ -7,6 +7,8 @@ return array (
   'operators' => 'Operatore',
   'contracttypes' => 'Tipi mansione',
   'operator' => 'Operatore',
+  'clientOperator' => 'Contratto',
+  'operatorContracttype' => 'Altra Mansione',
   'operatorContracttypes' => 'Contratti operatore',
-	'princingTable' => 'Operatori e tariffe'
+	'princingTable' => 'Operatori e tariffe',
 );
