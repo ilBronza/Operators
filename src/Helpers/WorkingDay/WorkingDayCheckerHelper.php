@@ -2,6 +2,7 @@
 
 namespace IlBronza\Operators\Helpers\WorkingDay;
 
+use App\Models\ProjectSpecific\WorkingDay;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 
@@ -13,6 +14,17 @@ use function json_decode;
 
 class WorkingDayCheckerHelper
 {
+	static function statusIsWorked(string $status = null) : bool
+	{
+		if(! $status)
+			return false;
+
+		$workingDay = WorkingDay::make();
+		$workingDay->status = $status;
+
+		return $workingDay->hasBeenWorked();
+	}
+
 	static function getHolidaysArrayByDate(Carbon $date)
 	{
 		return cache()->remember(

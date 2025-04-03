@@ -48,7 +48,7 @@ class WorkingDayCalendarController extends OperatorCRUD
 		]);
 
 		$this->getTable()->createPostButton([
-			'href' => route('project.printPresencesBook'),
+			'href' => route('project.printPresencesBook', ['year' => request()->year, 'month' => request()->month]),
 			'text' => 'buttons.printPresencesBook',
 			'icon' => 'calendar'
 		]);
@@ -93,6 +93,8 @@ class WorkingDayCalendarController extends OperatorCRUD
 
 	public function calendar(Request $request)
 	{
+		$GLOBALS['ends_at'] = $this->getEndsAt();
+
 		return $this->_index($request);
 	}
 }

@@ -53,14 +53,27 @@ class WorkingDayProviderHelper
 		if(! $workingObject->relationLoaded('workingDays'))
 			return static::getQueryByOperatorRange($workingObject, $startsAt, $endsAt, $section, $partOfDay, $status)->get();
 
+		if(is_string($status))
+			$status = [$status];
+
 		if(count($workingObject->workingDays))
-			return $workingObject->workingDays->filter(function($workingDay) use($startsAt, $endsAt)
+			return $workingObject->workingDays->filter(function($workingDay) use($startsAt, $endsAt, $section, $partOfDay, $status)
 			{
 				if($workingDay->date < $startsAt)
 					return false;
 
 				if($workingDay->date > $endsAt)
 					return false;
+
+				if($section)
+					if(strpos($workingDay->type, $section) === false)
+						return false;
+
+				if($partOfDay)
+					dd($workingDay);
+
+				if(($status)&&(in_array($workingDay->getStatus(), $status)))
+					return true;
 
 				return true;
 			});

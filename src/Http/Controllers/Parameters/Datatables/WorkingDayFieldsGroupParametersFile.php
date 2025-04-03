@@ -14,34 +14,57 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 				'mySelfPrimary' => 'primary',
 				'name' => [
 					'type' => 'flat',
+					'mainHeader' => [
+						'label' => 'Nome'
+					],
 					'order' => [
 						'priority' => 100
 					]
 				],
-				'validClientOperator' => [
-//					'type' => 'iterators.each',
-//					'childParameters' => [
-						'type' => 'function',
-						'function' => 'getContracttypeName',
-//					],
-					'width' => '125px'
+				//				'valid_client_operator_contract' => [
+				//					'type' => 'flat',
+				//					'width' => '125px'
+				//				],
+				//				'holidays_reset_date' => [
+				//					'type' => 'dates.date',
+				//					'visible' => false,
+				//				],
+				//				'flexibility_reset_date' => [
+				//					'type' => 'dates.date',
+				//					'visible' => false,
+				//				],
+				//				'rol_reset_date' => [
+				//					'type' => 'dates.date',
+				//					'visible' => false,
+				//				],
+				'calculated_holiday_days' => [
+					'type' => 'flat',
+					'mainHeader' => [
+						'label' => 'ferie'
+					],
+					'suffix' => 'h'
 				],
-				'holidays_reset_date' => [
-					'type' => 'editor.dates.date',
-					'visible' => false
+				'calculated_flexibility_days' => [
+					'type' => 'flat',
+					'mainHeader' => [
+						'label' => 'flex'
+					],
+					'suffix' => 'h'
 				],
-				'flexibility_reset_date' => [
-					'type' => 'editor.dates.date',
-					'visible' => false
+				'calculated_rol_days' => [
+					'type' => 'flat',
+					'mainHeader' => [
+						'label' => 'rol'
+					],
+					'suffix' => 'h'
 				],
-				'rol_reset_date' => [
-					'type' => 'editor.dates.date',
-					'visible' => false
-				],
-				'calculated_holiday_days' => 'dates.daysToString',
-				'calculated_flexibility_days' => 'dates.daysToString',
-				'calculated_rol_days' => 'dates.daysToString',
-				'calculated_bb_days' => 'dates.daysToString'
+				'calculated_bb_days' => [
+					'type' => 'flat',
+					'mainHeader' => [
+						'label' => 'bb'
+					],
+					'suffix' => 'h'
+				]
 			]
 		];
 	}

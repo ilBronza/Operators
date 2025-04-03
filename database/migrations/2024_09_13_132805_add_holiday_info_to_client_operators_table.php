@@ -20,6 +20,9 @@ return new class extends Migration
 
 	        $table->decimal('rol_reset', 6,2)->nullable();
 	        $table->timestamp('rol_reset_date')->nullable();
+
+	        $table->decimal('bb_reset', 6,2)->nullable();
+	        $table->timestamp('bb_reset_date')->nullable();
         });
     }
 
@@ -37,7 +40,10 @@ return new class extends Migration
 
 	        $table->dropColumn('rol_reset');
 	        $table->dropColumn('rol_reset_date');
-            //
+	        //
+	        $table->dropColumn('bb_reset');
+	        $table->dropColumn('bb_reset_date');
+	        //
         });
     }
 };

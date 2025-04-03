@@ -90,6 +90,16 @@ class WorkingDay extends PackagedBaseModel
 		return $parameters['flexUsedCoefficient'] ?? 0;
 	}
 
+	public function getFlexByDateCoefficient()
+	{
+		$parameters = $this->getWorkingDayParameters();
+
+		if($this->date->isWeekend())
+			return $parameters['flexWeekEndGain'] ?? 0;
+
+		return - ($parameters['flexUsedCoefficient'] ?? 0);
+	}
+
 	public function getRolUsedDayCoefficient() : ? float
 	{
 		$parameters = $this->getWorkingDayParameters();

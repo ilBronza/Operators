@@ -87,6 +87,7 @@ class WorkingDayFieldsGroupsHelper
 					'headerHtmlClasses' => ['dayheader', $partOfTheDay, $holidayClass],
 					'translatedName' => ($partOfTheDay == 'am') ? $date->translatedFormat('D') : $date->format('d'),
 					'viewName' => 'days._typeSelectDouble',
+					'filterable' => false,
 					'viewParameters' => [
 						'day' => $day,
 						'partOfTheDay' => $partOfTheDay,
@@ -94,6 +95,11 @@ class WorkingDayFieldsGroupsHelper
 					],
 					'viewParametersGetter' => 'getWorkingDaysDatatableFieldParameters'
 				];
+
+			$fields["mySelf{$day}_am"]['mainHeader'] = [
+				'label' => $date->translatedFormat('D') . '<br />' . $date->format('d'),
+				'colspan' => 2
+			];
 
 			$date->addDays(1);
 		}
