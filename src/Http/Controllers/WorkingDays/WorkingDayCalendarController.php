@@ -29,6 +29,12 @@ class WorkingDayCalendarController extends OperatorCRUD
 	public function getIndexFieldsArray()
 	{
 		//WorkingDayFieldsGroupParametersFile
+
+		/**
+		 * i dati vengono caricati dal metodo getWorkingDaysDatatableFieldParameters
+		 *
+		 *
+		 */
 		return WorkingDayFieldsGroupsHelper::getCalendarFieldsGroupsByDates(
 			config('operators.models.workingDay.fieldsGroupsFiles.calendar'), $this->getStartsAt(), $this->getEndsAt()
 		);
@@ -42,7 +48,10 @@ class WorkingDayCalendarController extends OperatorCRUD
 		]));
 
 		$this->getTable()->createPostButton([
-			'href' => app('operators')->route('workingDays.printCalendarExcel'),
+			'href' => app('operators')->route('workingDays.printCalendarExcel', [
+				'year' => request()->year,
+				'month' => request()->month
+			]),
 			'translatedText' => trans('crud::crud.excel'),
 			'icon' => 'file-excel'
 		]);
@@ -79,7 +88,9 @@ class WorkingDayCalendarController extends OperatorCRUD
 			{
 				$query->where('client_id', Client::gpc()::getOwnerCompany()->getKey());
 			}
-		])->with([
+		])
+//			->where('id', '2613b0a9-5801-460a-9013-7ebfec03c963')
+		                                      ->with([
 				'workingDays' => function ($query)
 				{
 					$query->whereDate('date', '>=', $this->getStartsAt());

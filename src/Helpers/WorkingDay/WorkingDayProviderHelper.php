@@ -30,12 +30,12 @@ class WorkingDayProviderHelper
 		return static::filterWorkingDaysByHalfDays($workingDays, $row);
 	}
 
-	static function getByOperatorRange(HasWorkingDays $workingObject, Carbon $startsAt = null, Carbon $endsAt = null, string $section = null, string $partOfDay = null, array|string $status = null) : array
+	static function getByOperatorRange(HasWorkingDays $workingObject, Carbon $startsAt = null, Carbon $endsAt = null, string $section = null, string $partOfDay = null, array|string $status = null, bool $forceQuery = false) : array
 	{
 		if ((is_null($startsAt)) || (is_null($endsAt)))
 			return [];
 
-		$elements = static::getByOperatorRangeRaw($workingObject, $startsAt, $endsAt, $section, $partOfDay, $status);
+		$elements = static::getByOperatorRangeRaw($workingObject, $startsAt, $endsAt, $section, $partOfDay, $status, $forceQuery);
 
 		$results = [
 			'real_am' => [],
@@ -48,9 +48,9 @@ class WorkingDayProviderHelper
 		return $results;
 	}
 
-	static function getByOperatorRangeRaw(HasWorkingDays $workingObject, Carbon $startsAt, Carbon $endsAt, string $section = null, string $partOfDay = null, array|string $status = null) : Collection
+	static function getByOperatorRangeRaw(HasWorkingDays $workingObject, Carbon $startsAt, Carbon $endsAt, string $section = null, string $partOfDay = null, array|string $status = null, bool $forceQuery = false) : Collection
 	{
-		if(! $workingObject->relationLoaded('workingDays'))
+		if((! $workingObject->relationLoaded('workingDays'))||($forceQuery))
 			return static::getQueryByOperatorRange($workingObject, $startsAt, $endsAt, $section, $partOfDay, $status)->get();
 
 		if(is_string($status))

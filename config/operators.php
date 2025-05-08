@@ -140,7 +140,7 @@ return [
 				'show' => ContracttypeRelationManager::class
 			],
 			'parametersFiles' => [
-				'create' => ContracttypeCreateStoreFieldsetsParameters::class
+				'create' => ContracttypeCreateStoreFieldsetsParameters::class,
 			],
 			'controllers' => [
 				'index' => ContracttypeIndexController::class,

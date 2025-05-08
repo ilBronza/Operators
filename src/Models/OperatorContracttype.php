@@ -51,10 +51,10 @@ class OperatorContracttype extends BasePivotModel
 
 	public function getSellableSupplier() : ? SellableSupplier
 	{
-		if (! $sellable = $this->getContracttype()->sellables()->first())
+		if (! $sellable = $this->getContracttype()?->sellables()?->first())
 			return null;
 
-		if (! $supplier = $this->getOperator()->getSupplier())
+		if (! $supplier = $this->getOperator()?->getSupplier())
 			return null;
 
 		return SellableCreatorHelper::getSellableSupplier($supplier, $sellable);

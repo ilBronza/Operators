@@ -108,6 +108,17 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 		return $this->validClientOperator;
 	}
 
+	public function getClientOperatorByDate(Carbon $date)
+	{
+		if($this->relationLoaded('clientOperators'))
+			dd('gestire questo caso');
+
+		return $this->clientOperators()
+			->whereDate('started_at', '<=', $date)
+			->whereDate('ended_at', '>=', $date)
+			->first();
+	}
+
 	public function clientOperators()
 	{
 		return $this->hasMany(ClientOperator::gpc());

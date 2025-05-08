@@ -2,6 +2,7 @@
 
 namespace IlBronza\Operators\Http\Controllers\WorkingDays;
 
+use App\Http\Controllers\Traits\CalendarOperatorsTrait;
 use App\Models\ProjectSpecific\WorkingDay;
 use Carbon\Carbon;
 use IlBronza\Clients\Models\Client;
@@ -12,7 +13,6 @@ use IlBronza\Operators\Models\Operator;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
 use function dd;
 use function header;
 use function strtoupper;
@@ -20,8 +20,20 @@ use function urlencode;
 
 class WorkingDayPrintCalendarController extends WorkingDayCalendarController
 {
+	use CalendarOperatorsTrait;
+
 	public $allowedMethods = ['printCalendarExcel'];
 
+
+	public function getDateStart()
+	{
+		return $this->getStartsAt();
+	}
+
+	public function getDateEnd()
+	{
+		return $this->getEndsAt();
+	}
 
 	public function printCalendarExcel(Request $request)
 	{
@@ -30,7 +42,7 @@ class WorkingDayPrintCalendarController extends WorkingDayCalendarController
 
 		$rowIndex = 1;
 
-		foreach(['Nome', 'Mansione', 'Ferie', 'Flex', 'Rol', 'BB'] as $index => $text)
+		foreach(['Tipologia', 'Nome', 'Mansione', 'Ferie', 'Flex', 'Rol', 'BB'] as $index => $text)
 			$this->sheet->getCell([$index + 1, $rowIndex])->setValue($text);
 
 		$colIndex = $index + 2;
@@ -41,33 +53,30 @@ class WorkingDayPrintCalendarController extends WorkingDayCalendarController
 
 		foreach($days as $dayString)
 		{
-			$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue("{$dayString} M");
-			$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue("{$dayString} P");
+			$completeDayString = $dayString . " " . $startsAt->format('M');
+
+			$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue("{$completeDayString} M");
+			$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue("{$completeDayString} P");
 		}
 
-
-		$elements = $this->getIndexElements()->sortBy(function($a, $b)
-		{
-			return $a->getName();
-		})->values();
+		$elements = $this->getOperators();
 
 		foreach($elements as $element)
 		{
-			if($element->getName() == 'Gianolli Andrea')
-				continue;
-
-			foreach(['bureau', 'real'] as $workingDayType)
+			foreach(['real', 'bureau'] as $workingDayType)
 			{
 				$rowIndex ++;
+				$colIndex = 1;
 
-				$this->sheet->getCell([1, $rowIndex])->setValue($element->getName());
-				$this->sheet->getCell([2, $rowIndex])->setValue($element->clientOperators->first()?->getContracttypeName());
-				$this->sheet->getCell([3, $rowIndex])->setValue($element->calculated_holiday_days);
-				$this->sheet->getCell([4, $rowIndex])->setValue($element->calculated_flexibility_days);
-				$this->sheet->getCell([5, $rowIndex])->setValue($element->calculated_rol_days);
-				$this->sheet->getCell([6, $rowIndex])->setValue($element->calculated_bb_days);
-
-				$colIndex = 7;
+				$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue($workingDayType);
+				$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue($element->getName());
+				$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue($element->clientOperators->first()?->getContracttypeName());
+				$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue($element->calculated_holiday_days);
+				$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue(
+					$element->calculated_flexibility_days
+				);
+				$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue($element->calculated_rol_days);
+				$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue($element->calculated_bb_days);
 
 				foreach($days as $dayString)
 				{
@@ -79,7 +88,9 @@ class WorkingDayPrintCalendarController extends WorkingDayCalendarController
 							$element, $completeDayString, $workingDayType, $partOfTheDay
 						);
 
-						$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue(strtoupper($workingDay->status));
+						$status = $workingDay->status ?? $element->getWorkingDayStatusByDayAndPart($completeDayString, $partOfTheDay);
+
+						$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue(strtoupper($status));
 					}
 				}
 			}

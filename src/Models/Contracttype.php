@@ -18,6 +18,7 @@ use IlBronza\Products\Models\Sellables\Supplier;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSellableTrait;
 use Illuminate\Support\Collection;
 
+use function class_basename;
 use function dd;
 
 class Contracttype extends BaseModel implements SellableItemInterface, WithPriceInterface
@@ -34,9 +35,20 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 	public $deletingRelationships = [];
 	protected $keyType = 'string';
 
+	public function getPriceFieldsForSellable() : array
+	{
+		return [
+		];
+	}
+
 	public function getNameForSellable(...$parameters) : string
 	{
 		return $this->getName();
+	}
+
+	public function getSellableTypeName(...$parameters) : string
+	{
+		return 'operator';
 	}
 
 	public function getDescription()

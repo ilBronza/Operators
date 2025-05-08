@@ -77,7 +77,7 @@ Route::group([
 		Route::get('calendar/{year?}/{month?}', [Operators::getController('workingDay', 'calendar'), 'calendar'])->name('workingDays.calendar');
 
 		//WorkingDayPrintCalendarController
-		Route::post('print-calendar', [Operators::getController('workingDay', 'printCalendar'), 'printCalendarExcel'])->name('workingDays.printCalendarExcel');
+		Route::post('print-calendar/{year?}/{month?}', [Operators::getController('workingDay', 'printCalendar'), 'printCalendarExcel'])->name('workingDays.printCalendarExcel');
 	});
 
 	Route::group(['prefix' => 'client-operators'], function ()

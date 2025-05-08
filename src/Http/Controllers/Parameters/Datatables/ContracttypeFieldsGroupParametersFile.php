@@ -29,8 +29,10 @@ class ContracttypeFieldsGroupParametersFile extends FieldsGroupParametersFile
 					'type' => 'editor.price',
 					'refreshRow' => true,
 				],
-				'cost_gross_day' => 'editor.price',
-				'sum_test' => 'flat',
+				'cost_gross_day' => [
+					'type' => 'editor.price',
+					'refreshRow' => true,
+				],
 				'cost_company_day' => 'editor.price',
 				//				'cost_charge_coefficient' => 'flat',
 
