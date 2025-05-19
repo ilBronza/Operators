@@ -84,6 +84,7 @@ class WorkingDayFieldsGroupsHelper
 				$fields["mySelf{$day}_{$partOfTheDay}"] = [
 					'type' => 'utilities.view',
 					'tDHtmlClasses' => ['workingdayselector', $partOfTheDay, $holidayClass],
+					'width' => '33px',
 					'headerHtmlClasses' => ['dayheader', $partOfTheDay, $holidayClass],
 					'translatedName' => ($partOfTheDay == 'am') ? $date->translatedFormat('D') : $date->format('d'),
 					'viewName' => 'days._typeSelectDouble',

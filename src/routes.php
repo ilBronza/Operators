@@ -1,5 +1,7 @@
 <?php
 
+use IlBronza\Operators\Http\Controllers\CrudOperatorsChildrenController;
+use IlBronza\Operators\Http\Controllers\CrudOperatorsController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -10,12 +12,12 @@ Route::group([
 {
 	Route::prefix('parent/{parent}')->group(function ()
 	{
-		Route::resource('operators', 'CrudOperatorsChildrenController')->names('operators.children');
+		Route::resource('operators', CrudOperatorsChildrenController::class)->names('operators.children');
 	});
 
 	//START ROUTES PER REORDERING
-	Route::get('operators-reorder/{operators?}', 'CrudOperatorsController@reorder')->name('operators.reorder');
-	Route::post('operators-reorder', 'CrudOperatorsController@stroreReorder')->name('operators.stroreReorder');
+	Route::get('operators-reorder/{operators?}', [CrudOperatorsController::class, 'reorder'])->name('operators.reorder');
+	Route::post('operators-reorder', [CrudOperatorsController::class, 'stroreReorder'])->name('operators.stroreReorder');
 	//STOP ROUTES PER REORDERING
 
 	Route::group(['prefix' => 'operators'], function ()
