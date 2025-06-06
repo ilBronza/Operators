@@ -71,7 +71,7 @@ return [
     'routePrefix' => 'operators',
 	'missingImageUrl' => '/img/no_user.png',
 
-	'enabled' => true,
+	'enabled' => false,
 
 	'roles' => ['administrator'],
 

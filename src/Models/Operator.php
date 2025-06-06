@@ -402,6 +402,7 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 	{
 		return $this->hasOne(ClientOperator::gpc())->ofMany([
 			'started_at' => 'max',
+			'ended_at' => 'max',
 		]);
 	}
 
