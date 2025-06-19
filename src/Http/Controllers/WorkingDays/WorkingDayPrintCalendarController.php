@@ -2,14 +2,10 @@
 
 namespace IlBronza\Operators\Http\Controllers\WorkingDays;
 
-use App\Http\Controllers\Traits\CalendarOperatorsTrait;
 use App\Models\ProjectSpecific\WorkingDay;
-use Carbon\Carbon;
-use IlBronza\Clients\Models\Client;
 use IlBronza\Operators\Helpers\WorkingDay\WorkingDayFieldsGroupsHelper;
 use IlBronza\Operators\Helpers\WorkingDay\WorkingDayProviderHelper;
-use IlBronza\Operators\Models\Employment;
-use IlBronza\Operators\Models\Operator;
+use IlBronza\Operators\Http\Controllers\CalendarOperatorsTrait;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
