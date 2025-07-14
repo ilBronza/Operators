@@ -12,7 +12,7 @@ use IlBronza\CRUD\Traits\CRUDIndexTrait;
 use IlBronza\CRUD\Traits\CRUDRelationshipTrait;
 use IlBronza\CRUD\Traits\CRUDShowTrait;
 use IlBronza\Operators\Http\Controllers\CRUDTraits\CRUDOperatorsChildrenParametersTrait;
-use IlBronza\Operators\Models\Operators;
+use IlBronza\Operators\Models\Operator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,8 +31,8 @@ class CrudOperatorsChildrenController extends BelongsToCRUDController
     use CRUDRelationshipTrait;
     use CRUDBelongsToManyTrait;
 
-    public $parentModelClass = Operators::class;
-    public $modelClass = Operators::class;
+    public $parentModelClass = Operator::class;
+    public $modelClass = Operator::class;
 
     public $allowedMethods = [
         'index',
