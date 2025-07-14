@@ -53,7 +53,7 @@ class CrudOperatorsChildrenController extends BelongsToCRUDController
     // public $guardedCreateDBFields = ['id', 'created_at', 'updated_at', 'deleted_at'];
     public $guardedShowDBFields = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
-    public function index(Request $request, Operators $operators)
+    public function index(Request $request, Operator $operators)
     {
         return $this->_index($request);
     }
@@ -63,17 +63,17 @@ class CrudOperatorsChildrenController extends BelongsToCRUDController
         return $this->parentModel->children()->get();
     }
 
-    public function show(Operators $parent, Operators $operators)
+    public function show(Operator $parent, Operator $operators)
     {
         return $this->_show($operators);
     }
 
-    public function store(Request $request, Operators $operators)
+    public function store(Request $request, Operator $operators)
     {
         return $this->_store($request);
     }
 
-    public function delete(Operators $parent, Operators $operators)
+    public function delete(Operator $parent, Operator $operators)
     {
         return $this->_delete($operators);
     }
