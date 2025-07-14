@@ -16,7 +16,7 @@ return [
 	'cost_company_hour' => '€/h azienda',
 	'cost_gross_hour' => 'Lordo',
 	'cost_neat_hour' => 'Netto',
-	'cost_company_day' => 'Cst. Az.',
+	'cost_company_day' => 'Costo',
 	'cost_gross_day' => 'Lordo',
 	'cost_charge_coefficient' => 'Coefficiente di ricarico',
 	'operators' => 'Operatori',
@@ -70,4 +70,5 @@ return [
 	'operator.address.province' => 'Prov',
 	'inUseClientOperator.client.name' => 'Azienda',
 	'inUseClientOperator.ended_at' => 'Termine',
-	];
+	'valid' => 'contratto corrente'
+];

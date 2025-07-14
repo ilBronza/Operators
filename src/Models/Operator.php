@@ -400,9 +400,28 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 
 	public function lastClientOperator()
 	{
+		// return $this->hasOne(ClientOperator::gpc())
+		//         ->where(function ($query) {
+		//             $query->where('valid', true)
+		//                   ->orWhereDoesntHave('client', function ($q) {
+		//                       $q->whereHas('operators', fn($q) => $q->where('valid', true));
+		//                   });
+		//         })
+		//         ->orderByDesc('valid') // prima i validi
+		//         ->orderByDesc('started_at') // poi per started_at
+		//         ->orderByRaw('ended_at IS NULL DESC') // NULL > valori
+		//         ->orderByDesc('ended_at');
+
 		return $this->hasOne(ClientOperator::gpc())->ofMany([
 			'started_at' => 'max',
 			'ended_at' => 'max',
+		]);
+	}
+
+	public function forcedValidClientOperator()
+	{
+		return $this->hasOne(ClientOperator::gpc())->where('valid', true)->ofMany([
+			'updated_at' => 'max',
 		]);
 	}
 

@@ -190,11 +190,16 @@ class WorkingDayProviderHelper
 		return $workingDays->first();
 	}
 
-	static function getByOperatorRow(HasWorkingDays$workingObject, ProductPackageBaseModel $row)
+	static function getByOperatorRow(HasWorkingDays $workingObject, ProductPackageBaseModel $row)
 	{
 		$workingDays = static::getByOperatorRange($workingObject, $row->getStartsAt(), $row->getEndsAt());
 
 		return static::filterWorkingDaysByHalfDays($workingDays, $row);
+	}
+
+	static function getByOperatorRowCount(HasWorkingDays $workingObject, ProductPackageBaseModel $row, string $section = null, string $partOfDay = null, array|string $status = null) : int
+	{
+		return static::getByOperatorRangeCount($workingObject, $row->getStartsAt(), $row->getEndsAt(), $section, $partOfDay, $status);
 	}
 
 	static function getByOperatorRangeCount(HasWorkingDays$workingObject, Carbon $startsAt, Carbon $endsAt, string $section = null, string $partOfDay = null, array|string $status = null) : int

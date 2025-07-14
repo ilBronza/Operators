@@ -95,6 +95,8 @@ class CreateOperatorsTable extends Migration
 			$table->uuid('contracttype_id')->nullable();
 			$table->foreign('contracttype_id')->references('id')->on(config('operators.models.contracttype.table'));
 
+			$table->boolean('valid')->nullable();
+
 			$table->string('level')->nullable();
 			$table->string('social_security_institution')->nullable();
 			$table->string('unilav')->nullable();

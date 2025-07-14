@@ -42,28 +42,32 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 					'mainHeader' => [
 						'label' => 'ferie'
 					],
-					'suffix' => 'h'
+					'suffix' => 'h',
+					'width' => '75px'
 				],
 				'calculated_flexibility_days' => [
 					'type' => 'flat',
 					'mainHeader' => [
 						'label' => 'flex'
 					],
-					'suffix' => 'h'
+					'suffix' => 'h',
+					'width' => '55px'
 				],
 				'calculated_rol_days' => [
 					'type' => 'flat',
 					'mainHeader' => [
 						'label' => 'rol'
 					],
-					'suffix' => 'h'
+					'suffix' => 'h',
+					'width' => '55px'
 				],
 				'calculated_bb_days' => [
 					'type' => 'flat',
 					'mainHeader' => [
 						'label' => 'bb'
 					],
-					'suffix' => 'h'
+					'suffix' => 'h',
+					'width' => '55px'
 				]
 			]
 		];

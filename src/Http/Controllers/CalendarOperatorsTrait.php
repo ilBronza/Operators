@@ -2,6 +2,12 @@
 
 namespace IlBronza\Operators\Http\Controllers;
 
+use IlBronza\Clients\Models\Client;
+use IlBronza\Operators\Models\Employment;
+use IlBronza\Operators\Models\Operator;
+use IlBronza\Products\Models\Order;
+use IlBronza\Products\Models\Orders\Orderrow;
+use Illuminate\Support\Collection;
 use function array_keys;
 use function collect;
 
