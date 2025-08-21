@@ -3,11 +3,12 @@
 namespace IlBronza\Operators\Helpers;
 
 use Exception;
-use Illuminate\Support\Str;
 use IlBronza\Prices\Models\Price;
 use IlBronza\Prices\Providers\PriceCalculatorHelper;
 use IlBronza\Products\Models\Interfaces\SellableSupplierPriceCreatorBaseClass;
+use IlBronza\Ukn\Ukn;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class OperatorPricesCreatorHelper extends SellableSupplierPriceCreatorBaseClass
 {
@@ -27,9 +28,8 @@ class OperatorPricesCreatorHelper extends SellableSupplierPriceCreatorBaseClass
 
 	private function setDayPrice(string $collectionId) : ? Price
 	{
-		$price = $this->createPrice();
+		$price = $this->getOrCreatePriceByCollectionId($collectionId);
 
-		$price->setCollectionId($collectionId);
 		$price->setMeasurementUnit('day');
 
 		$price->price = $this->getPriceValue($collectionId);

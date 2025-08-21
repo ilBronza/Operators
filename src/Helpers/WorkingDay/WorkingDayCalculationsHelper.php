@@ -63,12 +63,12 @@ class WorkingDayCalculationsHelper
 		}
 
 		if ($row->getHalfStart())
-			if ($field->viewParameters['partOfTheDay'] == 'am')
+			if ($part == 'am')
 				if ($row->starts_at->format('Y-m-d') == $date)
 					return null;
 
 		if ($row->getHalfEnd())
-			if ($field->viewParameters['partOfTheDay'] == 'pm')
+			if ($part == 'pm')
 				if ($row->ends_at->format('Y-m-d') == $date)
 					return null;
 

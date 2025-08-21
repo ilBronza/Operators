@@ -1,6 +1,7 @@
 <?php
 
 return [
+	'created_at' => 'Creato il',
 	'active' => 'Attivo',
 	'anagraphical_data' => 'Anagrafica',
 	'employment_id' => 'Impiego',

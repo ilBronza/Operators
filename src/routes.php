@@ -99,6 +99,8 @@ Route::group([
 		Route::put('{clientOperator}', [Operators::getController('clientOperator', 'edit'), 'update'])->name('clientOperators.update');
 
 		Route::delete('{clientOperator}/delete', [Operators::getController('clientOperator', 'destroy'), 'destroy'])->name('clientOperators.destroy');
+
+		Route::get('{clientOperator}/history', [Operators::getController('clientOperator', 'history'), 'history'])->name('clientOperators.history');
 	});
 
 	Route::group(['prefix' => 'operator-contracttypes'], function ()

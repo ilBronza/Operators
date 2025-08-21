@@ -1,6 +1,7 @@
 <?php
 
 return [
+	'archive' => 'Archivio Operatori',
 	'manager' => 'Operatori',
 	//  'documents' => 'Documenti operatore',
 	'list' => 'Operatori',

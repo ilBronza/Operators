@@ -20,13 +20,12 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 	public function getCalculatedHolidayDaysAttribute() : float
 	{
 		$resetDate = $this->getHolidaysResetDate();
+
 		$resetHours = $this->getHolidaysReset();
-
-
 
 		$endDate = $this->getCalendarEndDate();
 
-		$holidayWorkingDaysPortions = WorkingDayProviderHelper::getByOperatorRangeCount($this, $resetDate, $endDate, 'bureau', null, WorkingDay::gpc()::getHolidayStatusArray(), true);
+		$holidayWorkingDaysPortions = WorkingDayProviderHelper::getByOperatorRangeCount($this, $resetDate->copy()->addDays(1), $endDate, 'bureau', null, WorkingDay::gpc()::getHolidayStatusArray(), true);
 
 		$months = WorkingDayCalculationsHelper::getMonthsSince($resetDate->copy(), $endDate);
 
@@ -47,7 +46,7 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 
 		$endDate = $this->getCalendarEndDate();
 
-		$allDays = WorkingDayProviderHelper::getByOperatorRangeRaw($this, $resetDate, $endDate, 'bureau');
+		$allDays = WorkingDayProviderHelper::getByOperatorRangeRaw($this, $resetDate->copy()->addDays(1), $endDate, 'bureau');
 
 		$resultHours = 0;
 
@@ -103,7 +102,7 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 
 		$rolConsumingDaysPortions = WorkingDayProviderHelper::getByOperatorRange(
 			$this,
-			$resetDate,
+			$resetDate->copy()->addDays(1),
 			$endDate,
 			'bureau',
 			null,
@@ -138,8 +137,8 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 
 		$endDate = $this->getCalendarEndDate();
 
-		$bpCount = WorkingDayProviderHelper::getByOperatorRangeCount($this, $resetDate, $endDate, 'bureau', null, ['bp'], true);
-		$bmCount = WorkingDayProviderHelper::getByOperatorRangeCount($this, $resetDate, $endDate, 'bureau', null, ['bm'], true);
+		$bpCount = WorkingDayProviderHelper::getByOperatorRangeCount($this, $resetDate->copy()->addDays(1), $endDate, 'bureau', null, ['bp'], true);
+		$bmCount = WorkingDayProviderHelper::getByOperatorRangeCount($this, $resetDate->copy()->addDays(1), $endDate, 'bureau', null, ['bm'], true);
 
 		return $resetHours + ($bpCount - $bmCount) * 0.5 * 8;
 
@@ -178,15 +177,20 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 	{
 		$fieldName = "{$datName}_reset";
 
-		return $this->getInUseClientOperator()->$fieldName;
+		if(! $this->$fieldName)
+			throw new \Exception('Inserire le date di reset conteggi ferie/rol/flex (' . $fieldName .') per ' . $this->getName() . ' e controllare l\'esistenza di un contratto valido');
+
+		return $this->$fieldName;
 	}
 
 	public function getWorkingDayResetDate(string $datName)
 	{
 		$fieldName = "{$datName}_reset_date";
 
-		if ($value = $this->getInUseClientOperator()->$fieldName)
+		if ($value = $this->$fieldName)
 			return $value;
+
+			throw new \Exception('Inserire le date di reset conteggi ferie/rol/flex (' . $fieldName .') per ' . $this->getName() . ' e controllare l\'esistenza di un contratto valido');
 
 		if ($first = WorkingDay::gpc()::orderBy('date')->first())
 			return $first->date;

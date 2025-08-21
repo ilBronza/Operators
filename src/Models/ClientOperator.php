@@ -16,6 +16,8 @@ use function dd;
 class ClientOperator extends BasePivotModel
 {
 	use CRUDUseUuidTrait;
+	use PackagedModelsTrait;
+
 
 	static $packageConfigPrefix = 'operators';
 	static $modelConfigPrefix = 'clientOperator';
@@ -26,8 +28,6 @@ class ClientOperator extends BasePivotModel
 	];
 
 	static $deletingRelationships = [];
-
-	use PackagedModelsTrait;
 
 	public function client()
 	{

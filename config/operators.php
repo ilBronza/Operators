@@ -3,6 +3,7 @@
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorCreateStoreController;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorDestroyController;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorEditUpdateController;
+use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorHistoryController;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorIndexController;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorShowController;
 use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeCreateStoreController;
@@ -120,6 +121,7 @@ return [
 				'edit' => ClientOperatorEditUpdateFieldsetsParameters::class
 			],
 			'controllers' => [
+				'history' => ClientOperatorHistoryController::class,
 				'index' => ClientOperatorIndexController::class,
 				'create' => ClientOperatorCreateStoreController::class,
 				'store' => ClientOperatorCreateStoreController::class,

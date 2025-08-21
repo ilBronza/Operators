@@ -25,6 +25,7 @@ use IlBronza\Operators\Models\Interfaces\HasWorkingDays;
 use IlBronza\Operators\Models\Traits\OperatorWorkingDaysBonusCalculatorTrait;
 use IlBronza\Products\Models\Interfaces\SupplierInterface;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSupplierTrait;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -420,9 +421,11 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 
 	public function forcedValidClientOperator()
 	{
-		return $this->hasOne(ClientOperator::gpc())->where('valid', true)->ofMany([
-			'updated_at' => 'max',
-		]);
+		return $this->hasOne(ClientOperator::gpc())
+			->where('valid', true);
+		// ->ofMany([
+		// 	'valid' => 'max',
+		// ]);
 	}
 
 	public function getUserdata() : Userdata
@@ -483,6 +486,10 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 		dd($this);
 	}
 
+	public function getClientOperators() : Collection
+	{
+		return $this->clientOperators;
+	}
 }
 
 

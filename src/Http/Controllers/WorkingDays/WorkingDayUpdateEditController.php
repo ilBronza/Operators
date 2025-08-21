@@ -6,11 +6,11 @@ use Carbon\Carbon;
 use IlBronza\Operators\Helpers\WorkingDay\WorkingDayProviderHelper;
 use IlBronza\Operators\Models\Operator;
 use IlBronza\Operators\Models\WorkingDay;
+use IlBronza\Products\Models\Orders\Orderrow;
 use IlBronza\Products\Models\Sellables\SellableSupplier;
 use IlBronza\Products\Providers\Helpers\RowsHelpers\RowsFinderHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
 use function array_keys;
 use function array_merge;
 use function dd;
@@ -105,13 +105,14 @@ class WorkingDayUpdateEditController extends WorkingDayCRUDController
 		$operator = Operator::gpc()::with('supplier.sellableSuppliers')->find($operator);
 		$sellableSuppliersIds = $operator->supplier->sellableSuppliers->pluck('id');
 
-		if(count($rows = RowsFinderHelper::findOrderrowsByDateQuery($carbonDate)->bySellableSuppliers($sellableSuppliersIds)->with('modelContainer')->get()) == 0)
+		if(count($rows = Orderrow::gpc()::whereIn('sellable_supplier_id', $sellableSuppliersIds)->with('order')->get()) == 0)
 			return 'Nessuna commessa trovata';
 
 		$result = ['Commessa:'];
 
 		foreach($rows as $row)
-			$result[] = "<a target='_blank' href='{$row->modelContainer?->getEditUrl()}'>{$row->modelContainer?->getName()}</a>";
+			if(($row->getStartsAt() <= $carbonDate)&&($row->getEndsAt() >= $carbonDate))
+				$result[] = "<a target='_blank' href='{$row->modelContainer?->getEditUrl()}'>{$row->modelContainer?->getName()}</a>";
 
 		return implode('<br>', $result);
 	}
