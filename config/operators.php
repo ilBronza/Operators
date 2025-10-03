@@ -58,6 +58,7 @@ use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\Contrac
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\EmploymentRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorContracttypeRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorRelationManager;
+use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarConsolidateController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayPrintCalendarController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayUpdateEditController;
@@ -214,6 +215,7 @@ return [
 		    'table' => 'operators__working_days',
 		    'controllers' => [
 			    'update' => WorkingDayUpdateEditController::class,
+			    'consolidate' => WorkingDayCalendarConsolidateController::class,
 			    'calendar' => WorkingDayCalendarController::class,
 			    'printCalendar' => WorkingDayPrintCalendarController::class,
 		    ],

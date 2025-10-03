@@ -22,6 +22,7 @@ class WorkingDayCalendarController extends OperatorCRUD
 {
 	use CRUDIndexTrait;
 
+	public $rowSelectCheckboxes = true;
 	public $mustPrintIntestation = false;
 
 	public $allowedMethods = ['calendar'];
@@ -61,6 +62,43 @@ class WorkingDayCalendarController extends OperatorCRUD
 			'text' => 'buttons.printPresencesBook',
 			'icon' => 'calendar'
 		]);
+
+		$year = request()->year;
+		$month = request()->month;
+
+		if((! $year)||(! $month))
+			return ;
+
+		$date = Carbon::createFromDate($year, $month, 1, 'Europe/Rome');
+
+		$date->hour = 0;
+		$date->minute = 0;
+		$date->second = 0;
+
+		$date->lastOfMonth();
+
+		foreach($this->getIndexElements() as $element)
+			foreach([
+				'holidays_reset_date', 
+				'flexibility_reset_date', 
+				'rol_reset_date', 
+				'bb_reset_date'] as $field)
+				if($element->provideforcedValidClientOperatorModelForExtraFields()->$field < $date)
+					$printButton = true;
+
+		if(! ($printButton ?? false))
+			return;
+
+		$this->getTable()->addButton(
+			Button::create([
+			'href' => app('operators')->route('workingDays.consolidateCoefficients', 
+				[
+					'year' => $year,
+					'month' => $month
+				]),
+			'text' => 'buttons.consolidateWorkingDaysCoefficients',
+			'icon' => 'database'
+		]));
 	}
 
 	public function getStartsAt()

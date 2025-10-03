@@ -12,7 +12,7 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 			'translationPrefix' => 'operators::fields',
 			'fields' => [
 				'mySelfPrimary' => 'primary',
-				'mySelfEdit' => 'links.edit',
+				'forcedValidClientOperator' => 'links.edit',
 				'name' => [
 					'type' => 'flat',
 					'mainHeader' => [
@@ -41,35 +41,64 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 				'calculated_holiday_days' => [
 					'type' => 'flat',
 					'mainHeader' => [
-						'label' => 'ferie'
+						'label' => 'ferie',
+						'colspan' => 3
 					],
 					'suffix' => 'h',
 					'width' => '75px'
 				],
+				'holidays_reset_date' => [
+					'type' => 'dates.date',
+					'width' => '8em'
+				],
+				'holidays_reset' => [
+					'type' => 'numbers.number2',
+				],
 				'calculated_flexibility_days' => [
 					'type' => 'flat',
 					'mainHeader' => [
-						'label' => 'flex'
+						'label' => 'flex',
+						'colspan' => 3
 					],
 					'suffix' => 'h',
 					'width' => '55px'
+				],
+				'flexibility_reset_date' => [
+					'type' => 'dates.date',
+					'width' => '8em'
+				],
+				'flexibility_reset' => [
+					'type' => 'numbers.number2',
 				],
 				'calculated_rol_days' => [
 					'type' => 'flat',
 					'mainHeader' => [
-						'label' => 'rol'
+						'label' => 'rol',
+						'colspan' => 3
 					],
 					'suffix' => 'h',
-					'width' => '55px'
+				],
+				'rol_reset_date' => [
+					'type' => 'dates.date',
+				],
+				'rol_reset' => [
+					'type' => 'numbers.number2',
 				],
 				'calculated_bb_days' => [
 					'type' => 'flat',
 					'mainHeader' => [
-						'label' => 'bb'
+						'label' => 'bb',
+						'colspan' => 3
 					],
 					'suffix' => 'h',
-					'width' => '55px'
-				]
+				],
+				'bb_reset_date' => [
+					'type' => 'dates.date',
+					'width' => '8em'
+				],
+				'bb_reset' => [
+					'type' => 'numbers.number2',
+				],
 			]
 		];
 	}

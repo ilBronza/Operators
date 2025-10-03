@@ -199,6 +199,12 @@ class WorkingDayProviderHelper
 
 	static function getByOperatorRowCount(HasWorkingDays $workingObject, ProductPackageBaseModel $row, string $section = null, string $partOfDay = null, array|string $status = null) : int
 	{
+		if(! $row->getStartsAt())
+			return 0;
+		
+		if(! $row->getEndsAt())
+			return 0;
+		
 		return static::getByOperatorRangeCount($workingObject, $row->getStartsAt(), $row->getEndsAt(), $section, $partOfDay, $status);
 	}
 

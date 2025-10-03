@@ -63,8 +63,8 @@ class WorkingDayUpdateEditController extends WorkingDayCRUDController
 		$updateParameters = [];
 		$updateParameters['success'] = true;
 
-		$updateParameters['ibaction'] = true;
-		$updateParameters['action'] = 'refreshRow';
+		$updateParameters['ibaction'] = 'none';
+		$updateParameters['action'] = 'none';
 		return $updateParameters;
 	}
 
@@ -101,6 +101,10 @@ class WorkingDayUpdateEditController extends WorkingDayCRUDController
 	public function getDutyPopup(Request $request, $operator, $day)
 	{
 		$carbonDate = Carbon::createFromFormat('Y-m-d', $day);
+
+		$carbonDate->hour = 0;
+		$carbonDate->minute = 0;
+		$carbonDate->second = 0;
 
 		$operator = Operator::gpc()::with('supplier.sellableSuppliers')->find($operator);
 		$sellableSuppliersIds = $operator->supplier->sellableSuppliers->pluck('id');

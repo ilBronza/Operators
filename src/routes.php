@@ -43,6 +43,7 @@ Route::group([
 		//IlBronza\Operators\Http\Controllers\Operators\OperatorArchiveController
 		Route::get('archive', [Operators::getController('operator', 'archive'), 'index'])->name('operators.archive');
 
+		//OperatorCreateStoreController
 		Route::get('create', [Operators::getController('operator', 'create'), 'create'])->name('operators.create');
 		Route::post('', [Operators::getController('operator', 'store'), 'store'])->name('operators.store');
 		Route::get('{operator}', [Operators::getController('operator', 'show'), 'show'])->name('operators.show');
@@ -74,6 +75,8 @@ Route::group([
 		Route::put('by-operator/{operator}/day/{day}', [Operators::getController('workingDay', 'update'), 'updateByOperatorDay'])->name('workingDays.updateByOperatorDay');
 		Route::get('by-operator/{operator}/day/{day}', [Operators::getController('workingDay', 'update'), 'getDutyPopup'])->name('workingDays.getDutyPopup');
 
+
+		Route::get('calendar-consolidate-coefficients/{year}/{month}', [Operators::getController('workingDay', 'consolidate'), 'consolidate'])->name('workingDays.consolidateCoefficients');
 
 		//WorkingDayCalendarController
 		Route::get('calendar/{year?}/{month?}', [Operators::getController('workingDay', 'calendar'), 'calendar'])->name('workingDays.calendar');
