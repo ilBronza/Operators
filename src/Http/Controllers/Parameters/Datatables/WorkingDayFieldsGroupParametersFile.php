@@ -54,6 +54,20 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 				'holidays_reset' => [
 					'type' => 'numbers.number2',
 				],
+				'calculated_rol_days' => [
+					'type' => 'flat',
+					'mainHeader' => [
+						'label' => 'rol',
+						'colspan' => 3
+					],
+					'suffix' => 'h',
+				],
+				'rol_reset_date' => [
+					'type' => 'dates.date',
+				],
+				'rol_reset' => [
+					'type' => 'numbers.number2',
+				],
 				'calculated_flexibility_days' => [
 					'type' => 'flat',
 					'mainHeader' => [
@@ -68,20 +82,6 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 					'width' => '8em'
 				],
 				'flexibility_reset' => [
-					'type' => 'numbers.number2',
-				],
-				'calculated_rol_days' => [
-					'type' => 'flat',
-					'mainHeader' => [
-						'label' => 'rol',
-						'colspan' => 3
-					],
-					'suffix' => 'h',
-				],
-				'rol_reset_date' => [
-					'type' => 'dates.date',
-				],
-				'rol_reset' => [
 					'type' => 'numbers.number2',
 				],
 				'calculated_bb_days' => [

@@ -41,6 +41,7 @@ return [
 	'internal_approval_rating' => 'Gradimento',
 	'level' => 'Livello',
 	'contacts' => 'Contatti',
+	'client' => 'Azienda',
 	'clients' => 'Aziende',
 	'client_operators_count' => 'Numero contratti',
 	'user.userdata.first_name' => 'Nome',
@@ -71,5 +72,25 @@ return [
 	'operator.address.province' => 'Prov',
 	'inUseClientOperator.client.name' => 'Azienda',
 	'inUseClientOperator.ended_at' => 'Termine',
-	'valid' => 'contratto corrente'
+	'valid' => 'contratto corrente',
+	'label_text' => 'Sigla',
+	'hex_rgba' => 'Colore',
+	'birth_date' => 'Data di nascita',
+	'birth_state' => 'Stato di nascita',
+	'birth_city' => 'Comune di nascita',
+	'birth_province' => 'Provincia di nascita',
+
+	'badge_image' => 'Badge',
+
+	'street' => 'Via/Piazza',
+	'number' => 'Civico',
+	'city' => 'Comune',
+	'zip' => 'Cap',
+	'province' => 'Provincia',
+	'state' => 'Stato',
+
+	'birth' => 'Nascita',
+	'address' => 'Indirizzo',
+	'baseAnagraphical' => 'Dati anagrafici'
+
 ];

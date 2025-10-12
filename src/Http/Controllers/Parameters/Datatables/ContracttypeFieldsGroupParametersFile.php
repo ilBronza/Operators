@@ -24,6 +24,7 @@ class ContracttypeFieldsGroupParametersFile extends FieldsGroupParametersFile
 				//				'operators_count' => 'flat',
 				'description' => 'flat',
 				'istat_code' => 'editor.text',
+				'hex_rgba' => 'editor.color',
 
 				'operator_neat_day' => [
 					'type' => 'editor.price',

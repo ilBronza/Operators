@@ -9,6 +9,7 @@ return [
 	'contracttypes' => 'Tipi mansione',
 	'operator' => 'Operatore',
 	'clientOperator' => 'Contratto',
+	'contracttype' => 'Mansione',
 	'operatorContracttype' => 'Altra Mansione',
 	'operatorContracttypes' => 'Contratti operatore',
 	'princingTable' => 'Operatori e tariffe',

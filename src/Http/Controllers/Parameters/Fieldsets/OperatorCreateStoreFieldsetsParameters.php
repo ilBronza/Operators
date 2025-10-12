@@ -53,9 +53,7 @@ class OperatorCreateStoreFieldsetsParameters extends UserCreateSlimFieldsetsPara
 
 	public function getPossibleClientsList()
 	{
-		$category = Category::getProjectClassName()::where('name', 'Fornitore Videoservizi')->first();
-
-		return config('clients.models.client.class')::byGeneralCategory($category)->orderBy('name')->get()->pluck('name', 'id')->toArray();
+		return config('clients.models.client.class')::asClient()->orderBy('name')->get()->pluck('name', 'id')->toArray();
 	}
 
 	public function getPossibleContracttypeList()

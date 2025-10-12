@@ -26,6 +26,7 @@ class ContracttypeCreateStoreFieldsetsParameters extends FieldsetParametersFile
 					'slug' => ['text' => 'string|nullable|max:255'],
 					'description' => ['text' => 'string|nullable|max:255'],
 					'istat_code' => ['text' => 'string|nullable|max:255'],
+					'hex_rgba' => ['color' => 'string|nullable|max:8'],
 				],
 				'width' => ["1-3@l", '1-2@m']
 			],

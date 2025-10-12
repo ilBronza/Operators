@@ -49,7 +49,6 @@ class WorkingDayCalculationsHelper
 				return $item;
 		});
 
-		//		if (in_array($operator->getName(), ['Calzarotto Monica', 'Mandolaro Stella', 'Scattolin Valentina']))
 		if (! $row)
 		{
 			if ($operator->getUser()?->hasRole('headquarterWorker'))
