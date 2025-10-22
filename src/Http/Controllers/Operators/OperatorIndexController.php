@@ -4,6 +4,7 @@ namespace IlBronza\Operators\Http\Controllers\Operators;
 
 use IlBronza\CRUD\Traits\CRUDIndexTrait;
 use IlBronza\CRUD\Traits\CRUDPlainIndexTrait;
+use IlBronza\Operators\Models\ClientOperator;
 
 use function config;
 
@@ -37,12 +38,18 @@ class OperatorIndexController extends OperatorCRUD
 	        'validClientOperator.employment',
 			'contacts.contacttype',
 	        'clientOperators.client',
-	        'clientOperators.extraFields',
 			'clients',
             'sellableSuppliers.directPrice',
             'sellableSuppliers.sellable',
             'employments'
-        )
+        )->with([
+            'clientOperators.client',
+            'clientOperators' => function($query)
+            {
+                if(method_exists(ClientOperator::gpc()::make(), 'extraFields'))
+                    $query->with('extraFields');
+            }
+        ])
         ->withSupplierId()
         ->get();
     }

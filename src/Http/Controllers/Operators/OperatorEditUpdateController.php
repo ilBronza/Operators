@@ -11,7 +11,6 @@ use function dd;
 class OperatorEditUpdateController extends OperatorCRUD
 {
     use CRUDEditUpdateTrait;
-	public ?bool $updateEditor = true;
 
     public $allowedMethods = ['edit', 'update'];
 
