@@ -7,4 +7,7 @@ return [
 	'operatorsoperators.byRole' => 'Operatori con ruolo :role',
 	'operatorsoperators.index' => 'Indice operatori',
 	'operatorscontracttypes.index' => 'Tipi di mansione',
+	'operatorsemployments' => [
+		'index' => 'Impieghi Operatori'
+	],
 ];

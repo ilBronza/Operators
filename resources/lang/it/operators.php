@@ -13,4 +13,5 @@ return [
 	'operatorContracttype' => 'Altra Mansione',
 	'operatorContracttypes' => 'Contratti operatore',
 	'princingTable' => 'Operatori e tariffe',
+	'employment' => 'Impiego'
 ];

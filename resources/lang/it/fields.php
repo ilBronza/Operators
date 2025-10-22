@@ -68,8 +68,8 @@ return [
 	'employment' => 'Impiego',
 	'contractData' => 'Contratto',
 
-	'operator.address.city' => 'Città',
-	'operator.address.province' => 'Prov',
+	'address.city' => 'Città',
+	'address.province' => 'Prov',
 	'inUseClientOperator.client.name' => 'Azienda',
 	'inUseClientOperator.ended_at' => 'Termine',
 	'valid' => 'contratto corrente',
