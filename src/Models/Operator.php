@@ -476,9 +476,11 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 
 	public function getPossibleClientsValuesArray() : array
 	{
-		$category = Category::gpc()::findCachedByName('Fornitore Videoservizi');
+		return Client::gpc()::asSupplier()->select('name', 'id')->pluck('name', 'id')->toArray();
 
-		return Client::gpc()::byGeneralCategory($category)->select('name', 'id')->pluck('name', 'id')->toArray();
+		// $category = Category::gpc()::findCachedByName('Fornitore Videoservizi');
+
+		// return Client::gpc()::byGeneralCategory($category)->select('name', 'id')->pluck('name', 'id')->toArray();
 	}
 
 	public function hasPermanentJob()

@@ -17,6 +17,7 @@ use IlBronza\Products\Models\Interfaces\SellableSupplierPriceCreatorBaseClass;
 use IlBronza\Products\Models\Sellables\Supplier;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSellableTrait;
 use Illuminate\Support\Collection;
+use IlBronza\CRUD\Traits\Model\HasColorTrait;
 
 use function class_basename;
 use function dd;
@@ -29,6 +30,8 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 	use CRUDSluggableTrait;
 	use InteractsWithSellableTrait;
 	use InteractsWithPriceTrait;
+
+	use HasColorTrait;
 
 	static $packageConfigPrefix = 'operators';
 	static $modelConfigPrefix = 'contracttype';
@@ -68,7 +71,9 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 
 	public function getPriceCreator() : SellableSupplierPriceCreatorBaseClass
 	{
-		return new OperatorPricesCreatorHelper;
+		$class = config('operators.models.contracttype.helpers.sellableSupplierPricesCreator');
+
+		return new $class;
 	}
 
 	public function getSellablePricesBySupplier(Supplier $supplier, ...$parameters) : array

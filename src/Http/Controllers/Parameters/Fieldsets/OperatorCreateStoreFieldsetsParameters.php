@@ -25,8 +25,8 @@ class OperatorCreateStoreFieldsetsParameters extends UserCreateSlimFieldsetsPara
 			'label' => 'Azienda',
 			'multiple' => false,
 			'default' => $owner->getKey(),
-			'list' => $this->getPossibleClientsList(),
-			'rules' => 'string|required|in:' . implode(',', array_keys($this->getPossibleClientsList())),
+			'list' => $this->getPossibleSuppliersList(),
+			'rules' => 'string|required|in:' . implode(',', array_keys($this->getPossibleSuppliersList())),
 			'relation' => 'clients'
 		];
 
@@ -53,7 +53,13 @@ class OperatorCreateStoreFieldsetsParameters extends UserCreateSlimFieldsetsPara
 
 	public function getPossibleClientsList()
 	{
+		throw new \Exception('usare getPossibleSuppliersList??');
 		return config('clients.models.client.class')::asClient()->orderBy('name')->get()->pluck('name', 'id')->toArray();
+	}
+
+	public function getPossibleSuppliersList()
+	{
+		return config('clients.models.client.class')::asSupplier()->orderBy('name')->get()->pluck('name', 'id')->toArray();
 	}
 
 	public function getPossibleContracttypeList()

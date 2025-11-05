@@ -20,7 +20,7 @@ class ClientOperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 
 	public function _getFieldsetsParameters() : array
 	{
-		return [
+		$result = [
 			'base' => [
 				'translationPrefix' => 'operators::fields',
 				'fields' => [
@@ -53,16 +53,6 @@ class ClientOperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 						'relation' => 'contracttype'
 					],
 
-					'social_security_institution' => ['text' => 'string|nullable|max:255'],
-					'unilav' => ['text' => 'string|nullable|max:255'],
-					'level' => ['text' => 'string|nullable|max:255'],
-
-					'status' => ['text' => 'string|nullable|max:255'],
-					'sogg_iva' => ['text' => 'string|nullable|max:255'],
-					'enpals' => ['text' => 'string|nullable|max:255'],
-					'azienda' => ['text' => 'string|nullable|max:255'],
-					'iscr_liste' => ['text' => 'string|nullable|max:255'],
-
 					'started_at' => ['date' => 'date|nullable'],
 					'ended_at' => ['date' => 'date|nullable'],
 
@@ -90,5 +80,13 @@ class ClientOperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 				'width' => ['1-3@l', '1-2@m']
 			]
 		];
+
+		if(config('operators.manageCosts') !== true)
+			unset($result['costs']);
+
+		if(config('operators.manageDaysCalendar') !== true)
+			unset($result['datesReset']);
+
+		return $result;
 	}
 }

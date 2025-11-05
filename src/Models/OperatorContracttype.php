@@ -5,8 +5,13 @@ namespace IlBronza\Operators\Models;
 use IlBronza\CRUD\Models\BasePivotModel;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
+use IlBronza\Products\Models\OrderProductPhase;
 use IlBronza\Products\Models\Sellables\SellableSupplier;
 use IlBronza\Products\Providers\Helpers\Sellables\SellableCreatorHelper;
+use IlBronza\Products\Providers\Helpers\Sellables\SellableDeleterHelper;
+use IlBronza\Products\Providers\Helpers\Sellables\SupplierCreatorHelper;
+
+use function config;
 
 class OperatorContracttype extends BasePivotModel
 {
@@ -60,4 +65,32 @@ class OperatorContracttype extends BasePivotModel
 		return SellableCreatorHelper::getSellableSupplier($supplier, $sellable);
 	}
 
+	protected static function booted()
+	{
+		static::saving(function ($operatorContracttype)
+		{
+			$supplier = SupplierCreatorHelper::getOrCreateSupplierFromTarget($operatorContracttype->getOperator());
+			$sellable = SellableCreatorHelper::getOrcreateSellableByTarget(
+				$operatorContracttype->getContracttype(), [], 'operator'
+			);
+
+			$sellableSupplier = SellableCreatorHelper::getOrCreateSellableSupplier($supplier, $sellable);
+
+			if(config('operators.manageCosts') == true)
+			{
+				$sellableSupplier->cost_company_day = $operatorContracttype->cost_company_day;
+				$sellableSupplier->save();
+			}
+		});
+
+		static::deleting(function ($operatorContracttype)
+		{
+			$supplier = SupplierCreatorHelper::getOrCreateSupplierFromTarget($operatorContracttype->getOperator());
+			$sellable = SellableCreatorHelper::getOrcreateSellableByTarget(
+				$operatorContracttype->getContracttype(), [], 'operator'
+			);
+
+			SellableDeleterHelper::deleteSellableSupplierBySellableSupplierModels($sellable, $supplier);
+		});
+	}
 }

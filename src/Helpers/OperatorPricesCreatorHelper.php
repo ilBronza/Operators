@@ -16,7 +16,7 @@ class OperatorPricesCreatorHelper extends SellableSupplierPriceCreatorBaseClass
 	{
 		$type = Str::snake($type);
 
-		if($this->operatorContractype->$type)
+		if($this->operatorContractype?->$type)
 			return $this->operatorContractype->$type;
 
 		foreach($this->clientOperators as $clientOperator)

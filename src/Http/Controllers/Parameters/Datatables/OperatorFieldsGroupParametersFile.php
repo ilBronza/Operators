@@ -13,6 +13,7 @@ class OperatorFieldsGroupParametersFile extends FieldsGroupParametersFile
 			'fields' => [
 				'mySelfPrimary' => 'primary',
 				'mySelfEdit' => 'links.edit',
+				'mySelfSee' => 'links.see',
 
 				'user.userdata.surname' => [
 					'type' => 'flat',

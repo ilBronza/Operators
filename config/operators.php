@@ -1,5 +1,6 @@
 <?php
 
+use IlBronza\Operators\Helpers\OperatorPricesCreatorHelper;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorCreateStoreController;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorDestroyController;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorEditUpdateController;
@@ -74,6 +75,9 @@ return [
 	'missingImageUrl' => '/img/no_user.png',
 
 	'enabled' => false,
+
+	'manageCosts' => true,
+	'manageDaysCalendar' => true,
 
 	'roles' => ['administrator'],
 
@@ -153,6 +157,9 @@ return [
 				'edit' => ContracttypeEditUpdateController::class,
 				'update' => ContracttypeEditUpdateController::class,
 				'destroy' => ContracttypeDestroyController::class,
+			],
+			'helpers' => [
+				'sellableSupplierPricesCreator' => OperatorPricesCreatorHelper::class
 			]
 		],
 		'employment' => [

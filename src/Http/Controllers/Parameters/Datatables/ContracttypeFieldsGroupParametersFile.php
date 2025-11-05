@@ -8,7 +8,7 @@ class ContracttypeFieldsGroupParametersFile extends FieldsGroupParametersFile
 {
 	static function getFieldsGroup() : array
 	{
-		return [
+		$result = [
 			'translationPrefix' => 'operators::fields',
 			'fields' => [
 				'mySelfPrimary' => 'primary',
@@ -21,7 +21,7 @@ class ContracttypeFieldsGroupParametersFile extends FieldsGroupParametersFile
 					]
 				],
 				//				'slug' => 'flat',
-				//				'operators_count' => 'flat',
+				'operators_count' => 'flat',
 				'description' => 'flat',
 				'istat_code' => 'editor.text',
 				'hex_rgba' => 'editor.color',
@@ -40,5 +40,14 @@ class ContracttypeFieldsGroupParametersFile extends FieldsGroupParametersFile
 				'mySelfDelete' => 'links.delete'
 			]
 		];
+
+		if(! config('operators.manageCosts'))
+		{
+			unset($result['fields']['operator_neat_day']);
+			unset($result['fields']['cost_gross_day']);
+			unset($result['fields']['cost_company_day']);
+		}
+
+		return $result;
 	}
 }

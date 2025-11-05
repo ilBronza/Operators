@@ -127,7 +127,7 @@ class WorkingDayCalendarController extends OperatorCRUD
 				$query->where('client_id', Client::gpc()::getOwnerCompany()->getKey());
 			}
 		])
-//			->where('id', '2613b0a9-5801-460a-9013-7ebfec03c963')
+			// ->where('id', 'f5e84667-1081-4ffc-b5df-910eb119d669')
 		                                      ->with([
 				'workingDays' => function ($query)
 				{

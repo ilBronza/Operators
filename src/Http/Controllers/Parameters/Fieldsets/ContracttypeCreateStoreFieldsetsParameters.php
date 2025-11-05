@@ -4,6 +4,8 @@ namespace IlBronza\Operators\Http\Controllers\Parameters\Fieldsets;
 
 use IlBronza\Form\Helpers\FieldsetsProvider\FieldsetParametersFile;
 
+use function config;
+
 class ContracttypeCreateStoreFieldsetsParameters extends FieldsetParametersFile
 {
 	public function getRolesArray() : array
@@ -18,7 +20,7 @@ class ContracttypeCreateStoreFieldsetsParameters extends FieldsetParametersFile
 
 	public function _getFieldsetsParameters() : array
 	{
-		return [
+		$result = [
 			'base' => [
 				'translationPrefix' => 'operators::fields',
 				'fields' => [
@@ -41,5 +43,10 @@ class ContracttypeCreateStoreFieldsetsParameters extends FieldsetParametersFile
 				'width' => ["1-3@l", '1-2@m']
 			]
 		];
+
+		if(config('operators.manageCosts') !== true)
+			unset($result['costs']);
+
+		return $result;
 	}
 }

@@ -6,7 +6,8 @@ use Carbon\Carbon;
 use IlBronza\Operators\Helpers\WorkingDay\WorkingDayCalculationsHelper;
 use IlBronza\Operators\Helpers\WorkingDay\WorkingDayProviderHelper;
 use IlBronza\Operators\Models\WorkingDay;
-
+use IlBronza\Products\Models\Order;
+use IlBronza\Products\Models\Orders\Orderrow;
 use function config;
 use function round;
 
@@ -36,6 +37,42 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 		return round($total - ($holidayWorkingDaysPortions * 4), 2);
 	}
 
+	public function getOrderrowsByDates(Carbon $start, Carbon $end)
+	{
+		$sellableSuppliersIdsDictionary = [];
+
+		foreach ($this->supplier->sellableSuppliers as $sellableSupplier)
+			$sellableSuppliersIdsDictionary[$sellableSupplier->getKey()] = [
+				'operator' => $this,
+				'orderrows' => collect()
+			];
+
+		$ordersIds = Order::gpc()::select('id')->whereHas('extraFields', function ($query) use($start, $end)
+		{
+			$query->whereBetween('starts_at', [$start, $end])->orWhereBetween('ends_at', [$start, $end]);
+		})->pluck('id');
+
+		$orderrows = Orderrow::gpc()::whereIn('sellable_supplier_id', array_keys($sellableSuppliersIdsDictionary))->where(function ($query) use ($ordersIds, $start, $end)
+		{
+			$query->whereIn('order_id', $ordersIds);
+			$query->orWhere(function ($_query) use($start, $end)
+			{
+				$_query->whereBetween('starts_at', [$start, $end]);
+				$_query->orWhereBetween('ends_at', [$start, $end]);
+			});
+		})->get();
+
+		foreach ($orderrows as $orderrow)
+			$sellableSuppliersIdsDictionary[$orderrow->sellable_supplier_id]['orderrows']->push($orderrow);
+
+		$orderrowDays = collect();
+
+		foreach ($this->supplier->sellableSuppliers as $sellableSupplier)
+			$orderrowDays = $orderrowDays->merge($sellableSuppliersIdsDictionary[$sellableSupplier->getKey()]['orderrows']);
+
+		return $orderrowDays;
+	}
+
 	//calculated_flexibility_days
 	public function getCalculatedFlexibilityDaysAttribute() : float
 	{
@@ -43,10 +80,19 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 		$resetHours = $this->getFlexibilityReset();
 
 
-
 		$endDate = $this->getCalendarEndDate();
 
-		$allDays = WorkingDayProviderHelper::getByOperatorRangeRaw($this, $resetDate->copy()->addDays(1), $endDate, 'bureau');
+		$allDays = WorkingDayProviderHelper::getByOperatorRangeRaw(
+			$this,
+			$resetDate->copy()->addDays(1),
+			$endDate,
+			'bureau',
+			null,
+			null,
+			true
+		);
+
+		$orderrows = $this->getOrderrowsByDates($resetDate, $endDate);
 
 		$resultHours = 0;
 
@@ -55,38 +101,25 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 		while (($date = $startCountingDate->addDay()) < $endDate)
 		{
 			if (! $workingMorning = $allDays->where('date', $date)->where('type', 'bureau_am')->first())
-				$morningStatus = WorkingDayCalculationsHelper::calculateStatusByDate($this, $date, 'am', $this->orderrows);
+				$morningStatus = WorkingDayCalculationsHelper::calculateStatusByDate($this, $date, 'am', $orderrows);
 			else
 				$morningStatus = $workingMorning->getStatus();
 
 			if (! $workingAfternoon = $allDays->where('date', $date)->where('type', 'bureau_pm')->first())
-				$afternoonStatus = WorkingDayCalculationsHelper::calculateStatusByDate($this, $date, 'pm', $this->orderrows);
+				$afternoonStatus = WorkingDayCalculationsHelper::calculateStatusByDate($this, $date, 'pm', $orderrows);
 			else
 				$afternoonStatus = $workingAfternoon->getStatus();
 
 			foreach ([$morningStatus, $afternoonStatus] as $status)
 			{
-				if (is_null($status))
-					continue;
+				if (! is_null($status))
+				{
+					$placeholderWorkingDay = WorkingDay::gpc()::make();
+					$placeholderWorkingDay->status = $status;
+					$placeholderWorkingDay->date = $date;
 
-				$placeholderWorkingDay = WorkingDay::gpc()::make();
-				$placeholderWorkingDay->status = $status;
-				$placeholderWorkingDay->date = $date;
-
-				$resultHours += $placeholderWorkingDay->getFlexByDateCoefficient();
-
-				//				if(in_array($status, WorkingDay::gpc()::getDoctorStoppageArray()))
-				//					continue;
-				//
-				//				if (WorkingDayCheckerHelper::isWeekendOrHoliday($date))
-				//				{
-				//					if(WorkingDayCheckerHelper::statusIsWorked($status))
-				//						$resultHours += 4;
-				//				}
-				//				else
-				//					if(! WorkingDayCheckerHelper::statusIsWorked($status))
-				//						if(! in_array($status, WorkingDay::gpc()::getPermissionsStatusArray()))
-				//							$resultHours -= 4;
+					$resultHours += $placeholderWorkingDay->getFlexByDateCoefficient();
+				}
 			}
 		}
 
