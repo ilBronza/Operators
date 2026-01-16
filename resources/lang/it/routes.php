@@ -8,4 +8,7 @@ return [
 	'operatorsoperators.index' => 'Indice operatori',
 	'operatorsemployments.index' => 'Indice impieghi',
 	'operatorscontracttypes.index' => 'Tipi di mansione',
+	'operatorsemployments' => [
+		'index' => 'Impieghi Operatori'
+	],
 ];
