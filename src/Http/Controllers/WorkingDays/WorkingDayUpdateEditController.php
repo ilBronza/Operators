@@ -33,7 +33,6 @@ class WorkingDayUpdateEditController extends WorkingDayCRUDController
 
 		$operator = Operator::gpc()::find($operator);
 
-
 		//DOGODO URGENTE annullare questo crea e cancella in favore di un cancella SE ESISTE
 		if(is_null($params['value']))
 		{
@@ -59,6 +58,8 @@ class WorkingDayUpdateEditController extends WorkingDayCRUDController
 
 			$workingDay->save();
 		}
+
+		$operator->touch();
 
 		$updateParameters = [];
 		$updateParameters['success'] = true;
@@ -89,6 +90,8 @@ class WorkingDayUpdateEditController extends WorkingDayCRUDController
 		$workingDay->status = $params['value'];
 
 		$workingDay->save();
+
+		$sellableSupplier->touch();
 
 		$updateParameters = [];
 		$updateParameters['success'] = true;

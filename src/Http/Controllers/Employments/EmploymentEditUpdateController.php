@@ -11,9 +11,9 @@ class EmploymentEditUpdateController extends EmploymentCRUD
 
     public $allowedMethods = ['edit', 'update'];
 
-    public function getGenericParametersFile() : ? string
+    public function getEditParametersFile() : ? string
     {
-        return config('operators.models.employment.parametersFiles.create');
+        return config('operators.models.employment.parametersFiles.edit');
     }
 
     public function edit(string $employment)

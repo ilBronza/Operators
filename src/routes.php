@@ -2,6 +2,7 @@
 
 use IlBronza\Operators\Http\Controllers\CrudOperatorsChildrenController;
 use IlBronza\Operators\Http\Controllers\CrudOperatorsController;
+use IlBronza\Products\Products;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -121,7 +122,11 @@ Route::group([
 		Route::delete('{operatorContracttype}/delete', [Operators::getController('operatorContracttype', 'destroy'), 'destroy'])->name('operatorContracttypes.destroy');
 	});
 
-	Route::group(['prefix' => 'employments'], function ()
+
+	Route::group([
+		'prefix' => 'employments',
+		'middleware' => ['web', 'role:employments'],
+	], function ()
 	{
 		Route::get('', [Operators::getController('employment', 'index'), 'index'])->name('employments.index');
 		Route::get('create', [Operators::getController('employment', 'create'), 'create'])->name('employments.create');

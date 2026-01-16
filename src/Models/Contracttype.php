@@ -7,18 +7,17 @@ use Exception;
 use IlBronza\CRUD\Models\BaseModel;
 use IlBronza\CRUD\Traits\CRUDSluggableTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
+use IlBronza\CRUD\Traits\Model\HasColorTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
-use IlBronza\Operators\Helpers\OperatorPricesCreatorHelper;
 use IlBronza\Prices\Models\Interfaces\WithPriceInterface;
 use IlBronza\Prices\Models\Traits\InteractsWithPriceTrait;
+use IlBronza\Prices\Models\Traits\UpdatePricesOnSaveTrait;
 use IlBronza\Prices\Providers\PriceData;
 use IlBronza\Products\Models\Interfaces\SellableItemInterface;
 use IlBronza\Products\Models\Interfaces\SellableSupplierPriceCreatorBaseClass;
 use IlBronza\Products\Models\Sellables\Supplier;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSellableTrait;
 use Illuminate\Support\Collection;
-use IlBronza\CRUD\Traits\Model\HasColorTrait;
-
 use function class_basename;
 use function dd;
 
@@ -29,7 +28,9 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 	use CRUDUseUuidTrait;
 	use CRUDSluggableTrait;
 	use InteractsWithSellableTrait;
+
 	use InteractsWithPriceTrait;
+	use UpdatePricesOnSaveTrait;
 
 	use HasColorTrait;
 
@@ -74,6 +75,12 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 		$class = config('operators.models.contracttype.helpers.sellableSupplierPricesCreator');
 
 		return new $class;
+	}
+
+	public function mustAutomaticallyUpdatePrices(): bool
+	{
+		return false;
+		return config('operators.models.contracttype.automaticUpdatesPrices');
 	}
 
 	public function getSellablePricesBySupplier(Supplier $supplier, ...$parameters) : array

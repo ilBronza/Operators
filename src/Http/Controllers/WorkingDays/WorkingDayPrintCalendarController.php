@@ -86,7 +86,18 @@ class WorkingDayPrintCalendarController extends WorkingDayCalendarController
 
 						$status = $workingDay->status ?? $element->getWorkingDayStatusByDayAndPart($completeDayString, $partOfTheDay);
 
-						$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue(strtoupper($status));
+						$status = strtoupper($status);
+
+						if($status == 'BP')
+							$status = 'B+';
+
+						if($status == 'BM')
+							$status = 'B-';
+
+						if($status == 'ML')
+							$status = 'M';
+
+						$this->sheet->getCell([$colIndex ++, $rowIndex])->setValue($status);
 					}
 				}
 			}

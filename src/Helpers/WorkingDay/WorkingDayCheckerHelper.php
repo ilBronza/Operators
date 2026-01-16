@@ -27,6 +27,8 @@ class WorkingDayCheckerHelper
 
 	static function getHolidaysArrayByDate(Carbon $date)
 	{
+		return [];
+
 		return cache()->remember(
 			'italianHolidaysByYear' . $date->year,
 			3600 * 24 * 365,

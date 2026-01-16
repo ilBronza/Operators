@@ -3,5 +3,5 @@
 return [
 	'index' => 'Mansioni',
 	'contracttypes' => 'Mansioni',
-	'otherContracttypes' => 'Altre Mansioni',
+	'otherContracttypes' => 'Mansioni',
 ];

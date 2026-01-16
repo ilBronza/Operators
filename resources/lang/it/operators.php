@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'archive' => 'Archivio Operatori',
+	'archive' => 'Storico Operatori',
 	'manager' => 'Operatori',
 	//  'documents' => 'Documenti operatore',
 	'list' => 'Operatori',
@@ -13,4 +13,5 @@ return [
 	'operatorContracttype' => 'Altra Mansione',
 	'operatorContracttypes' => 'Contratti operatore',
 	'princingTable' => 'Operatori e tariffe',
+	'employment' => 'Impiego'
 ];

@@ -42,10 +42,14 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 					'type' => 'flat',
 					'mainHeader' => [
 						'label' => 'ferie',
-						'colspan' => 3
+						'colspan' => 4
 					],
 					'suffix' => 'h',
 					'width' => '75px'
+				],
+				'month_calculated_holiday_days' => [
+					'type' => 'flat',
+					'prefix' => 'Δ',
 				],
 				'holidays_reset_date' => [
 					'type' => 'dates.date',
@@ -58,9 +62,13 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 					'type' => 'flat',
 					'mainHeader' => [
 						'label' => 'rol',
-						'colspan' => 3
+						'colspan' => 4
 					],
 					'suffix' => 'h',
+				],
+				'month_calculated_rol_days' => [
+					'type' => 'flat',
+					'prefix' => 'Δ',
 				],
 				'rol_reset_date' => [
 					'type' => 'dates.date',
@@ -72,10 +80,14 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 					'type' => 'flat',
 					'mainHeader' => [
 						'label' => 'flex',
-						'colspan' => 3
+						'colspan' => 4
 					],
 					'suffix' => 'h',
 					'width' => '55px'
+				],
+				'month_calculated_flexibility_days' => [
+					'type' => 'flat',
+					'prefix' => 'Δ',
 				],
 				'flexibility_reset_date' => [
 					'type' => 'dates.date',
@@ -88,9 +100,13 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 					'type' => 'flat',
 					'mainHeader' => [
 						'label' => 'bb',
-						'colspan' => 3
+						'colspan' => 4
 					],
 					'suffix' => 'h',
+				],
+				'month_calculated_bb_days' => [
+					'type' => 'flat',
+					'prefix' => 'Δ',
 				],
 				'bb_reset_date' => [
 					'type' => 'dates.date',

@@ -22,7 +22,6 @@ use IlBronza\Clients\Models\Client;
 use IlBronza\Clients\Models\Traits\InteractsWithDestinationTrait;
 use IlBronza\Contacts\Models\Traits\InteractsWithContact;
 use IlBronza\Operators\Models\Interfaces\HasWorkingDays;
-use IlBronza\Operators\Models\OperatorContracttype;
 use IlBronza\Operators\Models\Traits\OperatorWorkingDaysBonusCalculatorTrait;
 use IlBronza\Products\Models\Interfaces\SupplierInterface;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSupplierTrait;
@@ -32,6 +31,8 @@ use Spatie\Permission\Traits\HasRoles;
 use function cache;
 use function config;
 use function dd;
+use function substr;
+use function ucfirst;
 
 class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 {
@@ -166,7 +167,7 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 			return $this->first_name;
 
 		if ($this->relationLoaded('user'))
-			return $this->getUser()->getFirstName();
+			return $this->getUser()?->getFirstName();
 
 		return $this->first_name;
 	}
@@ -187,7 +188,7 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 			return $this->surname;
 
 		if ($this->relationLoaded('user'))
-			return $this->getUser()->getSurname();
+			return $this->getUser()?->getSurname();
 
 		return $this->surname;
 	}
@@ -462,6 +463,24 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 	public function getLogoImageUrl() : ?string
 	{
 		return $this->getUser()?->getAvatarImageUrl();
+	}
+
+	public function getCode() : ? string
+	{
+		return $this->code;
+	}
+
+	public function getShortName() : string
+	{
+		if($code = $this->getCode())
+			return $code;
+
+		$pieces = [
+			ucfirst(substr($this->getFirstName(), 0, 2)),
+			ucfirst(substr($this->getSurname(), 0, 2))
+		];
+
+		return implode('', $pieces);
 	}
 
 	public function getPossibleEmploymentValuesArray() : array
