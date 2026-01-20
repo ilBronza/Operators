@@ -8,7 +8,7 @@ use IlBronza\Operators\Helpers\WorkingDay\WorkingDayProviderHelper;
 use IlBronza\Operators\Models\WorkingDay;
 use IlBronza\Products\Models\Order;
 use IlBronza\Products\Models\Orders\Orderrow;
-use IlBronza\Ukn\Facades\Ukn;
+use IlBronza\Ukn\Ukn;
 use function config;
 use function round;
 
