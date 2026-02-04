@@ -15,12 +15,12 @@ class ClientOperatorIndexController extends ClientOperatorCRUD
 
     public function getIndexFieldsArray()
     {
-        return config('operators.models.clientOperator.fieldsGroupsFiles.index')::getFieldsGroup();
+        return config('operators.models.clientOperator.fieldsGroupsFiles.index')::getTracedFieldsGroup();
     }
 
     public function getRelatedFieldsArray()
     {
-        return config('operators.models.clientOperator.fieldsGroupsFiles.related')::getFieldsGroup();
+        return config('operators.models.clientOperator.fieldsGroupsFiles.related')::getTracedFieldsGroup();
     }
 
     public function getIndexElements()

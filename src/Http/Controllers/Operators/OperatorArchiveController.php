@@ -12,7 +12,7 @@ class OperatorArchiveController extends OperatorIndexController
 
     public function getIndexFieldsArray()
     {
-        return config('operators.models.operator.fieldsGroupsFiles.archive')::getFieldsGroup();
+        return config('operators.models.operator.fieldsGroupsFiles.archive')::getTracedFieldsGroup();
     }
 
     public function getIndexElements()

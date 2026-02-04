@@ -6,7 +6,7 @@ class OperatorContracttypeByContracttypeFieldsGroupParametersFile extends Operat
 {
 	static function getFieldsGroup() : array
 	{
-		$parameters = parent::getFieldsGroup();
+		$parameters = parent::getTracedFieldsGroup();
 
 		unset($parameters['fields']['contracttype.name']);
 

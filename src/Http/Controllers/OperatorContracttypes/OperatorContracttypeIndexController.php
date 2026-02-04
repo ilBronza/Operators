@@ -15,12 +15,12 @@ class OperatorContracttypeIndexController extends OperatorContracttypeCRUD
 
     public function getIndexFieldsArray()
     {
-        return config('operators.models.operatorContracttype.fieldsGroupsFiles.index')::getFieldsGroup();
+        return config('operators.models.operatorContracttype.fieldsGroupsFiles.index')::getTracedFieldsGroup();
     }
 
     public function getRelatedFieldsArray()
     {
-        return config('operators.models.operatorContracttype.fieldsGroupsFiles.related')::getFieldsGroup();
+        return config('operators.models.operatorContracttype.fieldsGroupsFiles.related')::getTracedFieldsGroup();
     }
 
     public function getIndexElements()

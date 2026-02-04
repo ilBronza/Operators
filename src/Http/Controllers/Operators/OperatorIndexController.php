@@ -18,13 +18,13 @@ class OperatorIndexController extends OperatorCRUD
     public function getIndexFieldsArray()
     {
 		//OperatorFieldsGroupParametersFile
-        return config('operators.models.operator.fieldsGroupsFiles.index')::getFieldsGroup();
+        return config('operators.models.operator.fieldsGroupsFiles.index')::getTracedFieldsGroup();
     }
 
     public function getRelatedFieldsArray()
     {
         //OperatorFieldsGroupParametersFile
-        return config('operators.models.operator.fieldsGroupsFiles.index')::getFieldsGroup();
+        return config('operators.models.operator.fieldsGroupsFiles.index')::getTracedFieldsGroup();
     }
 
     public function getIndexElements()

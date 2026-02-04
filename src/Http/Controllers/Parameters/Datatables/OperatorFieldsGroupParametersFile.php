@@ -29,6 +29,8 @@ class OperatorFieldsGroupParametersFile extends FieldsGroupParametersFile
 					],
 				],
 
+				'hex_rgba' => 'editor.color',
+
 				'active' => [
 					'type' => 'editor.toggle',
 					'valueAsRowClass' => true,

@@ -15,12 +15,12 @@ class EmploymentIndexController extends EmploymentCRUD
 
     public function getIndexFieldsArray()
     {
-        return config('operators.models.employment.fieldsGroupsFiles.index')::getFieldsGroup();
+        return config('operators.models.employment.fieldsGroupsFiles.index')::getTracedFieldsGroup();
     }
 
     public function getRelatedFieldsArray()
     {
-        return config('operators.models.employment.fieldsGroupsFiles.related')::getFieldsGroup();
+        return config('operators.models.employment.fieldsGroupsFiles.related')::getTracedFieldsGroup();
     }
 
     public function getIndexElements()

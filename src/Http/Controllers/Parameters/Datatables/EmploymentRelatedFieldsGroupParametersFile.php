@@ -8,7 +8,7 @@ class EmploymentRelatedFieldsGroupParametersFile extends EmploymentFieldsGroupPa
 {
 	static function getFieldsGroup() : array
 	{
-        $result = parent::getFieldsGroup();
+        $result = parent::getTracedFieldsGroup();
 
         unset($result['fields']['operators']);
 

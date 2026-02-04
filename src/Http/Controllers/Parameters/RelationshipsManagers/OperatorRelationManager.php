@@ -51,7 +51,7 @@ class OperatorRelationManager extends RelationshipsManager
 			'hasCreateButton' => true,
 			'fieldsGroups' => [
 				//ClientOperatorByOperatorFieldsGroupParametersFile
-				'base' => config('operators.models.clientOperator.fieldsGroupsFiles.byOperator')::getFieldsGroup()
+				'base' => config('operators.models.clientOperator.fieldsGroupsFiles.byOperator')::getTracedFieldsGroup()
 			]
 		];
 

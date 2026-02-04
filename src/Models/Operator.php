@@ -28,6 +28,7 @@ use IlBronza\Products\Models\Traits\Sellable\InteractsWithSupplierTrait;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Traits\HasRoles;
+use IlBronza\CRUD\Traits\Model\HasColorTrait;
 use function cache;
 use function config;
 use function dd;
@@ -49,6 +50,7 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 	use CRUDModelExtraFieldsTrait;
 
 	use OperatorWorkingDaysBonusCalculatorTrait;
+	use HasColorTrait;
 
 	static $packageConfigPrefix = 'operators';
 	static $modelConfigPrefix = 'operator';
