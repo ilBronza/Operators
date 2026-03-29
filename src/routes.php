@@ -17,7 +17,7 @@ Route::group([
 	});
 
 	//START ROUTES PER REORDERING
-	Route::get('operators-reorder/{operators?}', [CrudOperatorsController::class, 'reorder'])->name('operators.reorder');
+	// Route::get('operators-reorder/{operators?}', [CrudOperatorsController::class, 'reorder'])->name('operators.reorder');
 	Route::post('operators-reorder', [CrudOperatorsController::class, 'stroreReorder'])->name('operators.stroreReorder');
 	//STOP ROUTES PER REORDERING
 
@@ -125,7 +125,7 @@ Route::group([
 
 	Route::group([
 		'prefix' => 'employments',
-		'middleware' => ['web', 'role:employments'],
+		'middleware' => ['web', 'role:employments|superadmin|administrator'],
 	], function ()
 	{
 		Route::get('', [Operators::getController('employment', 'index'), 'index'])->name('employments.index');

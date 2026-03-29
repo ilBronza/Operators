@@ -495,6 +495,11 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 		return Contracttype::getSelfPossibleValuesArray(null, 'name');
 	}
 
+	public function getPossibleSellables() : Collection
+	{
+		dd('analizzare qua');
+	}
+
 	public function getPossibleClientsValuesArray() : array
 	{
 		return Client::gpc()::asSupplier()->select('name', 'id')->pluck('name', 'id')->toArray();

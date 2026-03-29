@@ -187,4 +187,16 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 		return $this->cost_company_day;
 	}
 
+	public function getSellableSupplierIndexRelations() : array
+	{
+		return [
+			'prices',
+			'supplier.target.operatorContracttypes.contracttype',
+			'supplier.target.operatorContracttypes.prices',
+			'supplier.target.validClientOperator.employment',
+			'supplier.target.user.userdata',
+			'supplier.target.extraFields',
+			'supplier.target.address'
+		];
+	}
 }
