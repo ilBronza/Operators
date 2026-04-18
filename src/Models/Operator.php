@@ -52,6 +52,11 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 	use OperatorWorkingDaysBonusCalculatorTrait;
 	use HasColorTrait;
 
+	public function mustAutomaticallyUpdatePrices() : ? bool
+	{
+		return false;
+	}
+
 	static $packageConfigPrefix = 'operators';
 	static $modelConfigPrefix = 'operator';
 	public $deletingRelationships = [];
@@ -497,7 +502,7 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 
 	public function getPossibleSellables() : Collection
 	{
-		dd('analizzare qua');
+		return collect();
 	}
 
 	public function getPossibleClientsValuesArray() : array

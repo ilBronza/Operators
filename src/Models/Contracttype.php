@@ -11,7 +11,7 @@ use IlBronza\CRUD\Traits\Model\HasColorTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
 use IlBronza\Prices\Models\Interfaces\WithPriceInterface;
 use IlBronza\Prices\Models\Traits\InteractsWithPriceTrait;
-use IlBronza\Prices\Models\Traits\UpdatePricesOnSaveTrait;
+// use IlBronza\Prices\Models\Traits\UpdatePricesOnSaveTrait;
 use IlBronza\Prices\Providers\PriceData;
 use IlBronza\Products\Models\Interfaces\SellableItemInterface;
 use IlBronza\Products\Models\Interfaces\SellableSupplierPriceCreatorBaseClass;
@@ -30,7 +30,7 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 	use InteractsWithSellableTrait;
 
 	use InteractsWithPriceTrait;
-	use UpdatePricesOnSaveTrait;
+	// use UpdatePricesOnSaveTrait;
 
 	use HasColorTrait;
 
@@ -122,10 +122,10 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 		return $this->operators;
 	}
 
-	public function _calculatePriceData(PriceData $priceData) : PriceData
-	{
-		dd('risolvere');
-	}
+	// public function _calculatePriceData(PriceData $priceData) : PriceData
+	// {
+	// 	dd('risolvere');
+	// }
 
 	//must calculate the final price
 	public function _manageCalculationErrors(Exception $e)

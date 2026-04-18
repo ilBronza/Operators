@@ -9,8 +9,8 @@ use IlBronza\Products\Models\OrderProductPhase;
 use IlBronza\Products\Models\Sellables\SellableSupplier;
 use IlBronza\Products\Providers\Helpers\Sellables\SellableCreatorHelper;
 use IlBronza\Products\Providers\Helpers\Sellables\SellableDeleterHelper;
+use IlBronza\Products\Providers\Helpers\Sellables\SellableSupplierCreatorHelper;
 use IlBronza\Products\Providers\Helpers\Sellables\SupplierCreatorHelper;
-
 use function config;
 
 class OperatorContracttype extends BasePivotModel
@@ -62,7 +62,7 @@ class OperatorContracttype extends BasePivotModel
 		if (! $supplier = $this->getOperator()?->getSupplier())
 			return null;
 
-		return SellableCreatorHelper::getSellableSupplier($supplier, $sellable);
+		return SellableCreatorHelper::getOrCreateSellableSupplier($supplier, $sellable);
 	}
 
 	protected static function booted()
@@ -74,7 +74,7 @@ class OperatorContracttype extends BasePivotModel
 				$operatorContracttype->getContracttype(), [], 'operator'
 			);
 
-			$sellableSupplier = SellableCreatorHelper::getOrCreateSellableSupplier($supplier, $sellable);
+			$sellableSupplier = SellableSupplierCreatorHelper::getOrCreateSellableSupplier($supplier, $sellable);
 
 			if(config('operators.manageCosts') == true)
 			{
