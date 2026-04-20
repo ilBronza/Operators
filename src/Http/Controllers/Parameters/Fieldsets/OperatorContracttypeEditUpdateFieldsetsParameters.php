@@ -3,8 +3,7 @@
 namespace IlBronza\Operators\Http\Controllers\Parameters\Fieldsets;
 
 use IlBronza\Form\Helpers\FieldsetsProvider\FieldsetParametersFile;
-
-use function config;
+use IlBronza\Operators\Models\Contracttype;
 
 class OperatorContracttypeEditUpdateFieldsetsParameters extends FieldsetParametersFile
 {
@@ -20,7 +19,7 @@ class OperatorContracttypeEditUpdateFieldsetsParameters extends FieldsetParamete
 
 	public function _getFieldsetsParameters() : array
 	{
-		return [
+		$result = [
 			'base' => [
 				'translationPrefix' => 'operators::fields',
 				'fields' => [
@@ -50,16 +49,15 @@ class OperatorContracttypeEditUpdateFieldsetsParameters extends FieldsetParamete
 				],
 				'width' => ["1-3@l", '1-2@m']
 			],
-			'costs' => [
-				'translationPrefix' => 'operators::fields',
-				'fields' => [
-					'cost_company_day' => ['number' => 'numeric|nullable'],
-					'cost_gross_day' => ['number' => 'numeric|nullable'],
-					'operator_neat_day' => ['number' => 'numeric|nullable'],
-					//                    'cost_charge_coefficient' => ['number' => 'numeric|nullable'],
-				],
-				'width' => ["1-3@l", '1-2@m']
-			]
 		];
+
+		return static::addCostsFieldsetByModel(
+			$result,
+			Contracttype::gpc()::make(),
+			[
+				'translationPrefix' => 'operators::fields'
+			]
+		);
+
 	}
 }

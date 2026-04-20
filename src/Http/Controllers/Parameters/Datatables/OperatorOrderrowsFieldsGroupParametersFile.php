@@ -28,15 +28,6 @@ class OperatorOrderrowsFieldsGroupParametersFile extends FieldsGroupParametersFi
 					'type' => 'editor.numeric',
 					'refreshRow' => true,
 				],
-				'calculated_cost_per_km' => 'editor.price',
-				'calculated_cost_per_movimentation' => 'editor.price',
-				'calculated_cost_per_day' => 'editor.price',
-
-				'calculated_total_row_cost' => 'editor.price',
-				'approved_total_row_cost' => 'editor.toggle',
-
-				'calculated_total_row_revenue' => 'editor.price',
-				'approved_total_row_revenue' => 'editor.toggle',
 			]
 		];
 	}

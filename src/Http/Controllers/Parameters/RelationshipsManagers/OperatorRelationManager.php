@@ -3,7 +3,9 @@
 namespace IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers;
 
 use IlBronza\CRUD\Providers\RelationshipsManager\RelationshipsManager;
-
+use IlBronza\Operators\Models\Sellables\Contracttype;
+use IlBronza\Products\Models\Interfaces\SellableItemInterface;
+use IlBronza\Products\Providers\Helpers\Sellables\SellablePriceDatatableFieldsHelper;
 use function config;
 
 class OperatorRelationManager extends RelationshipsManager
@@ -12,6 +14,26 @@ class OperatorRelationManager extends RelationshipsManager
 	{
 		$relations = [];
 
+		$contracttypeFields = [
+			'mySelfPrimary' => 'primary',
+			'mySelfEdit' => 'links.edit',
+			'contracttype.name' => 'flat',
+
+			'internal_approval_rating' => 'editor.numeric',
+		];
+
+		$contracttypeModel = Contracttype::gpc()::make();
+
+		if ($contracttypeModel instanceof SellableItemInterface)
+			$contracttypeFields = array_merge(
+				$contracttypeFields, 
+				SellablePriceDatatableFieldsHelper::getFieldsByModel(
+					$contracttypeModel
+				)
+			);
+
+		$contracttypeFields['mySelfDelete'] = 'links.delete';
+
 		$relations['operatorContracttypes'] = [
 			'controller' => config('operators.models.operatorContracttype.controllers.index'),
 			'translatedTitle' => __('operators::contracttypes.otherContracttypes'),
@@ -19,29 +41,7 @@ class OperatorRelationManager extends RelationshipsManager
 			'fieldsGroups' => [
 				'base' => [
 					'translationPrefix' => 'operators::fields',
-					'fields' => [
-						'mySelfPrimary' => 'primary',
-						'mySelfEdit' => 'links.edit',
-						'contracttype.name' => 'flat',
-
-						'internal_approval_rating' => 'editor.numeric',
-
-						'cost_company_day' => [
-							'type' => 'editor.price',
-							'width' => '85px'
-						],
-						'cost_gross_day' => [
-							'type' => 'editor.price',
-							'reloadTable' => true,
-							'width' => '85px'
-						],
-						'operator_neat_day' => [
-							'type' => 'editor.price',
-							'width' => '85px'
-						],
-
-						'mySelfDelete' => 'links.delete'
-					]
+					'fields' => $contracttypeFields
 				]
 			]
 		];
@@ -89,13 +89,16 @@ class OperatorRelationManager extends RelationshipsManager
 		//			$relations['supplier'] = config('products.models.supplier.controllers.show');
 
 		if (config('filecabinet.enabled', false))
-			$relations['dossiers'] = [
-				'controller' => config('filecabinet.models.dossier.controllers.index'),
-				'elementGetterMethod' => 'getRelatedDossiersCollection',
-				'buttonsMethods' => [
-					'getAssociateButton',
-				]
-			];
+		{
+			if(method_exists($this->getModel(), 'dossiers'))
+				$relations['dossiers'] = [
+					'controller' => config('filecabinet.models.dossier.controllers.index'),
+					'elementGetterMethod' => 'getRelatedDossiersCollection',
+					'buttonsMethods' => [
+						'getAssociateButton',
+					]
+				];
+		}
 
 		//		$relations['paymenttypes'] = config('payments.models.paymenttype.controllers.index');
 		$relations['user'] = config('accountmanager.models.user.controllers.show');

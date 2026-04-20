@@ -10,7 +10,7 @@ class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 	{
 		$operator = $this->getModel();
 
-		$paymentTypes = $operator->getPossiblePaymenttypesValuesArray();
+		// $paymentTypes = $operator->getPossiblePaymenttypesValuesArray();
 
 		//		$documentsFields = [];
 		//
@@ -43,7 +43,7 @@ class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 						'showLegend' => false,
 						'fields' => [],
 						'view' => [
-							'name' => 'operators::operator.avatar',
+							'name' => 'operators::operators._avatar',
 							'parameters' => [
 								'operator' => $this->getModel()
 							]

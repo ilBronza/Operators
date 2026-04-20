@@ -353,6 +353,11 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 		return $this->hasMany(OperatorContracttype::gpc());
 	}
 
+	public function getContracttypes()
+	{
+		return $this->contracttypes;
+	}
+
 	public function contracttypes()
 	{
 		return $this->belongsToMany(

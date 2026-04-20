@@ -24,13 +24,6 @@ class OperatorOrderrowEditUpdateFieldsetsParameters extends FieldsetParametersFi
             'costs' => [
                 'translationPrefix' => 'products::fields',
                 'fields' => [
-                    'calculated_cost_per_km' => $costField,
-                    'calculated_cost_per_movimentation' => $costField,
-                    'calculated_cost_per_day' => $costField,
-                    'approved_total_row_cost' => $booleanField,
-                    'calculated_total_row_cost' => $costField,
-                    'approved_total_row_revenue' => $booleanField,
-                    'calculated_total_row_revenue' => $costField,
                 ],
                 'width' => ["1-3@l", '1-2@m']
             ],

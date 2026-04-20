@@ -16,24 +16,18 @@ class Operator extends IbOperator implements SupplierInterface
 
 	public function getPossibleSellables() : Collection
 	{
-		dd($this->getVehicleType());
+		$sellables = collect();
 
-		$sellable = SellableCreatorHelper::getOrcreateSellableByTarget($this->getVehicleType());
+		foreach($this->getContracttypes() as $contracttype)
+			$sellables->push(
+				SellableCreatorHelper::getOrcreateSellableByTarget($contracttype)
+			);
 
-		return collect([$sellable]);
+		return $sellables;
 	}
 
 	public function mustAutomaticallyUpdatePrices() : ? bool
 	{
 		return true;
-	}
-
-	static function boot()
-	{
-		parent::boot();
-
-		static::saving(function ($model)
-		{
-		});
 	}
 }
