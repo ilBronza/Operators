@@ -28,26 +28,12 @@ class Operator extends IbOperator implements SupplierInterface
 		return true;
 	}
 
-	static function inheritPricesFromVehicleTypeIfEmpty($model)
-	{
-		if(! $vehicleType = $model->getVehicleType())
-			return ;
-
-		$fields = $vehicleType->getPriceFieldsForSellable();
-
-		foreach($fields as $field => $measurementUnit)
-			if(! $model->$field)
-				$model->$field = $vehicleType->$field;
-	}
-
 	static function boot()
 	{
 		parent::boot();
 
 		static::saving(function ($model)
 		{
-			dd('qua');
-			static::inheritPricesFromVehicleTypeIfEmpty($model);
 		});
 	}
 }

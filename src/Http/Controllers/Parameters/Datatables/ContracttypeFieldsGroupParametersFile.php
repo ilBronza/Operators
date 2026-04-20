@@ -4,7 +4,9 @@ namespace IlBronza\Operators\Http\Controllers\Parameters\Datatables;
 
 use IlBronza\Datatables\Providers\FieldsGroupParametersFile;
 use IlBronza\Operators\Models\Sellables\Contracttype;
+use IlBronza\Products\Models\Interfaces\SellableItemInterface;
 use IlBronza\Products\Providers\Helpers\Sellables\SellablePriceDatatableFieldsHelper;
+use function config;
 
 class ContracttypeFieldsGroupParametersFile extends FieldsGroupParametersFile
 {
@@ -31,12 +33,14 @@ class ContracttypeFieldsGroupParametersFile extends FieldsGroupParametersFile
 			]
 		];
 
-		if (config('operators.manageCosts'))
+		$model = Contracttype::gpc()::make();
+
+		if ($model instanceof SellableItemInterface)
 			$result['fields'] = array_merge(
 				$result['fields'], 
 				SellablePriceDatatableFieldsHelper::getFieldsByModel(
-				Contracttype::gpc()::make()
-			)
+					$model
+				)
 			);
 
 		$result['mySelfDelete'] = 'links.delete';

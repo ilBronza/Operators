@@ -4,6 +4,7 @@ namespace IlBronza\Operators\Http\Controllers\Parameters\Fieldsets;
 
 use IlBronza\Form\Helpers\FieldsetsProvider\FieldsetParametersFile;
 use IlBronza\Operators\Models\Sellables\Contracttype;
+use IlBronza\Products\Models\Interfaces\SellableItemInterface;
 use IlBronza\Products\Providers\Helpers\Sellables\SellablePriceFormFieldsHelper;
 use function config;
 
@@ -21,10 +22,6 @@ class ContracttypeCreateStoreFieldsetsParameters extends FieldsetParametersFile
 
 	public function _getFieldsetsParameters() : array
 	{
-		$priceFields = SellablePriceFormFieldsHelper::getFieldsByModel(
-			$this->getModel()
-		);
-
 		$result = [
 			'base' => [
 				'translationPrefix' => 'operators::fields',
@@ -37,15 +34,17 @@ class ContracttypeCreateStoreFieldsetsParameters extends FieldsetParametersFile
 				],
 				'width' => ["1-3@l", '1-2@m']
 			],
-			'costs' => [
-				'translationPrefix' => 'operators::fields',
-				'fields' => $priceFields,
-				'width' => ["1-3@l", '1-2@m']
-			]
 		];
 
-		if ((config('operators.manageCosts') !== true) || empty($priceFields))
-			unset($result['costs']);
+		$model = $this->getModel();
+
+		if ($model instanceof SellableItemInterface)
+			$result['costs'] = [
+					'translationPrefix' => 'operators::fields',
+					'fields' => SellablePriceFormFieldsHelper::getFieldsByModel($model),
+					'width' => ["1-3@l", '1-2@m']
+				];
+
 
 		return $result;
 	}
