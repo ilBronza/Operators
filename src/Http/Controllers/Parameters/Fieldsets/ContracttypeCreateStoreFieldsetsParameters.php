@@ -44,7 +44,7 @@ class ContracttypeCreateStoreFieldsetsParameters extends FieldsetParametersFile
 			]
 		];
 
-		if(config('operators.manageCosts') !== true)
+		if ((config('operators.manageCosts') !== true) || empty($priceFields))
 			unset($result['costs']);
 
 		return $result;

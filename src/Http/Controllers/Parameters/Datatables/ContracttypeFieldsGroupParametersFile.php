@@ -3,6 +3,8 @@
 namespace IlBronza\Operators\Http\Controllers\Parameters\Datatables;
 
 use IlBronza\Datatables\Providers\FieldsGroupParametersFile;
+use IlBronza\Operators\Models\Sellables\Contracttype;
+use IlBronza\Products\Providers\Helpers\Sellables\SellablePriceDatatableFieldsHelper;
 
 class ContracttypeFieldsGroupParametersFile extends FieldsGroupParametersFile
 {
@@ -26,27 +28,18 @@ class ContracttypeFieldsGroupParametersFile extends FieldsGroupParametersFile
 				'istat_code' => 'editor.text',
 				'hex_rgba' => 'editor.color',
 
-				'operator_neat_day' => [
-					'type' => 'editor.price',
-					'refreshRow' => true,
-				],
-				'cost_gross_day' => [
-					'type' => 'editor.price',
-					'refreshRow' => true,
-				],
-				'cost_company_day' => 'editor.price',
-				//				'cost_charge_coefficient' => 'flat',
-
-				'mySelfDelete' => 'links.delete'
 			]
 		];
 
-		if(! config('operators.manageCosts'))
-		{
-			unset($result['fields']['operator_neat_day']);
-			unset($result['fields']['cost_gross_day']);
-			unset($result['fields']['cost_company_day']);
-		}
+		if (config('operators.manageCosts'))
+			$result['fields'] = array_merge(
+				$result['fields'], 
+				SellablePriceDatatableFieldsHelper::getFieldsByModel(
+				Contracttype::gpc()::make()
+			)
+			);
+
+		$result['mySelfDelete'] = 'links.delete';
 
 		return $result;
 	}

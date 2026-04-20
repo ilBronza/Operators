@@ -9,51 +9,23 @@ use IlBronza\CRUD\Traits\CRUDSluggableTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\HasColorTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
-use IlBronza\Prices\Models\Interfaces\WithPriceInterface;
-use IlBronza\Prices\Models\Traits\InteractsWithPriceTrait;
-// use IlBronza\Prices\Models\Traits\UpdatePricesOnSaveTrait;
-use IlBronza\Prices\Providers\PriceData;
-use IlBronza\Products\Models\Interfaces\SellableItemInterface;
-use IlBronza\Products\Models\Interfaces\SellableSupplierPriceCreatorBaseClass;
-use IlBronza\Products\Models\Sellables\Supplier;
-use IlBronza\Products\Models\Traits\Sellable\InteractsWithSellableTrait;
 use Illuminate\Support\Collection;
 use function class_basename;
 use function dd;
 
-class Contracttype extends BaseModel implements SellableItemInterface, WithPriceInterface
+class Contracttype extends BaseModel
 {
 	use PackagedModelsTrait;
 
 	use CRUDUseUuidTrait;
 	use CRUDSluggableTrait;
-	use InteractsWithSellableTrait;
-
-	use InteractsWithPriceTrait;
-	// use UpdatePricesOnSaveTrait;
 
 	use HasColorTrait;
 
 	static $packageConfigPrefix = 'operators';
 	static $modelConfigPrefix = 'contracttype';
-	public $deletingRelationships = [];
+	static $deletingRelationships = [];
 	protected $keyType = 'string';
-
-	public function getPriceFieldsForSellable() : array
-	{
-		return [
-		];
-	}
-
-	public function getNameForSellable(...$parameters) : string
-	{
-		return $this->getName();
-	}
-
-	public function getSellableTypeName(...$parameters) : string
-	{
-		return 'operator';
-	}
 
 	public function getDescription()
 	{
@@ -63,34 +35,6 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 	public function getIstatCode() : ?string
 	{
 		return $this->istat_code;
-	}
-
-	public function getPossibleSuppliersElements() : Collection
-	{
-		return $this->operators()->with('supplier')->get()->pluck('supplier')->filter();
-	}
-
-	public function getPriceCreator() : SellableSupplierPriceCreatorBaseClass
-	{
-		$class = config('operators.models.contracttype.helpers.sellableSupplierPricesCreator');
-
-		return new $class;
-	}
-
-	public function mustAutomaticallyUpdatePrices(): bool
-	{
-		return false;
-		return config('operators.models.contracttype.automaticUpdatesPrices');
-	}
-
-	public function getSellablePricesBySupplier(Supplier $supplier, ...$parameters) : array
-	{
-		dd($this->operatorContracttypes()->where('operator_id', $supplier->getTarget()->getKey())->first());
-
-		dd($supplier->getTarget());
-		dd('qua');
-
-		return null;
 	}
 
 	public function operators()
@@ -107,25 +51,13 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 
 	public function getRelatedFullOperatorContracttypes() : Collection
 	{
-		return $this->operatorContracttypes()->with(['operator.user.userdata', 'operator.address', 'operator.contracttypes', 'prices'])->get();
-	}
-
-	public function getRelatedFullOperators() : Collection
-	{
-		return $this->operators()->with(
-			'user.extraFields', 'contracttypes', 'sellableSuppliers.directPrice', 'sellableSuppliers.sellable', 'employments'
-		)->withSupplierId()->get();
+		return $this->operatorContracttypes()->with(['operator.user.userdata', 'operator.address', 'operator.contracttypes'])->get();
 	}
 
 	public function getOperators() : Collection
 	{
 		return $this->operators;
 	}
-
-	// public function _calculatePriceData(PriceData $priceData) : PriceData
-	// {
-	// 	dd('risolvere');
-	// }
 
 	//must calculate the final price
 	public function _manageCalculationErrors(Exception $e)
@@ -139,64 +71,5 @@ class Contracttype extends BaseModel implements SellableItemInterface, WithPrice
 	{
 		//TODO get first cost
 		dd('risolvere');
-	}
-
-	//get new price model base attributes to fill the price before its calculated
-	public function getPriceBaseAttributes()
-	{
-		return [];
-	}
-
-
-	/**
-	 * example
-	 *
-	 * public function getPriceBaseAttributes()
-	 * {
-	 *      return [
-	 *          'own_cost' => $this->getCost(),
-	 *          'sequence' => $this->getPriceSequence(),
-	 *      ];
-	 * }
-	 **/
-
-	/**
-	 * get the classname you need to relate in price table
-	 * expl your current model is App\Cardboards\PriceCalculations\Cardboard but you need to use App\Cardboards\PriceCalculations\Cardboard
-	 **/
-	// public function getPriceRelatedClassName();
-
-	/**
-	 * get the model key you need to relate in price table
-	 * expl your current model is 172 but you need to use 34
-	 **/
-	// public function getPriceRelatedKey();
-
-	public function getPriceValidityFrom() : ?Carbon
-	{
-		return null;
-	}
-
-	public function getPriceValidityTo() : ?Carbon
-	{
-		return null;
-	}
-
-	public function getCostCompany() : ?float
-	{
-		return $this->cost_company_day;
-	}
-
-	public function getSellableSupplierIndexRelations() : array
-	{
-		return [
-			'prices',
-			'supplier.target.operatorContracttypes.contracttype',
-			'supplier.target.operatorContracttypes.prices',
-			'supplier.target.validClientOperator.employment',
-			'supplier.target.user.userdata',
-			'supplier.target.extraFields',
-			'supplier.target.address'
-		];
 	}
 }

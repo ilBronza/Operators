@@ -59,7 +59,7 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 
 	static $packageConfigPrefix = 'operators';
 	static $modelConfigPrefix = 'operator';
-	public $deletingRelationships = [];
+	static $deletingRelationships = [];
 	protected $with = ['user'];
 	protected $keyType = 'string';
 	protected $guard_name = 'web';

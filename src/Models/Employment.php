@@ -20,7 +20,7 @@ class Employment extends BaseModel
 	static $packageConfigPrefix = 'operators';
 	static $modelConfigPrefix = 'employment';
 
-	public $deletingRelationships = [];
+	static $deletingRelationships = [];
 
 	public function getShortName() : ?string
 	{

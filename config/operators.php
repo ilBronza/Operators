@@ -45,6 +45,8 @@ use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorContractty
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorContracttypeFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorContracttypeRelatedFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorFieldsGroupParametersFile;
+use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorOrderrowsFieldsGroupParametersFile;
+use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorQuotationrowsFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\WorkingDayFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\ClientOperatorCreateStoreFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\ClientOperatorEditUpdateFieldsetsParameters;
@@ -55,6 +57,8 @@ use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorContracttyp
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorContracttypeEditUpdateFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorCreateStoreFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorEditUpdateFieldsetsParameters;
+use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorOrderrowEditUpdateFieldsetsParameters;
+use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorQuotationrowEditUpdateFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\ContracttypeRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\EmploymentRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorContracttypeRelationManager;
@@ -82,6 +86,32 @@ return [
 	'roles' => ['administrator'],
 
 	'models' => [
+        'orderrow' => [
+            'fieldsGroupsFiles' => [
+                'index' => OperatorOrderrowsFieldsGroupParametersFile::class,
+            ],
+            'relatedButtonsMethods' => [
+                'getAddSellableSupplierButton' => true,
+                'getAddRowButton' => true,
+                'getAddRowTableButton' => true
+            ],
+            'parametersFiles' => [
+                'edit' => OperatorOrderrowEditUpdateFieldsetsParameters::class
+            ]
+        ],
+        'quotationrow' => [
+            'fieldsGroupsFiles' => [
+                'index' => OperatorQuotationrowsFieldsGroupParametersFile::class,
+            ],
+            'relatedButtonsMethods' => [
+                'getAddSellableSupplierButton' => true,
+                'getAddRowButton' => true,
+                'getAddRowTableButton' => true
+            ],
+            'parametersFiles' => [
+                'edit' => OperatorQuotationrowEditUpdateFieldsetsParameters::class
+            ]
+        ],
         'skill' => [
             'table' => 'operators__skills'
         ],
