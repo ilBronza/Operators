@@ -2,18 +2,14 @@
 
 namespace IlBronza\Operators\Http\Controllers\Parameters\Fieldsets;
 
-use IlBronza\Form\Helpers\FieldsetsProvider\FieldsetParametersFile;
+use IlBronza\Operators\Models\Contracttype;
+use IlBronza\Products\Providers\Helpers\RowsHelpers\RowFieldsetParametersFile;
 
-use function config;
-
-class OperatorOrderrowEditUpdateFieldsetsParameters extends FieldsetParametersFile
+class OperatorOrderrowEditUpdateFieldsetsParameters extends RowFieldsetParametersFile
 {
     public function _getFieldsetsParameters() : array
     {
-        $costField = ['number' => 'numeric|nullable'];
-        $booleanField = ['boolean' => 'bool|nullable'];
-
-        return [
+        $result = [
             'main' => [
                 'translationPrefix' => 'products::fields',
                 'fields' => [
@@ -26,8 +22,12 @@ class OperatorOrderrowEditUpdateFieldsetsParameters extends FieldsetParametersFi
                 'fields' => [
                 ],
                 'width' => ["1-3@l", '1-2@m']
-            ],
-
+            ]
         ];
+
+        return static::addRowCostsFieldset(
+            $result,
+            Contracttype::gpc()::make()
+        );
     }
 }

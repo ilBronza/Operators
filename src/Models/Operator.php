@@ -35,7 +35,7 @@ use function dd;
 use function substr;
 use function ucfirst;
 
-class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
+class Operator extends BaseModel// implements SupplierInterface, HasWorkingDays
 {
 	use HasRoles;
 	use InteractsWithCategoryTrait;
@@ -44,18 +44,13 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 	use CRUDUseUuidTrait;
 	use CRUDSluggableTrait;
 	use CRUDParentingTrait;
-	use InteractsWithSupplierTrait;
+	// use InteractsWithSupplierTrait;
 	use InteractsWithDestinationTrait;
 	use CRUDLogoTrait;
 	use CRUDModelExtraFieldsTrait;
 
 	use OperatorWorkingDaysBonusCalculatorTrait;
 	use HasColorTrait;
-
-	public function mustAutomaticallyUpdatePrices() : ? bool
-	{
-		return false;
-	}
 
 	static $packageConfigPrefix = 'operators';
 	static $modelConfigPrefix = 'operator';
@@ -503,11 +498,6 @@ class Operator extends BaseModel implements SupplierInterface, HasWorkingDays
 	public function getPossibleContracttypeValuesArray() : array
 	{
 		return Contracttype::getSelfPossibleValuesArray(null, 'name');
-	}
-
-	public function getPossibleSellables() : Collection
-	{
-		return collect();
 	}
 
 	public function getPossibleClientsValuesArray() : array

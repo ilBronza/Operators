@@ -40,8 +40,9 @@ class Contracttype extends BaseModel
 	public function operators()
 	{
 		return $this->belongsToMany(
-			Operator::getProjectClassName(), config('operators.models.operatorContracttype.table')
-		)->using(OperatorContracttype::getProjectClassName());
+			Operator::gpc(), 
+			config('operators.models.operatorContracttype.table')
+		)->using(OperatorContracttype::gpc());
 	}
 
 	public function operatorContracttypes()

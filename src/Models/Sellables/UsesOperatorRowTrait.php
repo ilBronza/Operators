@@ -9,12 +9,14 @@ trait UsesOperatorRowTrait
 	public function initializeUsesOperatorRowTrait()
 	{
 		$this->addFieldsToUpdateByRowTypes('operatorRows');
+
+		$this->addSummaryFieldsCastsByRowTypes('operatorRows');
 	}
 
 	// OperatorOrderrow or OperatorQuotationrow
 	abstract public function getOperatorRowRelatedModel() : string;
 
-	public function rowRelationByOperatorType()
+	public function rowRelationByContracttype()
 	{
 		return $this->operatorRows();
 	}
@@ -31,9 +33,9 @@ trait UsesOperatorRowTrait
 		return $this->operatorRows;
 	}
 
-	public function getAddOperatorRowUrl() : string
+	public function getAddContracttypeUrl() : string
 	{
-		return $this->getAddRowByTypeUrl('Operator');
+		return $this->getAddRowByTypeUrl('Contracttype');
 	}
 
 	public function getOperatorRowsForRelationshipManager() : Collection
@@ -63,24 +65,4 @@ trait UsesOperatorRowTrait
 
 		return $this->operatorRows()->with($relations)->get();
 	}
-
-	// public function getTotalOperatorRowsCostAttribute()
-	// {
-	// 	return $this->getTotalByCustomRowsCost('operatorRows');
-	// }
-
-	// public function getTotalOperatorRowsRevenueAttribute()
-	// {
-	// 	return $this->getTotalByCustomRowsRevenue('operatorRows');
-	// }
-
-	// public function getMarginOperatorRowsAttribute()
-	// {
-	// 	return $this->getMarginByCustomRows('operatorRows');
-	// }
-
-	// public function getPercentageMarginOperatorRowsAttribute()
-	// {
-	// 	return $this->getPercentageMarginByCustomRows('operatorRows');
-	// }
 }

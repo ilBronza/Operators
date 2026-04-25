@@ -72,6 +72,7 @@ use IlBronza\Operators\Models\Contracttype;
 use IlBronza\Operators\Models\Employment;
 use IlBronza\Operators\Models\Operator;
 use IlBronza\Operators\Models\OperatorContracttype;
+use IlBronza\Operators\Models\Sellables\Helpers\ContracttypeOperatorSellableSupplierPricesHelper;
 use IlBronza\Operators\Models\WorkingDay;
 
 return [
@@ -85,10 +86,14 @@ return [
 
 	'roles' => ['administrator'],
 
+    'sellableSupplierPricesHelper' => [
+        'contracttype_operatorContracttype' => ContracttypeOperatorSellableSupplierPricesHelper::class
+    ],
+
 	'models' => [
         'orderrow' => [
             'fieldsGroupsFiles' => [
-                'index' => OperatorOrderrowsFieldsGroupParametersFile::class,
+                'operatorOrderrow' => OperatorOrderrowsFieldsGroupParametersFile::class,
             ],
             'relatedButtonsMethods' => [
                 'getAddSellableSupplierButton' => true,
@@ -128,7 +133,8 @@ return [
 			],
 			'parametersFiles' => [
 				'create' => OperatorContracttypeCreateStoreFieldsetsParameters::class,
-				'edit' => OperatorContracttypeEditUpdateFieldsetsParameters::class
+				'edit' => OperatorContracttypeEditUpdateFieldsetsParameters::class,
+				'show' => OperatorContracttypeEditUpdateFieldsetsParameters::class
 			],
 			'controllers' => [
 				'index' => OperatorContracttypeIndexController::class,
@@ -178,6 +184,7 @@ return [
 			],
 			'parametersFiles' => [
 				'create' => ContracttypeCreateStoreFieldsetsParameters::class,
+				'show' => ContracttypeCreateStoreFieldsetsParameters::class,
 			],
 			'controllers' => [
 				'index' => ContracttypeIndexController::class,

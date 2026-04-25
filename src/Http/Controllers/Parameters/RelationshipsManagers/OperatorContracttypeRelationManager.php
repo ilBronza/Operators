@@ -11,8 +11,8 @@ class OperatorContracttypeRelationManager Extends RelationshipsManager
 		return [
 			'show' => [
 				'relations' => [
-					'operatorContracttypes' => config('operators.models.operatorContracttype.controllers.index'),
-					'operators' => config('operators.models.operator.controllers.index')
+					'operator' => config('operators.models.operator.controllers.show'),
+					'contracttype' => config('operators.models.contracttype.controllers.show'),
 				]
 			]
 		];

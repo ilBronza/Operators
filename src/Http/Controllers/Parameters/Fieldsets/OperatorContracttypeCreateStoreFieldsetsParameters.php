@@ -3,7 +3,8 @@
 namespace IlBronza\Operators\Http\Controllers\Parameters\Fieldsets;
 
 use IlBronza\Form\Helpers\FieldsetsProvider\FieldsetParametersFile;
-
+use IlBronza\Operators\Models\Contracttype;
+use IlBronza\Products\Models\Interfaces\SellableItemInterface;
 use function config;
 
 class OperatorContracttypeCreateStoreFieldsetsParameters extends FieldsetParametersFile
@@ -20,7 +21,7 @@ class OperatorContracttypeCreateStoreFieldsetsParameters extends FieldsetParamet
 
 	public function _getFieldsetsParameters() : array
 	{
-		return [
+		$result = [
 			'base' => [
 				'translationPrefix' => 'operators::fields',
 				'fields' => [
@@ -42,17 +43,15 @@ class OperatorContracttypeCreateStoreFieldsetsParameters extends FieldsetParamet
 					'internal_approval_rating' => ['text' => 'string|nullable|max:255'],
 				],
 				'width' => ["1-3@l", '1-2@m']
-			],
-			'costs' => [
-				'translationPrefix' => 'operators::fields',
-				'fields' => [
-					'cost_company_day' => ['number' => 'numeric|nullable'],
-					'cost_gross_day' => ['number' => 'numeric|nullable'],
-					'operator_neat_day' => ['number' => 'numeric|nullable'],
-					//                    'cost_charge_coefficient' => ['number' => 'numeric|nullable'],
-				],
-				'width' => ["1-3@l", '1-2@m']
 			]
 		];
+
+		return static::addCostsFieldsetByModel(
+			$result,
+			Contracttype::gpc()::make(),
+			[
+				'translationPrefix' => 'operators::fields'
+			]
+		);
 	}
 }

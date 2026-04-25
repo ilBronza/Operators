@@ -58,11 +58,11 @@ class OperatorRelationManager extends RelationshipsManager
 		//		$relations['contracttypes'] = config('operators.models.contracttype.controllers.index');
 
 		//IlBronza\Products\Http\Controllers\SellableSupplier\SellableSupplierIndexController
-		if (config('products.sellables.enabled', false))
-			$relations['sellableSuppliers'] = [
-				'controller' => config('products.models.sellableSupplier.controllers.index'),
-				'elementGetterMethod' => 'getSellableSuppliersBySupplier'
-			];
+		// if (config('products.sellables.enabled', false))
+		// 	$relations['sellableSuppliers'] = [
+		// 		'controller' => config('products.models.sellableSupplier.controllers.index'),
+		// 		'elementGetterMethod' => 'getSellableSuppliersBySupplier'
+		// 	];
 		//
 		//				if(config('products.sellables.enabled', false))
 		//					$relations['sellables'] = [

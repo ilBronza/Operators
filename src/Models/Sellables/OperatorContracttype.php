@@ -3,35 +3,73 @@
 namespace IlBronza\Operators\Models\Sellables;
 
 use IlBronza\Operators\Models\OperatorContracttype as IbOperatorContracttype;
+use IlBronza\Products\Models\Interfaces\SupplierInterface;
+use IlBronza\Products\Models\Traits\Sellable\InteractsWithSupplierTrait;
+use IlBronza\Products\Providers\Helpers\Sellables\SellableCreatorHelper;
+use IlBronza\Products\Providers\Helpers\Sellables\SellableDeleterHelper;
+use IlBronza\Products\Providers\Helpers\Sellables\SellableSupplierCreatorHelper;
+use IlBronza\Products\Providers\Helpers\Sellables\SupplierCreatorHelper;
+use Illuminate\Support\Collection;
 
-class OperatorContracttype extends IbOperatorContracttype
+class OperatorContracttype extends IbOperatorContracttype implements SupplierInterface
 {
-	protected static function booted()
+	use InteractsWithSupplierTrait;
+
+	public function getPossibleSellables() : Collection
 	{
-		static::saving(function ($operatorContracttype)
-		{
-			$supplier = SupplierCreatorHelper::getOrCreateSupplierFromTarget($operatorContracttype->getOperator());
-			$sellable = SellableCreatorHelper::getOrcreateSellableByTarget(
-				$operatorContracttype->getContracttype(), [], 'operator'
-			);
+		$sellable = SellableCreatorHelper::getOrcreateSellableByTarget($this->getContracttype());
 
-			$sellableSupplier = SellableSupplierCreatorHelper::getOrCreateSellableSupplier($supplier, $sellable);
-
-			if(config('operators.manageCosts') == true)
-			{
-				$sellableSupplier->cost_company_day = $operatorContracttype->cost_company_day;
-				$sellableSupplier->save();
-			}
-		});
-
-		static::deleting(function ($operatorContracttype)
-		{
-			$supplier = SupplierCreatorHelper::getOrCreateSupplierFromTarget($operatorContracttype->getOperator());
-			$sellable = SellableCreatorHelper::getOrcreateSellableByTarget(
-				$operatorContracttype->getContracttype(), [], 'operator'
-			);
-
-			SellableDeleterHelper::deleteSellableSupplierBySellableSupplierModels($sellable, $supplier);
-		});
+		return collect([$sellable]);
 	}
+
+	public function mustAutomaticallyUpdatePrices() : ? bool
+	{
+		return true;
+	}
+
+	public function getNameAttribute() : ? string
+	{
+		return $this->getName();
+	}
+
+	public function getName() : ? string
+	{
+		return $this->getOperator()?->getName();
+	}
+
+	// protected static function booted()
+	// {
+	// 	static::saving(function ($operatorContracttype)
+	// 	{
+	// 		$supplier = SupplierCreatorHelper::getOrCreateSupplierFromTarget($operatorContracttype->getOperator());
+	// 		$sellable = SellableCreatorHelper::getOrcreateSellableByTarget(
+	// 			$operatorContracttype->getContracttype(), [], 'operator'
+	// 		);
+
+	// 		$sellableSupplier = SellableSupplierCreatorHelper::getOrCreateSellableSupplier($supplier, $sellable);
+	// 	});
+
+	// 	static::created(function ($operatorContracttype)
+	// 	{
+	// 		$supplier = SupplierCreatorHelper::getOrCreateSupplierFromTarget($operatorContracttype->getOperator());
+	// 		$sellable = SellableCreatorHelper::getOrcreateSellableByTarget(
+	// 			$operatorContracttype->getContracttype(), [], 'operator'
+	// 		);
+
+	// 		$sellableSupplier = SellableSupplierCreatorHelper::getOrCreateSellableSupplier($supplier, $sellable);
+
+	// 			$sellableSupplier->updatePricesBySellableAndSupplier();
+	// 	});
+
+	// 	static::deleting(function ($operatorContracttype)
+	// 	{
+	// 		$supplier = SupplierCreatorHelper::getOrCreateSupplierFromTarget($operatorContracttype->getOperator());
+	// 		$sellable = SellableCreatorHelper::getOrcreateSellableByTarget(
+	// 			$operatorContracttype->getContracttype(), [], 'operator'
+	// 		);
+
+	// 		SellableDeleterHelper::deleteSellableSupplierBySellableSupplierModels($sellable, $supplier);
+
+	// 	});
+	// }
 }

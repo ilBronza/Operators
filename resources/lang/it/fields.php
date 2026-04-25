@@ -91,6 +91,12 @@ return [
 
 	'birth' => 'Nascita',
 	'address' => 'Indirizzo',
-	'baseAnagraphical' => 'Dati anagrafici'
+	'baseAnagraphical' => 'Dati anagrafici',
+
+	'cost_per_day' => 'Costo giornaliero',
+	'cost_per_hour' => 'Costo orario',
+
+	'revenue_per_day' => 'Ricavo giornaliero',
+	'revenue_per_hour' => 'Ricavo orario',
 
 ];

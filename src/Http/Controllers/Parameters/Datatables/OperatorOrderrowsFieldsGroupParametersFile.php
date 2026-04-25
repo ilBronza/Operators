@@ -2,33 +2,28 @@
 
 namespace IlBronza\Operators\Http\Controllers\Parameters\Datatables;
 
-use IlBronza\Datatables\Providers\FieldsGroupParametersFile;
+use IlBronza\Operators\Models\Contracttype;
+use IlBronza\Products\Models\ProductPackageBaseRowcontainerModel;
+use IlBronza\Products\Providers\Helpers\RowsHelpers\RowsFieldsGroupParametersFile;
 
-class OperatorOrderrowsFieldsGroupParametersFile extends FieldsGroupParametersFile
+class OperatorOrderrowsFieldsGroupParametersFile extends RowsFieldsGroupParametersFile
 {
-	static function getFieldsGroup() : array
-	{
-		return [
-			'translationPrefix' => 'products::fields',
-			'fields' => 
-				[
-					'mySelfPrimary' => 'primary',
-					'mySelfEdit' => 'links.edit',
+    static function getFieldsGroup(ProductPackageBaseRowcontainerModel $parentModel) : array
+    {
+        $helper = static::createByContainer($parentModel);
 
-					'sellable.name' => 'flat',
+        $fields = $helper->getRowStartingFields();
 
-					'description' => [
-						'type' => 'flat',
-						'width' => '20em'
-					],
+        $fields = static::addCostsFields(
+            $fields,
+            Contracttype::gpc()::make()
+        );
 
-				'starts_at' => 'dates.date',
-				'ends_at' => 'dates.date',
-				'quantity' => [
-					'type' => 'editor.numeric',
-					'refreshRow' => true,
-				],
-			]
-		];
+		$result = [
+            'translationPrefix' => 'products::fields',
+            'fields' => $fields
+        ];
+
+        return $result;
 	}
 }

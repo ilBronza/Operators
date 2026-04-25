@@ -2,30 +2,31 @@
 
 namespace IlBronza\Operators\Http\Controllers\Parameters\Datatables;
 
-use IlBronza\Datatables\Providers\FieldsGroupParametersFile;
+use IlBronza\Operators\Models\Contracttype;
+use IlBronza\Products\Models\Interfaces\SellableItemInterface;
+use IlBronza\Products\Providers\Helpers\RowsHelpers\CostsFieldsGroupParametersFile;
+use IlBronza\Products\Providers\Helpers\Sellables\SellablePriceDatatableFieldsHelper;
 
-class OperatorContracttypeFieldsGroupParametersFile extends FieldsGroupParametersFile
+class OperatorContracttypeFieldsGroupParametersFile extends CostsFieldsGroupParametersFile
 {
 	static function getFieldsGroup() : array
 	{
-		return [
-			'translationPrefix' => 'operators::fields',
-			'fields' => [
-				'mySelfPrimary' => 'primary',
-				'mySelfEdit' => 'links.edit',
-				'mySelfSee' => 'links.see',
-				'operator.user.userdata.first_name' => 'flat',
-				'operator.user.userdata.surname' => 'flat',
-				'contracttype.name' => 'flat',
+        return [
+            'translationPrefix' => 'products::fields',
+            'fields' => static::addStandardCostsFieldsByModelPlusDelete(
+                [
+					'mySelfPrimary' => 'primary',
+					'mySelfEdit' => 'links.edit',
+					'mySelfSee' => 'links.see',
+					'operator.user.userdata.first_name' => 'flat',
+					'operator.user.userdata.surname' => 'flat',
+					'contracttype.name' => 'flat',
 
-				'internal_approval_rating' => 'flat',
-				'level' => 'flat',
-
-				'cost_company_day' => 'numbers.number2',
-				'cost_gross_day' => 'numbers.number2',
-
-				'mySelfDelete' => 'links.delete'
-			]
-		];
+					'internal_approval_rating' => 'flat',
+					'level' => 'flat',
+                ],
+                Contracttype::gpc()::make()
+            )
+        ];
 	}
 }

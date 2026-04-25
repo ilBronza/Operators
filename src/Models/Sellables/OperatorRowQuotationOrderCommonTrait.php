@@ -13,40 +13,39 @@ trait OperatorRowQuotationOrderCommonTrait
 		);
 	}
 
-	public function getQuantityAttribute($value) : ? float
+	public function isDayBased() : bool
 	{
-		if($value)
-			return $value;
-
-		return $this->getModelContainer()?->km * 2;
+		return true;
 	}
 
-
-	public function getCalculatedCostPerKm() : float
+	public function getQuantity() : ? float
 	{
-		return $this->calculated_cost_per_km;
+		if($this->isDayBased())
+			return 1;
+
+		dd('calcolare le ore');
 	}
 
-	public function getCalculatedCostPerMovimentation() : float
+	public function getSingleCostAttribute() : float
 	{
-		return $this->calculated_cost_per_movimentation ?? 0;
+		if(! $target = $this->getSellableSupplier())
+			$target = $this->getSellable();
+
+		if($this->isDayBased())
+			return $target->cost_per_day ?? 0;
+
+		return $target->cost_per_hour ?? 0;
 	}
 
-	public function getCalculatedCostPerDay() : float
+	public function getSingleRevenueAttribute() : float
 	{
-		return $this->calculated_cost_per_day ?? 0;
+		return 777;
 	}
 
 	//total_row_cost
 	public function getTotalRowCostAttribute() : float
 	{
-		$tripCost = round($this->getQuantity() * $this->getCalculatedCostPerKm(), 2) ?? 0;
-
-		$daysCost = round($this->getDaysQuantity() * $this->getCalculatedCostPerDay(), 2) ?? 0;
-
-		$total = $tripCost + $this->getCalculatedCostPerMovimentation() + $daysCost;
-
-		return $total * $this->getCostCoefficient();
+		return $this->getQuantity() * $this->getCalculatedSingleCost();
 	}
 
 	//total_row_revenue

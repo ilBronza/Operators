@@ -15,8 +15,16 @@ return new class extends Migration
 			$table->decimal('cost_per_day', 6, 2)->nullable();
 			$table->decimal('cost_per_hour', 4, 2)->nullable();
 
-			$table->decimal('revenue_per_day', 6, 2)->nullable();
-			$table->decimal('revenue_per_hour', 4, 2)->nullable();
+			$table->decimal('revenue_per_day', 7, 2)->nullable();
+			$table->decimal('revenue_per_hour', 6, 2)->nullable();
+		});
+
+		Schema::table(config('operators.models.operatorContracttype.table'), function (Blueprint $table) {
+			$table->decimal('cost_per_day', 6, 2)->nullable();
+			$table->decimal('cost_per_hour', 4, 2)->nullable();
+
+			$table->decimal('revenue_per_day', 7, 2)->nullable();
+			$table->decimal('revenue_per_hour', 6, 2)->nullable();
 		});
 	}
 
@@ -26,6 +34,14 @@ return new class extends Migration
 	public function down(): void
 	{
 		Schema::table(config('operators.models.contracttype.table'), function (Blueprint $table) {
+			$table->dropColumn('cost_per_day');
+			$table->dropColumn('cost_per_hour');
+
+			$table->dropColumn('revenue_per_day');
+			$table->dropColumn('revenue_per_hour');
+		});
+
+		Schema::table(config('operators.models.operatorContracttype.table'), function (Blueprint $table) {
 			$table->dropColumn('cost_per_day');
 			$table->dropColumn('cost_per_hour');
 

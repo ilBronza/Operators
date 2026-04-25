@@ -2,15 +2,13 @@
 
 namespace IlBronza\Operators\Http\Controllers\Parameters\Datatables;
 
+use IlBronza\Operators\Models\Contracttype;
+
 class OperatorContracttypeByContracttypeFieldsGroupParametersFile extends OperatorContracttypeRelatedFieldsGroupParametersFile
 {
 	static function getFieldsGroup() : array
 	{
-		$parameters = parent::getTracedFieldsGroup();
-
-		unset($parameters['fields']['contracttype.name']);
-
-		return [
+		$result = [
 			'translationPrefix' => 'operators::fields',
 			'fields' => [
 				'mySelfPrimary' => 'primary',
@@ -35,12 +33,16 @@ class OperatorContracttypeByContracttypeFieldsGroupParametersFile extends Operat
 				'internal_approval_rating' => 'flat',
 				'level' => 'flat',
 
-				'cost_company_day' => 'numbers.number2',
-				'cost_gross_day' => 'numbers.number2',
-				'operator_neat_day' => 'numbers.number2',
-
-				'mySelfDelete' => 'links.delete'
 			]
 		];
+
+		$result = static::addCostsFieldsetByModel(
+			$result,
+			Contracttype::gpc()::make()
+		);
+
+		$result['mySelfDelete'] = 'links.delete';
+
+		return $result;
 	}
 }

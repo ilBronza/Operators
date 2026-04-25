@@ -7,7 +7,7 @@ use IlBronza\Products\Models\Quotations\CustomQuotationrow;
 
 class OperatorQuotationrow extends CustomQuotationrow
 {
-	protected static ?string $typeName = 'operatorRow';
+	protected static ?string $typeName = 'Contracttype';
 	static $designedTargetConfigPackagePrefix = 'operators';	
 
 	use OperatorRowQuotationOrderCommonTrait;

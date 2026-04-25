@@ -30,16 +30,38 @@ class Contracttype extends IbContracttype implements SellableItemInterface, With
 
 	public function getPossibleSuppliersElements() : Collection
 	{
-		return $this->operators()->with('supplier')->get()->pluck('supplier')->filter();
+		return $this->operatorContracttypes()->with('supplier')->get()->pluck('supplier')->filter();
+	}
+
+	public function getPossibleSuppliers() : Collection
+	{
+		return collect();
+	}
+
+	public function mustAutomaticallyUpdatePricesBySellable() : bool
+	{
+		return false;
+	}
+
+	public function getRowFieldsToStore() : array
+	{
+		$result = [
+			'stored_cost_per_day' => 'cost_per_day',
+			'stored_cost_per_hour' => 'cost_per_hour',
+			'stored_revenue_per_day' => 'revenue_per_day',
+			'stored_revenue_per_hour' => 'revenue_per_hour'
+		];
+
+		return $result;
 	}
 
 	public function getPriceCreator() : ?SellableSupplierPriceCreatorBaseClass
 	{
-		$class = cconfig('operators.models.contracttype.helpers.sellableSupplierPricesCreator');
+		// $class = cconfig('operators.models.contracttype.helpers.sellableSupplierPricesCreator');
 
 		dd($class);
 
-		return $class ? new $class : new \IlBronza\Vehicles\Helpers\VehiclePricesCreatorHelper;
+		// return $class ? new $class : new \IlBronza\Vehicles\Helpers\VehiclePricesCreatorHelper;
 	}
 
 	/**
@@ -63,4 +85,15 @@ class Contracttype extends IbContracttype implements SellableItemInterface, With
 			'prices',
 			'supplier.target',
 		];
-	}}
+	}
+
+	public function getContainerModelRelatedTablesToRefresh() : array
+	{
+		return ['operatorRows'];
+	}
+
+	public function getDependentSellables() : array
+	{
+		return [];
+	}
+}

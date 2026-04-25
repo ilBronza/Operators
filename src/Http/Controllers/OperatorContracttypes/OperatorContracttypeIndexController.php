@@ -28,7 +28,6 @@ class OperatorContracttypeIndexController extends OperatorContracttypeCRUD
         return $this->getModelClass()::with(
 			'operator.user.userdata',
 			'contracttype',
-			'prices',
 		)->get();
     }
 
