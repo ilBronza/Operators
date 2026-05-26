@@ -45,16 +45,4 @@ class OperatorContracttypeCreateStoreController extends OperatorContracttypeCRUD
 		return $this->create();
 	}
 
-//	public function performAdditionalOperations()
-//	{
-//		$operatorSupplier = SupplierCreatorHelper::getOrCreateSupplierFromTarget($this->getModel()->getOperator());
-//		$contracttypeSellable = SellableCreatorHelper::getOrcreateSellableByTarget(
-//			$this->getModel()->getContracttype(), [], 'service'
-//		);
-//
-//		$sellableSupplier = SellableCreatorHelper::createSellableSupplier($operatorSupplier, $contracttypeSellable);
-//
-//		$sellableSupplier->cost_company_day = $this->getModel()->cost_company_day;
-//		$sellableSupplier->save();
-//	}
 }

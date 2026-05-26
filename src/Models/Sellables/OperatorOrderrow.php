@@ -8,7 +8,7 @@ use IlBronza\Products\Models\Orders\CustomOrderrow;
 class OperatorOrderrow extends CustomOrderrow
 {
 	public string $fieldsGroupParametersKey = 'operatorOrderrow';
-	protected static ?string $typeName = 'Contracttype';
+	static ?string $typeName = 'Contracttype';
 	static $designedTargetConfigPackagePrefix = 'operators';	
 
 	use OperatorRowQuotationOrderCommonTrait;

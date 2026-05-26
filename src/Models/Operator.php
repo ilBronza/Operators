@@ -35,7 +35,7 @@ use function dd;
 use function substr;
 use function ucfirst;
 
-class Operator extends BaseModel// implements SupplierInterface, HasWorkingDays
+class Operator extends BaseModel implements HasWorkingDays //SupplierInterface
 {
 	use HasRoles;
 	use InteractsWithCategoryTrait;
@@ -464,7 +464,12 @@ class Operator extends BaseModel// implements SupplierInterface, HasWorkingDays
 
 	public function user()
 	{
-		return $this->belongsTo(User::gpc());
+		return $this->belongsTo(User::gpc())->withInactive();
+	}
+
+	public function getLogoUrlAttribute()
+	{
+		return $this->getLogoImageUrl();
 	}
 
 	public function getLogoImageUrl() : ?string
@@ -517,6 +522,20 @@ class Operator extends BaseModel// implements SupplierInterface, HasWorkingDays
 	public function getClientOperators() : Collection
 	{
 		return $this->clientOperators;
+	}
+
+
+	public function getSellableSuppliersIds() : array
+	{
+		$this->load('operatorContracttypes.supplier.sellableSuppliers');
+
+		$result = [];
+
+		foreach($this->operatorContracttypes as $operatorContracttype)
+			foreach($operatorContracttype->getSupplier()?->getSellableSuppliers() ?? [] as $sellableSupplier)
+				$result[] = $sellableSupplier->getKey();
+
+		return $result;
 	}
 }
 

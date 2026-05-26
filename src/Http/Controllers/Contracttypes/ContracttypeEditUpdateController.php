@@ -18,6 +18,11 @@ class ContracttypeEditUpdateController extends ContracttypeCRUD
         return config('operators.models.contracttype.parametersFiles.create');
     }
 
+    public function getRelationshipsManagerClass()
+    {
+        return config("{$this->getPackageConfigName()}.models.{$this->getModelConfigPrefix()}.relationshipsManagerClasses.edit");
+    }
+
     public function edit(string $contracttype)
     {
         $contracttype = $this->findModel($contracttype);

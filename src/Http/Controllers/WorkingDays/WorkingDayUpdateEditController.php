@@ -5,6 +5,7 @@ namespace IlBronza\Operators\Http\Controllers\WorkingDays;
 use Carbon\Carbon;
 use IlBronza\Operators\Helpers\WorkingDay\WorkingDayProviderHelper;
 use IlBronza\Operators\Models\Operator;
+use IlBronza\Operators\Models\OperatorContracttype;
 use IlBronza\Operators\Models\WorkingDay;
 use IlBronza\Products\Models\Orders\Orderrow;
 use IlBronza\Products\Models\Sellables\SellableSupplier;
@@ -21,7 +22,7 @@ class WorkingDayUpdateEditController extends WorkingDayCRUDController
 {
 	public $allowedMethods = ['updateByOperatorDay', 'updateBySellableSupplierDay', 'getDutyPopup'];
 
-	public function updateByOperatorDay(Request $request, $operator, $day)
+	public function updateByOperatorDay(Request $request, $operatorContracttype, $day)
 	{
 		$params = Validator::make(array_merge($request->all(), $request->route()->parameters()), [
 			'value' => 'string|nullable|in:' . implode(',', array_keys(WorkingDay::gpc()::getWorkingDaySelectArray())),
@@ -30,11 +31,16 @@ class WorkingDayUpdateEditController extends WorkingDayCRUDController
 			'day' => 'date|required|date_format:Y-m-d',
 		])->validate();
 
+		$savedId = $operatorContracttype;
 
-		$operator = Operator::gpc()::find($operator);
+		if($operatorContracttype = OperatorContracttype::gpc()::find($operatorContracttype))
+			$operator = $operatorContracttype->getOperator();
+		else
+			$operator = Operator::gpc()::find($savedId);
 
 		//DOGODO URGENTE annullare questo crea e cancella in favore di un cancella SE ESISTE
-		if(is_null($params['value']))
+
+		if((is_null($params['value']))||($params['value'] == 'empty'))
 		{
 			$workingDay = WorkingDayProviderHelper::provideByParameters(
 				$operator,
@@ -66,6 +72,7 @@ class WorkingDayUpdateEditController extends WorkingDayCRUDController
 
 		$updateParameters['ibaction'] = 'none';
 		$updateParameters['action'] = 'none';
+		$updateParameters['message'] = $day . ' aggiornato a ' . $params['value'];
 		return $updateParameters;
 	}
 

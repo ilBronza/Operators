@@ -3,6 +3,7 @@
 namespace IlBronza\Operators\Models;
 
 use IlBronza\CRUD\Models\BasePivotModel;
+use IlBronza\CRUD\Traits\Model\CRUDCacheTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
 use IlBronza\Products\Models\OrderProductPhase;
@@ -16,6 +17,7 @@ use function config;
 class OperatorContracttype extends BasePivotModel
 {
 	use CRUDUseUuidTrait;
+	use CRUDCacheTrait;
 
 	static $deletingRelationships = [];
 

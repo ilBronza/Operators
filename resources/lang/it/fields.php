@@ -99,4 +99,17 @@ return [
 	'revenue_per_day' => 'Ricavo giornaliero',
 	'revenue_per_hour' => 'Ricavo orario',
 
+	'calculated_cost_per_day' => 'Costo giornaliero',
+	'calculated_cost_per_hour' => 'Costo orario',
+
+	'calculated_revenue_per_day' => 'Ricavo giornaliero',
+	'calculated_revenue_per_hour' => 'Ricavo orario',
+
+	'operator' => [
+		'address' => [
+			'city' => 'Comune',
+			'province' => 'Prov'
+		]
+	]
+
 ];

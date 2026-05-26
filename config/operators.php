@@ -24,6 +24,7 @@ use IlBronza\Operators\Http\Controllers\OperatorContracttypes\OperatorContractty
 use IlBronza\Operators\Http\Controllers\OperatorContracttypes\OperatorContracttypeShowController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorArchiveController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorAvatarController;
+use IlBronza\Operators\Http\Controllers\Operators\OperatorBulkDeleteController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorByRoleIndexController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorCreateStoreController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorDestroyController;
@@ -106,6 +107,7 @@ return [
         ],
         'quotationrow' => [
             'fieldsGroupsFiles' => [
+            	'operatorQuotationrow' => OperatorQuotationrowsFieldsGroupParametersFile::class,
                 'index' => OperatorQuotationrowsFieldsGroupParametersFile::class,
             ],
             'relatedButtonsMethods' => [
@@ -180,7 +182,8 @@ return [
 				'related' => ContracttypeRelatedFieldsGroupParametersFile::class
 			],
 			'relationshipsManagerClasses' => [
-				'show' => ContracttypeRelationManager::class
+				'show' => ContracttypeRelationManager::class,
+				'edit' => ContracttypeRelationManager::class,
 			],
 			'parametersFiles' => [
 				'create' => ContracttypeCreateStoreFieldsetsParameters::class,
@@ -240,6 +243,7 @@ return [
 				'edit' => OperatorEditUpdateFieldsetsParameters::class
 			],
 			'controllers' => [
+				'bulkDelete' => OperatorBulkDeleteController::class,
 				'reorder' => OperatorReorderController::class,
 				'documents' => OperatorDocumentsController::class,
 				'avatar' => OperatorAvatarController::class,

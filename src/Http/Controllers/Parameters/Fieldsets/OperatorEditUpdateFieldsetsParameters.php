@@ -58,10 +58,10 @@ class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 								'model' => $this->getModel()
 							]
 						],
-						'width' => ['medium']
+						'width' => ['large']
 					],
 				],
-				'width' => ['medium']
+				'width' => ['large']
 			],
 
 			'base' => [
@@ -83,7 +83,7 @@ class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 					//					'description' => ['text' => 'string|nullable|max:255'],
 					//					'istat_code' => ['text' => 'string|nullable|max:255'],
 				],
-				'width' => ['medium']
+				'width' => ['large']
 			],
 			'birth' => [
 				'translationPrefix' => 'operators::fields',
@@ -119,7 +119,7 @@ class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 						'rules' => 'string|nullable|max:255',
 					],
 				],
-				'width' => ['medium']
+				'width' => ['large']
 			],
 			'address' => [
 				'translationPrefix' => 'operators::fields',
@@ -133,7 +133,7 @@ class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 					'region' => ['text' => 'string|nullable|max:255'],
 					'state' => ['text' => 'string|nullable|max:255'],
 				],
-				'width' => ['medium']
+				'width' => ['large']
 			],
 
 			//			'notes' => [

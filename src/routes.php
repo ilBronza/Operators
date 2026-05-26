@@ -27,6 +27,7 @@ Route::group([
 		Route::get('/reorder/{operator?}', [Operators::getController('operator', 'reorder'), 'reorder'])->name('operators.reorder');
 		Route::post('/reorder', [Operators::getController('operator', 'reorder'), 'storeReorder'])->name('operators.storeReorder');
 
+		Route::post('/bulk-delete', [Operators::getController('operator', 'bulkDelete'), 'bulkDelete'])->name('operators.bulkDelete');
 
 		//OperatorByRoleIndexController
 		Route::get('by-role/{role}', [Operators::getController('operator', 'byRole'), 'index'])->name('operators.byRole');

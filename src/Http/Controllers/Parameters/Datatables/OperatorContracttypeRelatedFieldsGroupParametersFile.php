@@ -2,9 +2,9 @@
 
 namespace IlBronza\Operators\Http\Controllers\Parameters\Datatables;
 
-use IlBronza\Datatables\Providers\FieldsGroupParametersFile;
+use IlBronza\Products\Providers\Helpers\RowsHelpers\RowsFieldsGroupParametersFile;
 
-class OperatorContracttypeRelatedFieldsGroupParametersFile extends FieldsGroupParametersFile
+class OperatorContracttypeRelatedFieldsGroupParametersFile extends RowsFieldsGroupParametersFile
 {
 	static function getFieldsGroup() : array
 	{

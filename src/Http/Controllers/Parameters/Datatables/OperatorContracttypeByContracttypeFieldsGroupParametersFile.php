@@ -36,7 +36,7 @@ class OperatorContracttypeByContracttypeFieldsGroupParametersFile extends Operat
 			]
 		];
 
-		$result = static::addCostsFieldsetByModel(
+		$result = static::addCostsFields(
 			$result,
 			Contracttype::gpc()::make()
 		);

@@ -68,11 +68,12 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 	{
 		$sellableSuppliersIdsDictionary = [];
 
-		foreach ($this->supplier->sellableSuppliers as $sellableSupplier)
-			$sellableSuppliersIdsDictionary[$sellableSupplier->getKey()] = [
-				'operator' => $this,
-				'orderrows' => collect()
-			];
+		foreach($this->operatorContracttypes as $operatorContracttype)
+			foreach ($operatorContracttype->supplier->sellableSuppliers as $sellableSupplier)
+				$sellableSuppliersIdsDictionary[$sellableSupplier->getKey()] = [
+					'operator' => $this,
+					'orderrows' => collect()
+				];
 
 		$ordersIds = Order::gpc()::select('id')->whereHas('extraFields', function ($query) use($start, $end)
 		{
@@ -94,8 +95,9 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 
 		$orderrowDays = collect();
 
-		foreach ($this->supplier->sellableSuppliers as $sellableSupplier)
-			$orderrowDays = $orderrowDays->merge($sellableSuppliersIdsDictionary[$sellableSupplier->getKey()]['orderrows']);
+		foreach($this->operatorContracttypes as $operatorContracttype)
+			foreach ($operatorContracttype->supplier->sellableSuppliers as $sellableSupplier)
+				$orderrowDays = $orderrowDays->merge($sellableSuppliersIdsDictionary[$sellableSupplier->getKey()]['orderrows']);
 
 		return $orderrowDays;
 	}

@@ -47,7 +47,7 @@ class OperatorAvatarController extends EditUserDataAvatarController
 
 	public function logoUpdate(Request $request, string $user)
 	{
-		$this->user = User::gpc()::find($user);
+		$this->user = User::gpc()::withInactive()->find($user);
 
 		$this->operator =  $this->user->getOperator();
 

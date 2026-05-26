@@ -3,6 +3,7 @@
 namespace IlBronza\Operators\Models\Sellables;
 
 use IlBronza\Operators\Models\Contracttype;
+use IlBronza\Operators\Models\Operator;
 
 trait OperatorRowQuotationOrderCommonTrait
 {
@@ -11,6 +12,11 @@ trait OperatorRowQuotationOrderCommonTrait
 		$this->setCustomrowCasts(
 			Contracttype::gpc()::make()->getPriceFieldsForSellable()
 		);
+	}
+
+	public function getOperator() : ? Operator
+	{
+		return $this->getSupplier()?->getTarget()?->getOperator();
 	}
 
 	public function isDayBased() : bool
@@ -52,6 +58,22 @@ trait OperatorRowQuotationOrderCommonTrait
 	public function getTotalRowRevenueAttribute() : float
 	{
 		return round($this->getTotalRowCost() * 1.33);
+	}
+
+	public function getClientOperatorPopupUrl()
+	{
+		return route("{$this->routeClassname}s.clientOperatorPopup", [
+			$this->routeClassname => config('datatables.replace_model_id_string'),
+			'iframed' => true
+		]);
+	}
+
+	public function getDailyAllowancePopup(bool $real = false)
+	{
+		return route("{$this->routeClassname}s.dailyAllowancePopup", [
+			$this->routeClassname => ($real ? $this->getKey() : config('datatables.replace_model_id_string')),
+			'iframed' => true
+		]);
 	}
 
 }

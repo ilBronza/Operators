@@ -17,7 +17,7 @@ class OperatorContracttype extends IbOperatorContracttype implements SupplierInt
 
 	public function getPossibleSellables() : Collection
 	{
-		$sellable = SellableCreatorHelper::getOrcreateSellableByTarget($this->getContracttype());
+		$sellable = SellableCreatorHelper::getOrcreateSellableByTarget($this->getContracttype(), [], 'Contracttype');
 
 		return collect([$sellable]);
 	}
