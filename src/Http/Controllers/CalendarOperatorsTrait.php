@@ -35,7 +35,7 @@ trait CalendarOperatorsTrait
 		})
 			// ->where('id', '6e3d119d-86c8-47c2-a044-1735d5a46e0e')
 			                 ->with([
-				'supplier.sellableSuppliers',
+				'operatorContracttypes.supplier.sellableSuppliers',
 				'validClientOperator',
 				'clientOperators' => function ($query)
 				{
@@ -55,11 +55,12 @@ trait CalendarOperatorsTrait
 		$this->sellableSuppliersIdsDictionary = [];
 
 		foreach ($operators as $operator)
-			foreach ($operator->supplier->sellableSuppliers as $sellableSupplier)
-				$this->sellableSuppliersIdsDictionary[$sellableSupplier->getKey()] = [
-					'operator' => $operator,
-					'orderrows' => collect()
-				];
+			foreach ($operator->operatorContracttypes as $operatorContracttype)
+				foreach ($operatorContracttype->supplier->sellableSuppliers as $sellableSupplier)
+					$this->sellableSuppliersIdsDictionary[$sellableSupplier->getKey()] = [
+						'operator' => $operator,
+						'orderrows' => collect()
+					];
 
 		$ordersIds = Order::gpc()::select('id')->whereHas('extraFields', function ($query)
 		{
@@ -83,8 +84,9 @@ trait CalendarOperatorsTrait
 		{
 			$orderrowDays = collect();
 
-			foreach ($operator->supplier->sellableSuppliers as $sellableSupplier)
-				$orderrowDays = $orderrowDays->merge($this->sellableSuppliersIdsDictionary[$sellableSupplier->getKey()]['orderrows']);
+			foreach($operator->operatorContracttypes as $operatorContracttype)
+				foreach ($operatorContracttype->supplier->sellableSuppliers as $sellableSupplier)
+					$orderrowDays = $orderrowDays->merge($this->sellableSuppliersIdsDictionary[$sellableSupplier->getKey()]['orderrows']);
 
 			$operator->setRelation('orderrows', $orderrowDays);
 		}

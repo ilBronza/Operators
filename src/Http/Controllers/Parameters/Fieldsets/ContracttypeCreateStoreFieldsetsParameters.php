@@ -38,12 +38,13 @@ class ContracttypeCreateStoreFieldsetsParameters extends FieldsetParametersFile
 
 		$model = $this->getModel();
 
-		if ($model instanceof SellableItemInterface)
-			$result['costs'] = [
-					'translationPrefix' => 'operators::fields',
-					'fields' => SellablePriceFormFieldsHelper::getFieldsByModel($model),
-					'width' => ["1-3@l", '1-2@m']
-				];
+		if(\Auth::user()->hasRole('economics'))
+			if ($model instanceof SellableItemInterface)
+				$result['costs'] = [
+						'translationPrefix' => 'operators::fields',
+						'fields' => SellablePriceFormFieldsHelper::getFieldsByModel($model),
+						'width' => ["1-3@l", '1-2@m']
+					];
 
 
 		return $result;

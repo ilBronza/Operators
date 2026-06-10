@@ -42,79 +42,79 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 					'type' => 'flat',
 					'mainHeader' => [
 						'label' => 'ferie',
-						'colspan' => 4
+						'colspan' => 1
 					],
 					'suffix' => 'h',
 					'width' => '75px'
 				],
-				'month_calculated_holiday_days' => [
-					'type' => 'flat',
-					'prefix' => 'Δ',
-				],
-				'holidays_reset_date' => [
-					'type' => 'dates.date',
-					'width' => '8em'
-				],
-				'holidays_reset' => [
-					'type' => 'numbers.number2',
-				],
+				// 'month_calculated_holiday_days' => [
+				// 	'type' => 'flat',
+				// 	'prefix' => 'Δ',
+				// ],
+				// 'holidays_reset_date' => [
+				// 	'type' => 'dates.date',
+				// 	'width' => '8em'
+				// ],
+				// 'holidays_reset' => [
+				// 	'type' => 'numbers.number2',
+				// ],
 				'calculated_rol_days' => [
 					'type' => 'flat',
 					'mainHeader' => [
 						'label' => 'rol',
-						'colspan' => 4
+						'colspan' => 1
 					],
 					'suffix' => 'h',
 				],
-				'month_calculated_rol_days' => [
-					'type' => 'flat',
-					'prefix' => 'Δ',
-				],
-				'rol_reset_date' => [
-					'type' => 'dates.date',
-				],
-				'rol_reset' => [
-					'type' => 'numbers.number2',
-				],
+				// 'month_calculated_rol_days' => [
+				// 	'type' => 'flat',
+				// 	'prefix' => 'Δ',
+				// ],
+				// 'rol_reset_date' => [
+				// 	'type' => 'dates.date',
+				// ],
+				// 'rol_reset' => [
+				// 	'type' => 'numbers.number2',
+				// ],
 				'calculated_flexibility_days' => [
 					'type' => 'flat',
 					'mainHeader' => [
 						'label' => 'flex',
-						'colspan' => 4
+						'colspan' => 1
 					],
 					'suffix' => 'h',
 					'width' => '55px'
 				],
-				'month_calculated_flexibility_days' => [
-					'type' => 'flat',
-					'prefix' => 'Δ',
-				],
-				'flexibility_reset_date' => [
-					'type' => 'dates.date',
-					'width' => '8em'
-				],
-				'flexibility_reset' => [
-					'type' => 'numbers.number2',
-				],
+				// 'month_calculated_flexibility_days' => [
+				// 	'type' => 'flat',
+				// 	'prefix' => 'Δ',
+				// ],
+				// 'flexibility_reset_date' => [
+				// 	'type' => 'dates.date',
+				// 	'width' => '8em'
+				// ],
+				// 'flexibility_reset' => [
+				// 	'type' => 'numbers.number2',
+				// ],
 				'calculated_bb_days' => [
 					'type' => 'flat',
 					'mainHeader' => [
 						'label' => 'bb',
-						'colspan' => 4
+						'colspan' => 1
 					],
 					'suffix' => 'h',
 				],
-				'month_calculated_bb_days' => [
-					'type' => 'flat',
-					'prefix' => 'Δ',
-				],
-				'bb_reset_date' => [
-					'type' => 'dates.date',
-					'width' => '8em'
-				],
-				'bb_reset' => [
-					'type' => 'numbers.number2',
-				],
+				// 'month_calculated_bb_days' => [
+				// 	'type' => 'flat',
+				// 	'prefix' => 'Δ',
+				// ],
+				// 'bb_reset_date' => [
+				// 	'type' => 'dates.date',
+				// 	'width' => '8em'
+				// ],
+				// 'bb_reset' => [
+				// 	'type' => 'numbers.number2',
+				// ],
 			]
 		];
 	}

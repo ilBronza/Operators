@@ -116,8 +116,15 @@ class WorkingDayUpdateEditController extends WorkingDayCRUDController
 		$carbonDate->minute = 0;
 		$carbonDate->second = 0;
 
-		$operator = Operator::gpc()::with('supplier.sellableSuppliers')->find($operator);
-		$sellableSuppliersIds = $operator->supplier->sellableSuppliers->pluck('id');
+		$operator = Operator::gpc()::with('operatorContracttypes.supplier.sellableSuppliers')->find($operator);
+
+		$sellableSuppliersIds = [];
+
+		foreach($operator->operatorContracttypes as $operatorContracttype)
+			foreach($operatorContracttype->supplier->sellableSuppliers as $sellableSuppliers)
+				$sellableSuppliersIds[] = $sellableSuppliers->getKey();
+
+		// $sellableSuppliersIds = $operator->supplier->sellableSuppliers->pluck('id');
 
 		if(count($rows = Orderrow::gpc()::whereIn('sellable_supplier_id', $sellableSuppliersIds)->with('order')->get()) == 0)
 			return 'Nessuna commessa trovata';
@@ -125,7 +132,7 @@ class WorkingDayUpdateEditController extends WorkingDayCRUDController
 		$result = ['Commessa:'];
 
 		foreach($rows as $row)
-			if(($row->getStartsAt() <= $carbonDate)&&($row->getEndsAt() >= $carbonDate))
+			if(($row->getStartsAt()->startOfDay() <= $carbonDate)&&($row->getEndsAt() >= $carbonDate))
 				$result[] = "<a target='_blank' href='{$row->modelContainer?->getEditUrl()}'>{$row->modelContainer?->getName()}</a>";
 
 		return implode('<br>', $result);

@@ -128,7 +128,7 @@ class Operator extends BaseModel implements HasWorkingDays //SupplierInterface
 		return $this->hasMany(ClientOperator::gpc());
 	}
 
-	public function scopeByEmployments($query, array $employmentIds)
+	public function scopeByEmployments($query, array|Collection $employmentIds)
 	{
 		$query->whereHas('clientOperators', function ($query) use ($employmentIds)
 		{

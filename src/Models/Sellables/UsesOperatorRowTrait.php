@@ -2,6 +2,7 @@
 
 namespace IlBronza\Operators\Models\Sellables;
 
+use IlBronza\Buttons\Button;
 use IlBronza\Operators\Models\Operator;
 use IlBronza\Operators\Models\Sellables\OperatorOrderrow;
 use IlBronza\Products\Models\Sellables\SellableSupplier;
