@@ -26,6 +26,9 @@ class Contracttype extends BaseModel
 	static $modelConfigPrefix = 'contracttype';
 	static $deletingRelationships = [];
 	protected $keyType = 'string';
+	protected $casts = [
+		'notify_when_sellable_supplier_is_overlying' => 'boolean'
+	];
 
 	public function getDescription()
 	{

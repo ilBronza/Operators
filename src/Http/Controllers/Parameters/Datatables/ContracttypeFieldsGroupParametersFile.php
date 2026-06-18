@@ -27,6 +27,7 @@ class ContracttypeFieldsGroupParametersFile extends CostsFieldsGroupParametersFi
 					'description' => 'flat',
 					'istat_code' => 'editor.text',
 					'hex_rgba' => 'editor.color',
+					'notify_when_sellable_supplier_is_overlying' => 'editor.toggle',
 				],
 				Contracttype::gpc()::make()
 			)

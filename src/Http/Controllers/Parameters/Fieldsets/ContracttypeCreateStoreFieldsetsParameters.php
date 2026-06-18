@@ -31,6 +31,7 @@ class ContracttypeCreateStoreFieldsetsParameters extends FieldsetParametersFile
 					'description' => ['text' => 'string|nullable|max:255'],
 					'istat_code' => ['text' => 'string|nullable|max:255'],
 					'hex_rgba' => ['color' => 'string|nullable|max:8'],
+					'notify_when_sellable_supplier_is_overlying' => ['boolean' => 'boolean|nullable'],
 				],
 				'width' => ["1-3@l", '1-2@m']
 			],

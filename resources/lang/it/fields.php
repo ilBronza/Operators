@@ -75,6 +75,7 @@ return [
 	'valid' => 'contratto corrente',
 	'label_text' => 'Sigla',
 	'hex_rgba' => 'Colore',
+	'notify_when_sellable_supplier_is_overlying' => 'Notifica se il fornitore vendibile è sovrapposto',
 	'birth_date' => 'Data di nascita',
 	'birth_state' => 'Stato di nascita',
 	'birth_city' => 'Comune di nascita',

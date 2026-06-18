@@ -5,7 +5,7 @@ namespace IlBronza\Operators\Http\Controllers\Operators;
 use IlBronza\CRUD\Traits\CRUDIndexTrait;
 use IlBronza\CRUD\Traits\CRUDPlainIndexTrait;
 use IlBronza\Operators\Models\ClientOperator;
-
+use IlBronza\Operators\Models\OperatorContracttype;
 use function config;
 
 class OperatorIndexController extends OperatorCRUD
@@ -29,7 +29,7 @@ class OperatorIndexController extends OperatorCRUD
 
     public function getIndexElements()
     {
-        return $this->getModelClass()::active()->with(
+        return $this->getModelClass()::active()->with([
 			'user.extraFields',
 			'user.address',
 			'address',
@@ -39,10 +39,18 @@ class OperatorIndexController extends OperatorCRUD
 			'contacts.contacttype',
 	        'clientOperators.client',
 			'clients',
-            'sellableSuppliers.directPrice',
-            'sellableSuppliers.sellable',
+            'operatorContracttypes' => function($query)
+            {
+                $placeholder = OperatorContracttype::gpc()::make();
+
+                if(! method_exists($placeholder, 'sellableSuppliers'))
+                    return ;
+
+                $query->with('sellableSuppliers.sellable');
+                $query->with('supplier');
+            },
             'employments'
-        )->with([
+        ])->with([
             'clientOperators.client',
             'clientOperators' => function($query)
             {
@@ -50,7 +58,6 @@ class OperatorIndexController extends OperatorCRUD
                     $query->with('extraFields');
             }
         ])
-        ->withSupplierId()
         ->get();
     }
 

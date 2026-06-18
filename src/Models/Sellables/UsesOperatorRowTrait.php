@@ -42,40 +42,48 @@ trait UsesOperatorRowTrait
 
 	static function getContracttypeSellableSuppliers() : Collection
 	{
-		return cache()->remember(
-			'operatoars.getContracttypeSellableSuppliers',
-			3600,
-			function()
-			{
+		// return cache()->remember(
+		// 	'operatoars.getContracttypeSellableSuppliers',
+		// 	3600,
+		// 	function()
+		// 	{
 				$relations = [
+					'supplier.target.operator' => function($query)
+					{
+						$query->withAddressCity();
+					},
 					'supplier.target.operator.validClientOperator.extraFields',
 					'supplier.target.operator.validClientOperator.employment',
-					'supplier.target.operator.address',
 					'sellable.target',
-					'prices',
 				];
 
 				if(method_exists(Operator::gpc(), 'extraFields'))
 					if(Operator::gpc()::make()->getExtraFieldsClass())
 						$relations[] = 'supplier.target.operator.extraFields';
 
-				$result = SellableSupplier::gpc()::query()
+				$query = SellableSupplier::gpc()::query()
 					->whereHas('sellable', function($query)
 					{
 						$query->byType(
 							OperatorOrderrow::gpc()::$typeName
 						);
 						$query->whereNull('deleted_at');
-					})
-					->with($relations)
-					->get();
+					});
+
+				if(method_exists($query->getModel(), 'scopeWithCostCompanyDay'))
+					$query->withCostCompanyDay();
+
+				if(method_exists($query->getModel(), 'scopeWithCostGrossDay'))
+					$query->withCostGrossDay();
+
+				$result = $query->with($relations)->get();
 
 				return $result->filter(function($item)
 				{
 					return $item->getSupplier()?->getTarget()?->getOperator()?->active;
 				});
-			}
-		);
+		// 	}
+		// );
 	}
 
 	public function getOperatorRowsForRelationshipManager() : Collection

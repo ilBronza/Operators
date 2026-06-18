@@ -300,6 +300,22 @@ class Operator extends BaseModel implements HasWorkingDays //SupplierInterface
 		)->where('addressable_type', 'User')->where('type', 'default');
 	}
 
+	public function scopeWithAddressCity($query)
+	{
+		$query->addSelect([
+			'live_city' => Address::gpc()::select('city')
+				->whereColumn('addressable_id', $this->getTable() . '.user_id')
+				->where('addressable_type', 'User')
+				->where('type', 'default')
+				->take(1),
+			'live_province' => Address::gpc()::select('province')
+				->whereColumn('addressable_id', $this->getTable() . '.user_id')
+				->where('addressable_type', 'User')
+				->where('type', 'default')
+				->take(1),
+		]);
+	}
+
 	//	public function getValidClientOperator()
 	//	{
 	//		return $this->validClientOperator;
