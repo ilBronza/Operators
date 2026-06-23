@@ -25,10 +25,10 @@ Route::group([
 	{
 		Route::get('timeline-container', [Operators::getController('operator', 'globalTimeline'), 'container'])->name('operators.timelineContainer');
 
-		//OperatorGlobalTimelineController
-		Route::get('timeline/create-row-form', [Operators::getController('operator', 'globalTimeline'), 'createRowForm'])->name('operators.timeline.createRowForm');
-		Route::get('timeline/possible-sellables', [Operators::getController('operator', 'globalTimeline'), 'getPossibleSellablesArray'])->name('operators.timeline.possibleSellables');
-		Route::post('timeline/store-row', [Operators::getController('operator', 'globalTimeline'), 'storeTimelineRow'])->name('operators.timeline.storeRow');
+		//OperatorTimelineCreateRowController
+		Route::get('timeline/create-row-form', [Operators::getController('operator', 'timelineCreateRow'), 'createRowForm'])->name('operators.timeline.createRowForm');
+		Route::get('timeline/possible-sellables', [Operators::getController('operator', 'timelineCreateRow'), 'getPossibleSellablesArray'])->name('operators.timeline.possibleSellables');
+		Route::post('timeline/store-row', [Operators::getController('operator', 'timelineCreateRow'), 'storeTimelineRow'])->name('operators.timeline.storeRow');
 		Route::get('timeline/{option?}', [Operators::getController('operator', 'globalTimeline'), 'timeline'])->name('operators.timeline');
 
 		//OperatorReorderController

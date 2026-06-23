@@ -34,6 +34,7 @@ use IlBronza\Operators\Http\Controllers\Operators\OperatorIndexController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorReorderController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorShowController;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorGlobalTimelineController;
+use IlBronza\Operators\Http\Controllers\Timelines\OperatorTimelineCreateRowController;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorByOperatorFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorRelatedFieldsGroupParametersFile;
@@ -61,6 +62,7 @@ use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorCreateStore
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorEditUpdateFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorOrderrowEditUpdateFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorQuotationrowEditUpdateFieldsetsParameters;
+use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorTimelineCreateRowFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\ContracttypeRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\EmploymentRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorContracttypeRelationManager;
@@ -103,7 +105,8 @@ return [
                 'getAddRowTableButton' => true
             ],
             'parametersFiles' => [
-                'edit' => OperatorOrderrowEditUpdateFieldsetsParameters::class
+                'edit' => OperatorOrderrowEditUpdateFieldsetsParameters::class,
+                'timelineCreate' => OperatorTimelineCreateRowFieldsetsParameters::class,
             ]
         ],
         'quotationrow' => [
@@ -249,6 +252,7 @@ return [
 				'documents' => OperatorDocumentsController::class,
 				'avatar' => OperatorAvatarController::class,
 				'globalTimeline' => OperatorGlobalTimelineController::class,
+				'timelineCreateRow' => OperatorTimelineCreateRowController::class,
 				'index' => OperatorIndexController::class,
 				'byRole' => OperatorByRoleIndexController::class,
 				'archive' => OperatorArchiveController::class,

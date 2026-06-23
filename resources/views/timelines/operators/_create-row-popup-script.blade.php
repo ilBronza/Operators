@@ -51,12 +51,13 @@
 
 			modalContent.innerHTML = await response.text();
 
-			const form = clone.querySelector('.timeline-create-row-form');
+			const wrapper = clone.querySelector('.timeline-create-row-form-wrapper');
+			const form = clone.querySelector('.timeline-create-row-form') || clone.querySelector('form');
 
 			if (!form)
 				throw new Error('Form timeline non configurato');
 
-			modalTitleEl.textContent = form.dataset.title || 'Nuova riga timeline';
+			modalTitleEl.textContent = wrapper?.dataset.title || form.dataset.title || 'Nuova riga timeline';
 
 			document.body.appendChild(clone);
 
