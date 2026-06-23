@@ -59,12 +59,21 @@
 
 			modalTitleEl.textContent = wrapper?.dataset.title || form.dataset.title || 'Nuova riga timeline';
 
+			const startsAtInput = clone.querySelector('[name="starts_at"]');
+			const endsAtInput = clone.querySelector('[name="ends_at"]');
+			const defaultStartValue = window.formatTimeInputValue(startDatetime);
+			const defaultEndValue = window.formatTimeInputValue(endDatetime);
+
+			if (startsAtInput && !startsAtInput.value)
+				startsAtInput.value = defaultStartValue;
+
+			if (endsAtInput && !endsAtInput.value)
+				endsAtInput.value = defaultEndValue;
+
 			document.body.appendChild(clone);
 
 			const modal = UIkit.modal('#' + modalId);
 			modal.show();
-
-			const startsAtInput = clone.querySelector('[name="starts_at"]');
 
 			if (startsAtInput)
 				setTimeout(function () { startsAtInput.focus(); }, 0);

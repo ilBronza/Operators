@@ -33,8 +33,16 @@ class OperatorTimelineCreateRowController extends CRUD
 			'title' => $title,
 		] = $this->resolveTimelineCreateRowContext($request);
 
+		$orderrow = Orderrow::gpc()::make();
+
+		if ($startsAt = $request->input('starts_at'))
+			$orderrow->starts_at = Carbon::parse($startsAt)->timezone(config('app.timezone'));
+
+		if ($endsAt = $request->input('ends_at'))
+			$orderrow->ends_at = Carbon::parse($endsAt)->timezone(config('app.timezone'));
+
 		$formHelper = CrudModelCreator::buildForm(
-			Orderrow::gpc()::make(),
+			$orderrow,
 			$this->makeTimelineCreateRowFieldsetsParameters($request, $selectedOperator, $selectedSupplier),
 			$this->getTimelineCreateRowAction(),
 			[
