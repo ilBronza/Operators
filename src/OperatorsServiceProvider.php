@@ -31,7 +31,7 @@ class OperatorsServiceProvider extends ServiceProvider
 		$this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'operators');
 		$this->loadViewsFrom(__DIR__ . '/../resources/views', 'operators');
 		$this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-		$this->loadRoutesFrom(__DIR__ . '/routes.php');
+		$this->loadRoutesFrom(__DIR__ . '/../routes/operators.php');
 
 		// Publishing is only necessary when using the CLI.
 		if ($this->app->runningInConsole())
