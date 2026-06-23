@@ -33,6 +33,7 @@ use IlBronza\Operators\Http\Controllers\Operators\OperatorEditUpdateController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorIndexController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorReorderController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorShowController;
+use IlBronza\Operators\Http\Controllers\Timelines\OperatorGlobalTimelineController;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorByOperatorFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorRelatedFieldsGroupParametersFile;
@@ -247,6 +248,7 @@ return [
 				'reorder' => OperatorReorderController::class,
 				'documents' => OperatorDocumentsController::class,
 				'avatar' => OperatorAvatarController::class,
+				'globalTimeline' => OperatorGlobalTimelineController::class,
 				'index' => OperatorIndexController::class,
 				'byRole' => OperatorByRoleIndexController::class,
 				'archive' => OperatorArchiveController::class,

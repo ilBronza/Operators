@@ -3,6 +3,7 @@
 return [
 	'archive' => 'Storico Operatori',
 	'manager' => 'Operatori',
+	'timeline' => 'Gantt operatori',
 	//  'documents' => 'Documenti operatore',
 	'list' => 'Operatori',
 	'operators' => 'Operatore',

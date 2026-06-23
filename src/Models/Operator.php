@@ -25,6 +25,8 @@ use IlBronza\Operators\Models\Interfaces\HasWorkingDays;
 use IlBronza\Operators\Models\Traits\OperatorWorkingDaysBonusCalculatorTrait;
 use IlBronza\Products\Models\Interfaces\SupplierInterface;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSupplierTrait;
+use IlBronza\Timeline\Interfaces\TimelineGroupInterface;
+use IlBronza\Timeline\Traits\IsTimelineGroupTrait;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Traits\HasRoles;
@@ -35,7 +37,7 @@ use function dd;
 use function substr;
 use function ucfirst;
 
-class Operator extends BaseModel implements HasWorkingDays //SupplierInterface
+class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterface //SupplierInterface
 {
 	use HasRoles;
 	use InteractsWithCategoryTrait;
@@ -51,6 +53,7 @@ class Operator extends BaseModel implements HasWorkingDays //SupplierInterface
 
 	use OperatorWorkingDaysBonusCalculatorTrait;
 	use HasColorTrait;
+	use IsTimelineGroupTrait;
 
 	static $packageConfigPrefix = 'operators';
 	static $modelConfigPrefix = 'operator';
@@ -255,6 +258,18 @@ class Operator extends BaseModel implements HasWorkingDays //SupplierInterface
 			return $this->getUser()?->getFullName();
 		}
 		);
+	}
+
+	public function getTimelineGroupActions() : array
+	{
+		return [
+			[
+				'action' => 'open',
+				'faIcon' => 'user',
+				'title' => $this->getName(),
+				'url' => $this->getShowUrl()
+			]
+		];
 	}
 
 	static function getSelfPossibleList() : array
@@ -552,6 +567,19 @@ class Operator extends BaseModel implements HasWorkingDays //SupplierInterface
 				$result[] = $sellableSupplier->getKey();
 
 		return $result;
+	}
+
+	public function getTimelineItemTitleByRow($row)
+	{
+		$pieces = [];
+
+		if($value = $row->getSellableName())
+			$pieces[] = $value;
+
+		if($value = $row->getModelContainer()?->getName())
+			$pieces[] = $value;
+
+		return trim(implode(' - ', $pieces)) ?? 'Nd';
 	}
 }
 

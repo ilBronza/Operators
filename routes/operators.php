@@ -23,6 +23,12 @@ Route::group([
 
 	Route::group(['prefix' => 'operators'], function ()
 	{
+		Route::get('timeline-container', [Operators::getController('operator', 'globalTimeline'), 'container'])->name('operators.timelineContainer');
+		Route::get('timeline/create-row-form', [Operators::getController('operator', 'globalTimeline'), 'createRowForm'])->name('operators.timeline.createRowForm');
+		Route::get('timeline/possible-sellables', [Operators::getController('operator', 'globalTimeline'), 'getPossibleSellablesArray'])->name('operators.timeline.possibleSellables');
+		Route::post('timeline/store-row', [Operators::getController('operator', 'globalTimeline'), 'storeTimelineRow'])->name('operators.timeline.storeRow');
+		Route::get('timeline/{option?}', [Operators::getController('operator', 'globalTimeline'), 'timeline'])->name('operators.timeline');
+
 		//OperatorReorderController
 		Route::get('/reorder/{operator?}', [Operators::getController('operator', 'reorder'), 'reorder'])->name('operators.reorder');
 		Route::post('/reorder', [Operators::getController('operator', 'reorder'), 'storeReorder'])->name('operators.storeReorder');
@@ -158,4 +164,3 @@ Route::group([
 // 	Route::put('{operator}', [Clients::getController('operator', 'edit'), 'update'])->name('orders.update');
 
 // });
-
