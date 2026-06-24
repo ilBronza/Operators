@@ -24,7 +24,6 @@
 		</div>
 		<div class="uk-card-body">
 			@include('timeline::_timeline')
-			@include('operators::timelines.operators._create-row-popup-script')
 		</div>
 	</div>
 

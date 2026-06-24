@@ -23,27 +23,17 @@ class OperatorGlobalTimelineController extends BaseTimelineController
 		return app('operators')->route('operators.timeline');
 	}
 
-	public function getPossibleSellablesEndpoint() : ?string
-	{
-		return app('operators')->route('operators.timeline.possibleSellables');
-	}
-
-	public function getTimelineStoreRowEndpoint() : ?string
-	{
-		return app('operators')->route('operators.timeline.storeRow');
-	}
-
 	public function getTimelineCreateRowFormEndpoint() : ?string
 	{
-		return app('operators')->route('operators.timeline.createRowForm');
+		return app('operators')->route('operators.timeline.createRowForm', [
+			'iframed' => true,
+		]);
 	}
 
 	public function returnGanttContainer()
 	{
 		$apiEndpoint = $this->getEndpoint();
 		$timelineUpdateRoute = $this->getTimelineUpdateRoute();
-		$possibleSellablesEndpoint = $this->getPossibleSellablesEndpoint();
-		$timelineStoreRowEndpoint = $this->getTimelineStoreRowEndpoint();
 		$timelineCreateRowFormEndpoint = $this->getTimelineCreateRowFormEndpoint();
 		$modelInstance = $this->getModel();
 		$buttons = $this->getButtons();
@@ -52,8 +42,6 @@ class OperatorGlobalTimelineController extends BaseTimelineController
 		return view('operators::timelines.operators.timeline', compact(
 			'apiEndpoint',
 			'timelineUpdateRoute',
-			'possibleSellablesEndpoint',
-			'timelineStoreRowEndpoint',
 			'timelineCreateRowFormEndpoint',
 			'modelInstance',
 			'buttons',

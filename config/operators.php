@@ -1,5 +1,6 @@
 <?php
 
+use IlBronza\Operators\Helpers\OperatorOrderrows\OperatorRowAssociatorHelper;
 use IlBronza\Operators\Helpers\OperatorPricesCreatorHelper;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorCreateStoreController;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorDestroyController;
@@ -95,6 +96,11 @@ return [
     ],
 
 	'models' => [
+		'operatorRow' => [
+			'helpers' => [
+				'operatorRowAssociatorHelper' => OperatorRowAssociatorHelper::class
+			]
+		],
         'orderrow' => [
             'fieldsGroupsFiles' => [
                 'operatorOrderrow' => OperatorOrderrowsFieldsGroupParametersFile::class,

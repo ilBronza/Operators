@@ -6,6 +6,7 @@ use IlBronza\CRUD\CRUD;
 use IlBronza\CRUD\Traits\CRUDCreateStoreTrait;
 use IlBronza\Form\Helpers\FieldsetsProvider\FieldsetParametersFile;
 use IlBronza\Form\Helpers\FieldsetsProvider\FieldsetsProvider;
+use IlBronza\Operators\Helpers\OperatorOrderrows\OperatorRowAssociatorHelper;
 use IlBronza\Operators\Models\OperatorContracttype;
 use IlBronza\Operators\Models\Sellables\OperatorOrderrow;
 use IlBronza\Products\Models\Order;
@@ -64,40 +65,28 @@ class OperatorTimelineCreateRowController extends CRUD
 		return $this->create();
 	}
 
-	public function storeTimelineRow(Request $request) : JsonResponse
+	public function getValidatedParameters(Request $request) : array
 	{
-		$validated = FieldsetsProvider::validateRequestByParametersFile(
+		return FieldsetsProvider::validateRequestByParametersFile(
 			$request,
 			$this->getStoreParametersClass(),
 			OperatorOrderrow::gpc()::make()
 		);
+	}
 
-		$order = Order::gpc()::findOrFail($validated['order_id']);
-		$sellable = Sellable::gpc()::findOrFail($validated['sellable_id']);
-		$operatorContracttype = OperatorContracttype::gpc()::where(
-				'operator_id', $validated['operator_id']
-			)->where(
-				'contracttype_id', $sellable->target_id
-			)->first();
+	public function storeTimelineRow(Request $request) : JsonResponse
+	{
+		$validated = $this->getValidatedParameters($request);
 
-		$supplier = SupplierCreatorHelper::getOrCreateSupplierFromTarget(
-			$operatorContracttype
+		$row = OperatorRowAssociatorHelper::gpc()::associateOrderrowByParameters(
+			$validated['order_id'],
+			$validated['operator_id'],
+			$validated['sellable_id'],
+			[
+				'starts_at' => $validated['starts_at'],
+				'ends_at' => $validated['ends_at']
+			]
 		);
-
-		$sellableSupplier = SellableSupplierCreatorHelper::getOrCreateSellableSupplier(
-			$supplier,
-			$sellable
-		);
-
-		$result = RowAssociatorHelper::associateRowBySellableSupplier(
-			$order,
-			$sellableSupplier
-		);
-
-		$result->row->starts_at = $validated['starts_at'];
-		$result->row->ends_at = $validated['ends_at'];
-
-		$result->row->save();
 
 		return response()->json([
 			'success' => true,

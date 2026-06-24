@@ -27,7 +27,6 @@ Route::group([
 
 		//OperatorTimelineCreateRowController
 		Route::get('timeline/create-row-form', [Operators::getController('operator', 'timelineCreateRow'), 'createRowForm'])->name('operators.timeline.createRowForm');
-		Route::get('timeline/possible-sellables', [Operators::getController('operator', 'timelineCreateRow'), 'getPossibleSellablesArray'])->name('operators.timeline.possibleSellables');
 		Route::post('timeline/store-row', [Operators::getController('operator', 'timelineCreateRow'), 'storeTimelineRow'])->name('operators.timeline.storeRow');
 		Route::get('timeline/{option?}', [Operators::getController('operator', 'globalTimeline'), 'timeline'])->name('operators.timeline');
 
