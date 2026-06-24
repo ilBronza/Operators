@@ -46,49 +46,31 @@ class OperatorTimelineCreateRowFieldsetsParameters extends FieldsetParametersFil
 						'select2' => false,
 						'multiple' => false,
 						'label' => 'Sellable',
-						'list' => $this->getPossibleSellablesList(),
+						'list' => Sellable::gpc()::getPossibleListArray(),
 						'rules' => 'required|exists:' . Sellable::gpc()::make()->getTable() . ',id',
 					],
-					'supplier_id' => [
-						'type' => 'select',
-						'select2' => false,
-						'multiple' => false,
-						'label' => 'Fornitore',
-						'default' => $this->supplierId,
-						'list' => $this->getPossibleSuppliersList(),
-						'rules' => 'required|exists:' . Supplier::gpc()::make()->getTable() . ',id',
-					],
+					// 'supplier_id' => [
+					// 	'type' => 'select',
+					// 	'select2' => false,
+					// 	'multiple' => false,
+					// 	'label' => 'Fornitore',
+					// 	'default' => $this->supplierId,
+					// 	'list' => $this->getPossibleSuppliersList(),
+					// 	'rules' => 'required|exists:' . Supplier::gpc()::make()->getTable() . ',id',
+					// ],
 					'operator_id' => [
 						'type' => 'select',
 						'select2' => false,
 						'multiple' => false,
 						'label' => 'Operatore',
 						'default' => $this->operatorId,
-						'list' => $this->getPossibleOperatorsList(),
+						'list' => Operator::gpc()::getPossibleListArray(),
 						'rules' => 'nullable|exists:' . Operator::gpc()::make()->getTable() . ',id',
 					],
 				],
 				'width' => ['large'],
 			],
 		];
-	}
-
-	public function getPossibleSellablesList() : array
-	{
-		return Sellable::gpc()::query()
-			->orderBy('name')
-			->pluck('name', 'id')
-			->toArray();
-	}
-
-	public function getPossibleSuppliersList() : array
-	{
-		return Supplier::gpc()::query()
-			->with('target')
-			->get()
-			->sortBy(fn (Supplier $supplier) => $supplier->getName())
-			->mapWithKeys(fn (Supplier $supplier) => [(string) $supplier->getKey() => $supplier->getName()])
-			->all();
 	}
 
 	public function getPossibleOperatorsList() : array

@@ -272,6 +272,11 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 		];
 	}
 
+	static function getPossibleListArray() : array
+	{
+		return static::getSelfPossibleList();
+	}
+
 	static function getSelfPossibleList() : array
 	{
 		return cache()->remember(
@@ -388,7 +393,7 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 	{
 		return $this->belongsToMany(
 			Contracttype::gpc(), config('operators.models.operatorContracttype.table')
-		)->using(OperatorContracttype::gpc());
+		)->wherePivotNull('deleted_at')->using(OperatorContracttype::gpc());
 	}
 
 	public function clients()

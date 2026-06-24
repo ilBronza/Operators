@@ -61,6 +61,8 @@ class OperatorFieldsGroupParametersFile extends FieldsGroupParametersFile
 				'employments' => 'relations.belongsToMany',
 				'contracttypes' => 'relations.belongsToMany',
 
+				'notify_when_sellable_supplier_is_overlying' => 'editor.toggle',
+
 				'mySelfDelete' => 'links.delete'
 			]
 		];

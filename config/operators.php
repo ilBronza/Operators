@@ -33,8 +33,6 @@ use IlBronza\Operators\Http\Controllers\Operators\OperatorEditUpdateController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorIndexController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorReorderController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorShowController;
-use IlBronza\Operators\Http\Controllers\Timelines\OperatorGlobalTimelineController;
-use IlBronza\Operators\Http\Controllers\Timelines\OperatorTimelineCreateRowController;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorByOperatorFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorRelatedFieldsGroupParametersFile;
@@ -67,6 +65,8 @@ use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\Contrac
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\EmploymentRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorContracttypeRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorRelationManager;
+use IlBronza\Operators\Http\Controllers\Timelines\OperatorGlobalTimelineController;
+use IlBronza\Operators\Http\Controllers\Timelines\OperatorTimelineCreateRowController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarConsolidateController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayPrintCalendarController;
