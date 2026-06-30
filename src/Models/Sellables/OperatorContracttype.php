@@ -44,6 +44,11 @@ class OperatorContracttype extends IbOperatorContracttype implements SupplierInt
 		return $this->getOperator();
 	}
 
+	public function getCssBackgroundColorValue() : ? string
+	{
+		return $this->getOperator()?->getCssBackgroundColorValue();
+	}
+
 	// protected static function booted()
 	// {
 	// 	static::saving(function ($operatorContracttype)

@@ -560,6 +560,17 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 		return $this->clientOperators;
 	}
 
+	public function getSellablesListArray() : array
+	{
+		$this->load('contracttypes.sellable');
+
+		$result = [];
+
+		foreach($this->contracttypes as $contracttype)
+			$result[$contracttype->getSellable()->getKey()] = $contracttype->getName();
+
+		return $result;
+	}
 
 	public function getSellableSuppliersIds() : array
 	{

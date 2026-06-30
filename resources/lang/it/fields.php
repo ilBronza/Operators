@@ -25,6 +25,8 @@ return [
 	'user' => 'Utente',
 	'contracttypes' => 'Tipi mansione',
 	'contracttype' => 'Mansione',
+	'accessGate' => 'Varco elettronico',
+	'accessGates' => 'Varchi elettronici',
 	'user.name' => 'Nome',
 	'user.first_name' => 'Nome',
 	'user.surname' => 'Cognome',

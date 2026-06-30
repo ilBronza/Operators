@@ -21,6 +21,8 @@ Route::group([
 	Route::post('operators-reorder', [CrudOperatorsController::class, 'stroreReorder'])->name('operators.stroreReorder');
 	//STOP ROUTES PER REORDERING
 
+	Route::post('timeline-modal', [Operators::getController('operator', 'timelineModal'), 'timelineModal'])->name('operators.timelineModal');
+
 	Route::group(['prefix' => 'operators'], function ()
 	{
 		Route::get('timeline-container', [Operators::getController('operator', 'globalTimeline'), 'container'])->name('operators.timelineContainer');
@@ -29,6 +31,7 @@ Route::group([
 		Route::get('timeline/create-row-form', [Operators::getController('operator', 'timelineCreateRow'), 'createRowForm'])->name('operators.timeline.createRowForm');
 		Route::post('timeline/store-row', [Operators::getController('operator', 'timelineCreateRow'), 'storeTimelineRow'])->name('operators.timeline.storeRow');
 		Route::get('timeline/{option?}', [Operators::getController('operator', 'globalTimeline'), 'timeline'])->name('operators.timeline');
+
 
 		//OperatorReorderController
 		Route::get('/reorder/{operator?}', [Operators::getController('operator', 'reorder'), 'reorder'])->name('operators.reorder');
@@ -74,6 +77,18 @@ Route::group([
 		Route::put('{contracttype}', [Operators::getController('contracttype', 'edit'), 'update'])->name('contracttypes.update');
 
 		Route::delete('{contracttype}/delete', [Operators::getController('contracttype', 'destroy'), 'destroy'])->name('contracttypes.destroy');
+	});
+
+	Route::group(['prefix' => 'access-gates'], function ()
+	{
+		Route::get('', [Operators::getController('accessGate', 'index'), 'index'])->name('accessGates.index');
+		Route::get('create', [Operators::getController('accessGate', 'create'), 'create'])->name('accessGates.create');
+		Route::post('', [Operators::getController('accessGate', 'store'), 'store'])->name('accessGates.store');
+		Route::get('{accessGate}', [Operators::getController('accessGate', 'show'), 'show'])->name('accessGates.show');
+		Route::get('{accessGate}/edit', [Operators::getController('accessGate', 'edit'), 'edit'])->name('accessGates.edit');
+		Route::put('{accessGate}', [Operators::getController('accessGate', 'edit'), 'update'])->name('accessGates.update');
+
+		Route::delete('{accessGate}/delete', [Operators::getController('accessGate', 'destroy'), 'destroy'])->name('accessGates.destroy');
 	});
 
 	Route::group(['prefix' => 'working-days'], function ()

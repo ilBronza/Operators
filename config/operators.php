@@ -2,6 +2,11 @@
 
 use IlBronza\Operators\Helpers\OperatorOrderrows\OperatorRowAssociatorHelper;
 use IlBronza\Operators\Helpers\OperatorPricesCreatorHelper;
+use IlBronza\Operators\Http\Controllers\AccessGates\AccessGateCreateStoreController;
+use IlBronza\Operators\Http\Controllers\AccessGates\AccessGateDestroyController;
+use IlBronza\Operators\Http\Controllers\AccessGates\AccessGateEditUpdateController;
+use IlBronza\Operators\Http\Controllers\AccessGates\AccessGateIndexController;
+use IlBronza\Operators\Http\Controllers\AccessGates\AccessGateShowController;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorCreateStoreController;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorDestroyController;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorEditUpdateController;
@@ -34,6 +39,7 @@ use IlBronza\Operators\Http\Controllers\Operators\OperatorEditUpdateController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorIndexController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorReorderController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorShowController;
+use IlBronza\Operators\Http\Controllers\Parameters\Datatables\AccessGateFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorByOperatorFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorRelatedFieldsGroupParametersFile;
@@ -50,6 +56,9 @@ use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorFieldsGrou
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorOrderrowsFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorQuotationrowsFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\WorkingDayFieldsGroupParametersFile;
+use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\AccessGateCreateStoreFieldsetsParameters;
+use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\AccessGateEditUpdateFieldsetsParameters;
+use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\AccessGateShowFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\ClientOperatorCreateStoreFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\ClientOperatorEditUpdateFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\ContracttypeCreateStoreFieldsetsParameters;
@@ -68,10 +77,12 @@ use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\Operato
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorRelationManager;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorGlobalTimelineController;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorTimelineCreateRowController;
+use IlBronza\Operators\Http\Controllers\Timelines\OperatorTimelineRowModalController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarConsolidateController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayPrintCalendarController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayUpdateEditController;
+use IlBronza\Operators\Models\AccessGate;
 use IlBronza\Operators\Models\ClientOperator;
 use IlBronza\Operators\Models\Contracttype;
 use IlBronza\Operators\Models\Employment;
@@ -99,6 +110,28 @@ return [
 		'operatorRow' => [
 			'helpers' => [
 				'operatorRowAssociatorHelper' => OperatorRowAssociatorHelper::class
+			]
+		],
+		'accessGate' => [
+			'class' => AccessGate::class,
+			'table' => 'operators__access_gates',
+			'fieldsGroupsFiles' => [
+				'index' => AccessGateFieldsGroupParametersFile::class,
+			],
+			'parametersFiles' => [
+				'create' => AccessGateCreateStoreFieldsetsParameters::class,
+				'edit' => AccessGateEditUpdateFieldsetsParameters::class,
+				'update' => AccessGateEditUpdateFieldsetsParameters::class,
+				'show' => AccessGateShowFieldsetsParameters::class,
+			],
+			'controllers' => [
+				'index' => AccessGateIndexController::class,
+				'create' => AccessGateCreateStoreController::class,
+				'store' => AccessGateCreateStoreController::class,
+				'show' => AccessGateShowController::class,
+				'edit' => AccessGateEditUpdateController::class,
+				'update' => AccessGateEditUpdateController::class,
+				'destroy' => AccessGateDestroyController::class,
 			]
 		],
         'orderrow' => [
@@ -259,6 +292,7 @@ return [
 				'avatar' => OperatorAvatarController::class,
 				'globalTimeline' => OperatorGlobalTimelineController::class,
 				'timelineCreateRow' => OperatorTimelineCreateRowController::class,
+				'timelineModal' => OperatorTimelineRowModalController::class,
 				'index' => OperatorIndexController::class,
 				'byRole' => OperatorByRoleIndexController::class,
 				'archive' => OperatorArchiveController::class,

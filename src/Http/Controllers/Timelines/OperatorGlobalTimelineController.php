@@ -30,23 +30,11 @@ class OperatorGlobalTimelineController extends BaseTimelineController
 		]);
 	}
 
-	public function returnGanttContainer()
+	public function getTimelineItemModalEndpoint() : string
 	{
-		$apiEndpoint = $this->getEndpoint();
-		$timelineUpdateRoute = $this->getTimelineUpdateRoute();
-		$timelineCreateRowFormEndpoint = $this->getTimelineCreateRowFormEndpoint();
-		$modelInstance = $this->getModel();
-		$buttons = $this->getButtons();
-		$zoom = $this->zoom ?? config('timeline.zoom', 14);
-
-		return view('operators::timelines.operators.timeline', compact(
-			'apiEndpoint',
-			'timelineUpdateRoute',
-			'timelineCreateRowFormEndpoint',
-			'modelInstance',
-			'buttons',
-			'zoom'
-		));
+		return app('operators')->route('operators.timelineModal', [
+			'iframed' => true,
+		]);		
 	}
 
 	public function getRows() : Collection
@@ -66,16 +54,5 @@ class OperatorGlobalTimelineController extends BaseTimelineController
 			->filter()
 			->unique(fn(TimelineGroupInterface $group) => get_class($group) . ':' . $group->getTimelineGroupId())
 			->values();
-	}
-
-	public function getMainTimelineData()
-	{
-		$orderrows = $this->getRows();
-		$groupItems = $this->getGroupItems();
-
-		$this->createGroupsByCollection($groupItems);
-		$this->createItemsByCollectionAndGetter($orderrows, 'getSupplierTimelineGroup');
-
-		return $this->sendResponse();
 	}
 }

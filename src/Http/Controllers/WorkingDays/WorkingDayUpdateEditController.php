@@ -33,7 +33,7 @@ class WorkingDayUpdateEditController extends WorkingDayCRUDController
 
 		$savedId = $operatorContracttype;
 
-		if($operatorContracttype = OperatorContracttype::gpc()::find($operatorContracttype))
+		if($operatorContracttype = OperatorContracttype::gpc()::withTrashed()->find($operatorContracttype))
 			$operator = $operatorContracttype->getOperator();
 		else
 			$operator = Operator::gpc()::find($savedId);
