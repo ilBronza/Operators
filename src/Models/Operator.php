@@ -384,6 +384,11 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 		return $this->hasMany(OperatorContracttype::gpc());
 	}
 
+	public function operatorBadges()
+	{
+		return $this->hasMany(OperatorBadge::gpc());
+	}
+
 	public function getContracttypes()
 	{
 		return $this->contracttypes;

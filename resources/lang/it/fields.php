@@ -21,6 +21,8 @@ return [
 	'cost_gross_day' => 'Lordo',
 	'cost_charge_coefficient' => 'Coefficiente di ricarico',
 	'operators' => 'Operatori',
+	'operatorBadge' => 'Badge operatore',
+	'operatorBadges' => 'Badge operatori',
 	'base' => 'Dati anagrafica',
 	'user' => 'Utente',
 	'contracttypes' => 'Tipi mansione',
@@ -84,6 +86,9 @@ return [
 	'birth_province' => 'Provincia di nascita',
 
 	'badge_image' => 'Badge',
+	'valid_from' => 'Valido dal',
+	'valid_to' => 'Valido al',
+	'notes' => 'Note',
 
 	'street' => 'Via/Piazza',
 	'number' => 'Civico',
