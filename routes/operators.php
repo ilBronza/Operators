@@ -21,6 +21,7 @@ Route::group([
 	Route::post('operators-reorder', [CrudOperatorsController::class, 'stroreReorder'])->name('operators.stroreReorder');
 	//STOP ROUTES PER REORDERING
 
+	//OperatorTimelineRowModalController
 	Route::post('timeline-modal', [Operators::getController('operator', 'timelineModal'), 'timelineModal'])->name('operators.timelineModal');
 
 	Route::group(['prefix' => 'operators'], function ()
@@ -69,6 +70,8 @@ Route::group([
 
 	Route::group(['prefix' => 'contracttypes'], function ()
 	{
+		Route::post('timeline-modal', [Operators::getController('contracttype', 'timelineModal'), 'timelineModal'])->name('contracttypes.timelineModal');
+
 		Route::get('', [Operators::getController('contracttype', 'index'), 'index'])->name('contracttypes.index');
 		Route::get('create', [Operators::getController('contracttype', 'create'), 'create'])->name('contracttypes.create');
 		Route::post('', [Operators::getController('contracttype', 'store'), 'store'])->name('contracttypes.store');

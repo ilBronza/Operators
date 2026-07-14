@@ -79,11 +79,15 @@ use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorCreateStore
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorEditUpdateFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorOrderrowEditUpdateFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorQuotationrowEditUpdateFieldsetsParameters;
+use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorTimelineCreateBySellableRowFieldsetsParameters;
+use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorTimelineCreateBySupplierRowFieldsetsParameters;
+use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorTimelineCreateGenericRowFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorTimelineCreateRowFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\ContracttypeRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\EmploymentRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorContracttypeRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorRelationManager;
+use IlBronza\Operators\Http\Controllers\Timelines\ContracttypeTimelineRowModalController;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorGlobalTimelineController;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorTimelineCreateRowController;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorTimelineRowModalController;
@@ -183,6 +187,10 @@ return [
             'parametersFiles' => [
                 'edit' => OperatorOrderrowEditUpdateFieldsetsParameters::class,
                 'timelineCreate' => OperatorTimelineCreateRowFieldsetsParameters::class,
+                'timelineCreateBySellable' => OperatorTimelineCreateBySellableRowFieldsetsParameters::class,
+                'timelineCreateBySupplier' => OperatorTimelineCreateBySupplierRowFieldsetsParameters::class,
+
+                'TEST_REPLACE_TimelineCreateStandAloneUniversal' => OperatorTimelineCreateGenericRowFieldsetsParameters::class
             ]
         ],
         'quotationrow' => [
@@ -273,6 +281,7 @@ return [
 				'index' => ContracttypeIndexController::class,
 				'create' => ContracttypeCreateStoreController::class,
 				'store' => ContracttypeCreateStoreController::class,
+				'timelineModal' => ContracttypeTimelineRowModalController::class,
 				'show' => ContracttypeShowController::class,
 				'edit' => ContracttypeEditUpdateController::class,
 				'update' => ContracttypeEditUpdateController::class,
