@@ -29,6 +29,11 @@ class OperatorsByOrdersTimelineController extends OperatorGlobalTimelineControll
 		]);
 	}
 
+	public function getContainerRouteName() : string
+	{
+		return 'operators.byOrdersTimelineContainer';
+	}
+
 	public function getSubgroupsTimelineData()
 	{
 		$rows = $this->getSubgroupsTimelineItems();

@@ -52,6 +52,19 @@ class OperatorOrderrow extends CustomOrderrow
 		return $this->getOrder()->getName() . " | " . $this->getSellable()->getName();
 	}
 
+	public function getTimelineItemTitleForSellable()
+	{
+		$result = [];
+
+		if($value = $this->getOrder()?->getName())
+			$result[] = $value;
+
+		if($value = $this->getSupplier()?->getName())
+			$result[] = $value;
+
+		return implode(" | ", $result);
+	}
+
 	public function getTimelineItemTitleFor()
 	{
 		$result = [];

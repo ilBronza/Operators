@@ -20,6 +20,12 @@ class OperatorGlobalTimelineController extends BaseTimelineController
 		'container',
 	];
 
+	//senza questo il titolo pagina cerca routes.xxx invece di operators::routes.xxx
+	public function getPackageConfigName()
+	{
+		return 'operators';
+	}
+
 	public function getEndpoint() : string
 	{
 		return app('operators')->route('operators.timeline');
@@ -32,26 +38,59 @@ class OperatorGlobalTimelineController extends BaseTimelineController
 		]);
 	}
 
+	public function getContainerRouteName() : string
+	{
+		return 'operators.timelineContainer';
+	}
+
+	public function getTimelineButtonsParameters() : array
+	{
+		return [
+			'operators.timelineContainer' => [
+				'text' => 'operators::timeline.operators',
+				'parameters' => [],
+			],
+			'operators.byContracttypesTimelineContainer' => [
+				'text' => 'operators::timeline.operatorsByContracttypes',
+				'parameters' => ['option' => 'subgroups'],
+			],
+			'operators.byOrdersTimelineContainer' => [
+				'text' => 'operators::timeline.operatorsByOrders',
+				'parameters' => ['option' => 'subgroups'],
+			],
+		];
+	}
+
+	//il bottone della timeline che si sta guardando resta visibile ma disabilitato
 	public function getButtons() : Collection
 	{
-		return collect([
-			Button::create([
-				'href' => app('operators')->route('operators.timelineContainer'),
-				'text' => 'operators::timeline.operators',
-			]),
-			Button::create([
-				'href' => app('operators')->route('operators.byContracttypesTimelineContainer', [
-					'option' => 'subgroups',
-				]),
-				'text' => 'operators::timeline.operatorsByContracttypes',
-			]),
-			Button::create([
-				'href' => app('operators')->route('operators.byOrdersTimelineContainer', [
-					'option' => 'subgroups',
-				]),
-				'text' => 'operators::timeline.operatorsByOrders',
-			]),
+		$activeRouteName = $this->getContainerRouteName();
+
+		return collect($this->getTimelineButtonsParameters())
+			->map(fn(array $button, string $routeName) => $this->getTimelineButton(
+				$routeName, $button, $routeName == $activeRouteName
+			))
+			->values();
+	}
+
+	public function getTimelineButton(string $routeName, array $parameters, bool $active) : Button
+	{
+		$button = Button::create([
+			'href' => app('operators')->route($routeName, $parameters['parameters']),
+			'text' => $parameters['text'],
 		]);
+
+		$button->setSecondary();
+		$button->setSmall();
+
+		if(! $active)
+			return $button;
+
+		//disabled da solo non blocca un <a>, serve la classe uikit
+		$button->setDisabled();
+		$button->setHtmlClass('uk-disabled');
+
+		return $button;
 	}
 
 	public function getRows() : Collection

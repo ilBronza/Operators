@@ -30,6 +30,11 @@ class OperatorsByContracttypesTimelineController extends OperatorGlobalTimelineC
 		]);
 	}
 
+	public function getContainerRouteName() : string
+	{
+		return 'operators.byContracttypesTimelineContainer';
+	}
+
 	public function getSubgroupsTimelineData()
 	{
 		$subgroups = $this->getOperatorContracttypeTimelineGroups();
