@@ -21,17 +21,19 @@ Route::group([
 	Route::post('operators-reorder', [CrudOperatorsController::class, 'stroreReorder'])->name('operators.stroreReorder');
 	//STOP ROUTES PER REORDERING
 
-	//OperatorTimelineRowModalController
-	Route::post('timeline-modal', [Operators::getController('operator', 'timelineModal'), 'timelineModal'])->name('operators.timelineModal');
 
 	Route::group(['prefix' => 'operators'], function ()
 	{
 		Route::get('timeline-container', [Operators::getController('operator', 'globalTimeline'), 'container'])->name('operators.timelineContainer');
+		Route::get('timeline-by-contracttypes-container/{option?}', [Operators::getController('operator', 'byContracttypesTimeline'), 'container'])->name('operators.byContracttypesTimelineContainer');
 
 		//OperatorTimelineCreateRowController
 		Route::get('timeline/create-row-form', [Operators::getController('operator', 'timelineCreateRow'), 'createRowForm'])->name('operators.timeline.createRowForm');
 		Route::post('timeline/store-row', [Operators::getController('operator', 'timelineCreateRow'), 'storeTimelineRow'])->name('operators.timeline.storeRow');
+
+		//OperatorGlobalTimelineController
 		Route::get('timeline/{option?}', [Operators::getController('operator', 'globalTimeline'), 'timeline'])->name('operators.timeline');
+		Route::get('timeline-by-contracttypes/{option?}', [Operators::getController('operator', 'byContracttypesTimeline'), 'timeline'])->name('operators.byContracttypesTimeline');
 
 
 		//OperatorReorderController
@@ -70,7 +72,16 @@ Route::group([
 
 	Route::group(['prefix' => 'contracttypes'], function ()
 	{
-		Route::post('timeline-modal', [Operators::getController('contracttype', 'timelineModal'), 'timelineModal'])->name('contracttypes.timelineModal');
+		Route::post('reorder', [Operators::getController('contracttype', 'reorder'), 'storeMassReorder'])->name('contracttypes.storeMassReorder');
+
+		//ContracttypeSupplierTimelineController - timeline dedicata ai supplier con target contracttype
+		Route::get('suppliers/{supplier}/timeline-container', [Operators::getController('contracttype', 'supplierTimeline'), 'container'])->name('contracttypes.suppliers.timelineContainer');
+		Route::get('suppliers/{supplier}/timeline', [Operators::getController('contracttype', 'supplierTimeline'), 'timeline'])->name('contracttypes.suppliers.timeline');
+
+
+		Route::get('suppliers/{supplier}/timeline/create-row-form', [Operators::getController('contracttype', 'supplierTimeline'), 'createRowForm'])->name('contracttypes.suppliers.timeline.createRowForm');
+		Route::get('suppliers/{supplier}/timeline/possible-sellables', [Operators::getController('contracttype', 'supplierTimeline'), 'getPossibleSellablesArray'])->name('contracttypes.suppliers.timeline.possibleSellables');
+		Route::post('suppliers/{supplier}/timeline/store-row', [Operators::getController('contracttype', 'supplierTimeline'), 'storeTimelineRow'])->name('contracttypes.suppliers.timeline.storeRow');
 
 		Route::get('', [Operators::getController('contracttype', 'index'), 'index'])->name('contracttypes.index');
 		Route::get('create', [Operators::getController('contracttype', 'create'), 'create'])->name('contracttypes.create');

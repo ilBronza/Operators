@@ -12,12 +12,15 @@ use IlBronza\Products\Providers\Helpers\Sellables\SellableCreatorHelper;
 use IlBronza\Products\Providers\Helpers\Sellables\SellableDeleterHelper;
 use IlBronza\Products\Providers\Helpers\Sellables\SellableSupplierCreatorHelper;
 use IlBronza\Products\Providers\Helpers\Sellables\SupplierCreatorHelper;
+use IlBronza\Timeline\Interfaces\TimelineGroupInterface;
+use IlBronza\Timeline\Traits\IsTimelineGroupTrait;
 use function config;
 
-class OperatorContracttype extends BasePivotModel
+class OperatorContracttype extends BasePivotModel implements TimelineGroupInterface
 {
 	use CRUDUseUuidTrait;
 	use CRUDCacheTrait;
+	use IsTimelineGroupTrait;
 
 	static $deletingRelationships = [];
 
@@ -49,6 +52,51 @@ class OperatorContracttype extends BasePivotModel
 	public function getContracttypeName() : ?string
 	{
 		return $this->getContracttype()?->getName();
+	}
+
+	public function getTimelineGroupContent() : string
+	{
+		return $this->getContracttypeName() ?? 'N.D.';
+	}
+
+	public function getTimelineGroupName() : string
+	{
+		return $this->getTimelineGroupContent();
+	}
+
+	public function getCssBackgroundColorValue() : ?string
+	{
+		return $this->getOperator()?->getCssBackgroundColorValue()
+			?? $this->getContracttype()?->getCssBackgroundColorValue();
+	}
+
+	public function getCssTextColorValue() : ?string
+	{
+		return $this->getOperator()?->getCssTextColorValue()
+			?? $this->getContracttype()?->getCssTextColorValue();
+	}
+
+	public function getTimelineGroupGanttUrl() : string
+	{
+		if(method_exists($this, 'getSupplier'))
+			if($supplier = $this->getSupplier())
+				return $supplier->getGanttUrl();
+
+		return app('operators')->route('operators.byContracttypesTimelineContainer', [
+			'option' => 'subgroups',
+		]);
+	}
+
+	public function getTimelineBindingDataArray() : array
+	{
+		$sellable = $this->getContracttype()->getSellable();
+		$sellableSupplier = $this->getSupplier()->sellableSuppliers()->where('sellable_id', $sellable->getKey())->first();
+
+		return [
+			'operator_id' => $this->operator_id,
+			'sellable_id' => $sellable->getKey(),
+			'sellable_supplier_id' => $sellableSupplier->getKey(),
+		];
 	}
 
 	public function getContracttype() : ?Contracttype

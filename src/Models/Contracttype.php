@@ -4,8 +4,10 @@ namespace IlBronza\Operators\Models;
 
 use Carbon\Carbon;
 use Exception;
+use IlBronza\CRUD\Interfaces\CrudReorderableModelInterface;
 use IlBronza\CRUD\Models\BaseModel;
 use IlBronza\CRUD\Traits\CRUDSluggableTrait;
+use IlBronza\CRUD\Traits\Model\CRUDReorderableStandardTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\HasColorTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
@@ -13,12 +15,13 @@ use Illuminate\Support\Collection;
 use function class_basename;
 use function dd;
 
-class Contracttype extends BaseModel
+class Contracttype extends BaseModel implements CrudReorderableModelInterface
 {
 	use PackagedModelsTrait;
 
 	use CRUDUseUuidTrait;
 	use CRUDSluggableTrait;
+	use CRUDReorderableStandardTrait;
 
 	use HasColorTrait;
 
@@ -27,8 +30,20 @@ class Contracttype extends BaseModel
 	static $deletingRelationships = [];
 	protected $keyType = 'string';
 	protected $casts = [
+		'sorting_index' => 'integer',
 		'notify_when_sellable_supplier_is_overlying' => 'boolean'
 	];
+
+	protected static function booted() : void
+	{
+		static::creating(function (self $contracttype)
+		{
+			if ($contracttype->sorting_index !== null)
+				return;
+
+			$contracttype->sorting_index = ((int) static::query()->max('sorting_index')) + 1;
+		});
+	}
 
 	public function getDescription()
 	{

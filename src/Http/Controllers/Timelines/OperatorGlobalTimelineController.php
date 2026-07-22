@@ -2,6 +2,7 @@
 
 namespace IlBronza\Operators\Http\Controllers\Timelines;
 
+use IlBronza\Buttons\Button;
 use IlBronza\Operators\Models\Operator;
 use IlBronza\Products\Models\Orders\Orderrow;
 use IlBronza\Timeline\Http\Controllers\BaseTimelineController;
@@ -30,11 +31,23 @@ class OperatorGlobalTimelineController extends BaseTimelineController
 		]);
 	}
 
-	public function getTimelineItemModalEndpoint() : string
+	public function getButtons() : Collection
 	{
-		return app('operators')->route('operators.timelineModal', [
-			'iframed' => true,
-		]);		
+		return collect([
+			Button::create([
+				'href' => app('operators')->route('operators.timelineContainer'),
+				'translatedText' => 'OperatorsByOrders',
+			]),
+			Button::create([
+				'href' => app('operators')->route('operators.byContracttypesTimelineContainer', [
+					'option' => 'subgroups',
+				]),
+				'translatedText' => 'OperatorsByContracttypes',
+			]),
+			Button::create([
+				'translatedText' => 'OperatorsByOrders',
+			]),
+		]);
 	}
 
 	public function getRows() : Collection

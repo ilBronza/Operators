@@ -3,6 +3,7 @@
 namespace IlBronza\Operators\Http\Controllers\Timelines;
 
 use IlBronza\CRUD\CRUD;
+use IlBronza\CRUD\Helpers\ModelHelpers\ModelFinderHelper;
 use IlBronza\CRUD\Traits\CRUDCreateStoreTrait;
 use IlBronza\Form\Helpers\FieldsetsProvider\FieldsetParametersFile;
 use IlBronza\Form\Helpers\FieldsetsProvider\FieldsetsProvider;
@@ -55,7 +56,13 @@ class OperatorTimelineCreateRowController extends CRUD
 		if ($endsAt = request()->input('ends_at'))
 			$orderrow->ends_at = $endsAt;
 
-		$orderrow->operator_id = request()->input('group_id');
+		$group = ModelFinderHelper::getByClassKey(
+			request()->input('group_model'),
+			request()->input('group_id')
+		);
+
+		foreach($group->getTimelineBindingDataArray() as $key => $value)
+			$orderrow->$key = $value;
 
 		return $orderrow;
 	}

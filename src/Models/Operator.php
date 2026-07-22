@@ -260,15 +260,10 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 		);
 	}
 
-	public function getTimelineGroupActions() : array
+	public function getTimelineBindingDataArray() : array
 	{
 		return [
-			[
-				'action' => 'open',
-				'faIcon' => 'user',
-				'title' => $this->getName(),
-				'url' => $this->getShowUrl()
-			]
+			'operator_id' => $this->getKey()
 		];
 	}
 
@@ -588,19 +583,6 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 				$result[] = $sellableSupplier->getKey();
 
 		return $result;
-	}
-
-	public function getTimelineItemTitleByRow($row)
-	{
-		$pieces = [];
-
-		if($value = $row->getSellableName())
-			$pieces[] = $value;
-
-		if($value = $row->getModelContainer()?->getName())
-			$pieces[] = $value;
-
-		return trim(implode(' - ', $pieces)) ?? 'Nd';
 	}
 }
 

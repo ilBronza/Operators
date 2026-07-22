@@ -14,6 +14,13 @@ class ContracttypeFieldsGroupParametersFile extends CostsFieldsGroupParametersFi
 			'fields' => static::addStandardCostsFieldsByModelPlusDelete(
 				[
 					'mySelfPrimary' => 'primary',
+					'sorting_index' => [
+						'type' => 'flat',
+						'order' => [
+							'priority' => 10
+						],
+						'width' => '4em'
+					],
 					'mySelfEdit' => 'links.edit',
 					'mySelfSee' => 'links.see',
 					'name' => [

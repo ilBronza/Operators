@@ -17,7 +17,9 @@ use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeCreateStoreCon
 use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeDestroyController;
 use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeEditUpdateController;
 use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeIndexController;
+use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeReorderController;
 use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeShowController;
+use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeSupplierTimelineController;
 use IlBronza\Operators\Http\Controllers\Employments\EmploymentCreateStoreController;
 use IlBronza\Operators\Http\Controllers\Employments\EmploymentDestroyController;
 use IlBronza\Operators\Http\Controllers\Employments\EmploymentEditUpdateController;
@@ -87,10 +89,9 @@ use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\Contrac
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\EmploymentRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorContracttypeRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorRelationManager;
-use IlBronza\Operators\Http\Controllers\Timelines\ContracttypeTimelineRowModalController;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorGlobalTimelineController;
+use IlBronza\Operators\Http\Controllers\Timelines\OperatorsByContracttypesTimelineController;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorTimelineCreateRowController;
-use IlBronza\Operators\Http\Controllers\Timelines\OperatorTimelineRowModalController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarConsolidateController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayPrintCalendarController;
@@ -278,14 +279,15 @@ return [
 				'show' => ContracttypeCreateStoreFieldsetsParameters::class,
 			],
 			'controllers' => [
+				'reorder' => ContracttypeReorderController::class,
 				'index' => ContracttypeIndexController::class,
 				'create' => ContracttypeCreateStoreController::class,
 				'store' => ContracttypeCreateStoreController::class,
-				'timelineModal' => ContracttypeTimelineRowModalController::class,
 				'show' => ContracttypeShowController::class,
 				'edit' => ContracttypeEditUpdateController::class,
 				'update' => ContracttypeEditUpdateController::class,
 				'destroy' => ContracttypeDestroyController::class,
+				'supplierTimeline' => ContracttypeSupplierTimelineController::class,
 			],
 			'helpers' => [
 				'sellableSupplierPricesCreator' => OperatorPricesCreatorHelper::class
@@ -337,8 +339,8 @@ return [
 				'documents' => OperatorDocumentsController::class,
 				'avatar' => OperatorAvatarController::class,
 				'globalTimeline' => OperatorGlobalTimelineController::class,
+				'byContracttypesTimeline' => OperatorsByContracttypesTimelineController::class,
 				'timelineCreateRow' => OperatorTimelineCreateRowController::class,
-				'timelineModal' => OperatorTimelineRowModalController::class,
 				'index' => OperatorIndexController::class,
 				'byRole' => OperatorByRoleIndexController::class,
 				'archive' => OperatorArchiveController::class,

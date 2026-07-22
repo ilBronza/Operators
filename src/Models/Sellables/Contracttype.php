@@ -3,15 +3,18 @@
 namespace IlBronza\Operators\Models\Sellables;
 
 use IlBronza\Operators\Models\Contracttype as IbContracttype;
+use IlBronza\Operators\Models\Traits\HasContracttypeSupplierTimelineTrait;
 use IlBronza\Prices\Models\Interfaces\WithPriceInterface;
 use IlBronza\Prices\Models\Traits\HasCustomPricesTrait;
 use IlBronza\Products\Models\Interfaces\SellableItemInterface;
+use IlBronza\Products\Models\Interfaces\SupplierTimelineTargetInterface;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSellableTrait;
 use Illuminate\Support\Collection;
 use IlBronza\Products\Models\Interfaces\SellableSupplierPriceCreatorBaseClass;
 
-class Contracttype extends IbContracttype implements SellableItemInterface, WithPriceInterface
+class Contracttype extends IbContracttype implements SellableItemInterface, WithPriceInterface, SupplierTimelineTargetInterface
 {
+	use HasContracttypeSupplierTimelineTrait;
 	use HasCustomPricesTrait;
 	use InteractsWithSellableTrait;
 

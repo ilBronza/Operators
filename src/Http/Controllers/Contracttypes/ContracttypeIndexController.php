@@ -25,7 +25,18 @@ class ContracttypeIndexController extends ContracttypeCRUD
 
     public function getIndexElements()
     {
-        return $this->getModelClass()::withCount('operators')->get();
+        return $this->getModelClass()::withCount('operators')
+            ->orderBy('sorting_index')
+            ->orderBy('name')
+            ->get();
+    }
+
+    public function beforeRenderIndex() : void
+    {
+        $this->getTable()->setDragAndDropColumnIntestation('sorting_index');
+        $this->getTable()->setDragAndDropStoringReorderUrl(
+            $this->getModelClass()::make()->getStoreMassReorderUrl()
+        );
     }
 
 }

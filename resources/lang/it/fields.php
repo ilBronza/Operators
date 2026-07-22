@@ -40,6 +40,7 @@ return [
 	'fiscal_code' => 'Codice fiscale',
 	'user.userdata.surname' => 'Cognome',
 	'operators_count' => 'Operatori',
+	'sorting_index' => 'Ord',
 	'operator.user.userdata.first_name' => 'Nome',
 	'operator.user.userdata.surname' => 'Cognome',
 	'internal_approval_rating' => 'Gradimento',
