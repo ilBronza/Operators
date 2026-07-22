@@ -26,6 +26,7 @@ Route::group([
 	{
 		Route::get('timeline-container', [Operators::getController('operator', 'globalTimeline'), 'container'])->name('operators.timelineContainer');
 		Route::get('timeline-by-contracttypes-container/{option?}', [Operators::getController('operator', 'byContracttypesTimeline'), 'container'])->name('operators.byContracttypesTimelineContainer');
+		Route::get('timeline-by-orders-container/{option?}', [Operators::getController('operator', 'byOrdersTimeline'), 'container'])->name('operators.byOrdersTimelineContainer');
 
 		//OperatorTimelineCreateRowController
 		Route::get('timeline/create-row-form', [Operators::getController('operator', 'timelineCreateRow'), 'createRowForm'])->name('operators.timeline.createRowForm');
@@ -34,6 +35,7 @@ Route::group([
 		//OperatorGlobalTimelineController
 		Route::get('timeline/{option?}', [Operators::getController('operator', 'globalTimeline'), 'timeline'])->name('operators.timeline');
 		Route::get('timeline-by-contracttypes/{option?}', [Operators::getController('operator', 'byContracttypesTimeline'), 'timeline'])->name('operators.byContracttypesTimeline');
+		Route::get('timeline-by-orders/{option?}', [Operators::getController('operator', 'byOrdersTimeline'), 'timeline'])->name('operators.byOrdersTimeline');
 
 
 		//OperatorReorderController

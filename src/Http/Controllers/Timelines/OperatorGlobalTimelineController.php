@@ -37,16 +37,19 @@ class OperatorGlobalTimelineController extends BaseTimelineController
 		return collect([
 			Button::create([
 				'href' => app('operators')->route('operators.timelineContainer'),
-				'translatedText' => 'OperatorsByOrders',
+				'text' => 'operators::timeline.operators',
 			]),
 			Button::create([
 				'href' => app('operators')->route('operators.byContracttypesTimelineContainer', [
 					'option' => 'subgroups',
 				]),
-				'translatedText' => 'OperatorsByContracttypes',
+				'text' => 'operators::timeline.operatorsByContracttypes',
 			]),
 			Button::create([
-				'translatedText' => 'OperatorsByOrders',
+				'href' => app('operators')->route('operators.byOrdersTimelineContainer', [
+					'option' => 'subgroups',
+				]),
+				'text' => 'operators::timeline.operatorsByOrders',
 			]),
 		]);
 	}

@@ -91,6 +91,7 @@ use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\Operato
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorRelationManager;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorGlobalTimelineController;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorsByContracttypesTimelineController;
+use IlBronza\Operators\Http\Controllers\Timelines\OperatorsByOrdersTimelineController;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorTimelineCreateRowController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarConsolidateController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarController;
@@ -340,6 +341,7 @@ return [
 				'avatar' => OperatorAvatarController::class,
 				'globalTimeline' => OperatorGlobalTimelineController::class,
 				'byContracttypesTimeline' => OperatorsByContracttypesTimelineController::class,
+				'byOrdersTimeline' => OperatorsByOrdersTimelineController::class,
 				'timelineCreateRow' => OperatorTimelineCreateRowController::class,
 				'index' => OperatorIndexController::class,
 				'byRole' => OperatorByRoleIndexController::class,
