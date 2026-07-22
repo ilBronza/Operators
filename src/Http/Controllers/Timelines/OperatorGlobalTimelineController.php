@@ -5,6 +5,7 @@ namespace IlBronza\Operators\Http\Controllers\Timelines;
 use IlBronza\Buttons\Button;
 use IlBronza\Operators\Models\Operator;
 use IlBronza\Products\Models\Orders\Orderrow;
+use IlBronza\Products\Providers\Helpers\RowsHelpers\RowsFinderHelper;
 use IlBronza\Timeline\Http\Controllers\BaseTimelineController;
 use IlBronza\Timeline\Interfaces\TimelineGroupInterface;
 use IlBronza\Timeline\Traits\GlobalTimelineTrait;
@@ -52,7 +53,11 @@ class OperatorGlobalTimelineController extends BaseTimelineController
 
 	public function getRows() : Collection
 	{
-		return Orderrow::gpc()::with('order', 'sellable', 'sellableSupplier.supplier.target')->get();
+		$ids = Orderrow::gpc()::select('id')->pluck('id');
+
+		return RowsFinderHelper::getCompositeRowCollectionByIds($ids);
+
+		// return Orderrow::gpc()::with('order', 'sellable', 'sellableSupplier.supplier.target')->get();
 	}
 
 	public function getGroupModel($row) : ?TimelineGroupInterface
