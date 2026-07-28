@@ -15,7 +15,6 @@ use IlBronza\CRUD\Traits\IlBronzaPackages\CRUDLogoTrait;
 use IlBronza\CRUD\Traits\Model\CRUDModelExtraFieldsTrait;
 use IlBronza\CRUD\Traits\Model\CRUDParentingTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
-use IlBronza\CRUD\Traits\Model\BroadcastCreateTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
 use IlBronza\Category\Models\Category;
 use IlBronza\Category\Traits\InteractsWithCategoryTrait;
@@ -51,7 +50,6 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 	use InteractsWithDestinationTrait;
 	use CRUDLogoTrait;
 	use CRUDModelExtraFieldsTrait;
-	use BroadcastCreateTrait;
 
 	use OperatorWorkingDaysBonusCalculatorTrait;
 	use HasColorTrait;
