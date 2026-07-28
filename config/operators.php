@@ -90,9 +90,9 @@ use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\Employm
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorContracttypeRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorRelationManager;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorGlobalTimelineController;
+use IlBronza\Operators\Http\Controllers\Timelines\OperatorTimelineCreateRowController;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorsByContracttypesTimelineController;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorsByOrdersTimelineController;
-use IlBronza\Operators\Http\Controllers\Timelines\OperatorTimelineCreateRowController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarConsolidateController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayPrintCalendarController;

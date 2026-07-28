@@ -44,14 +44,15 @@ trait UsesOperatorRowTrait
 	{
 		// return cache()->remember(
 		// 	'operatoars.getContracttypeSellableSuppliers',
-		// 	3600,
+		// 	600,
 		// 	function()
 		// 	{
 				$relations = [
-					'supplier.target.operator' => function($query)
-					{
-						$query->withAddressCity();
-					},
+					// 'supplier.target.operator' => function($query)
+					// {
+					// 	$query->withAddressCity();
+					// },
+					'supplier.target.operator.address',
 					'supplier.target.operator.validClientOperator.extraFields',
 					'supplier.target.operator.validClientOperator.employment',
 					'sellable.target',
@@ -78,10 +79,12 @@ trait UsesOperatorRowTrait
 
 				$result = $query->with($relations)->get();
 
-				return $result->filter(function($item)
-				{
-					return $item->getSupplier()?->getTarget()?->getOperator()?->active;
-				});
+				// return $result->filter(function($item)
+				// {
+				// 	return $item->getSupplier()?->getTarget()?->getOperator()?->active;
+				// });
+
+				return $result;
 		// 	}
 		// );
 	}

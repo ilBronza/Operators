@@ -15,6 +15,7 @@ use IlBronza\CRUD\Traits\IlBronzaPackages\CRUDLogoTrait;
 use IlBronza\CRUD\Traits\Model\CRUDModelExtraFieldsTrait;
 use IlBronza\CRUD\Traits\Model\CRUDParentingTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
+use IlBronza\CRUD\Traits\Model\BroadcastCreateTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
 use IlBronza\Category\Models\Category;
 use IlBronza\Category\Traits\InteractsWithCategoryTrait;
@@ -50,6 +51,7 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 	use InteractsWithDestinationTrait;
 	use CRUDLogoTrait;
 	use CRUDModelExtraFieldsTrait;
+	use BroadcastCreateTrait;
 
 	use OperatorWorkingDaysBonusCalculatorTrait;
 	use HasColorTrait;
@@ -270,6 +272,25 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 	static function getPossibleListArray() : array
 	{
 		return static::getSelfPossibleList();
+	}
+
+	static function getActiveSelfPossibleList() : array
+	{
+		return cache()->remember(
+			static::staticCacheKey('getActiveSelfPossibleList'), 3600, function ()
+		{
+			$elements = static::active()->with('user.userdata')->get();
+
+			$result = [];
+
+			foreach ($elements as $operator)
+				$result[$operator->getKey()] = $operator->getName();
+
+			asort($result);
+
+			return $result;
+		}
+		);		
 	}
 
 	static function getSelfPossibleList() : array
