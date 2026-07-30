@@ -103,6 +103,13 @@ class OperatorRelationManager extends RelationshipsManager
 		//		$relations['paymenttypes'] = config('payments.models.paymenttype.controllers.index');
 		$relations['user'] = config('accountmanager.models.user.controllers.show');
 
+
+		// if(app('courses'))
+		// {
+		// 	$relations['responsibilities'] = config('courses.models.responsibility.controllers.index');
+		// }
+
+
 		//		if (config('payments.enabled'))
 		//			$relations['paymenttypes'] = config('payments.models.paymenttype.controllers.index');
 

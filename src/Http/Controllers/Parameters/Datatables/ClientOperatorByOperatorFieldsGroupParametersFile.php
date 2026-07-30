@@ -8,12 +8,15 @@ class ClientOperatorByOperatorFieldsGroupParametersFile extends FieldsGroupParam
 {
 	static function getFieldsGroup() : array
 	{
-		return [
+		$result = [
 			'translationPrefix' => 'operators::fields',
 			'fields' => [
 				'mySelfPrimary' => 'primary',
 				'mySelfEdit' => 'links.edit',
 				'mySelfSee' => 'links.see',
+
+				'employment' => 'relations.belongsTo',
+				'contracttype' => 'relations.belongsTo',
 
 				'started_at' => [
 					'type' => 'dates.date',
@@ -30,15 +33,14 @@ class ClientOperatorByOperatorFieldsGroupParametersFile extends FieldsGroupParam
 					]
 				],
 
-				'internal_approval_rating' => 'flat',
-				'level' => 'flat',
-
-				'cost_company_day' => 'editor.price',
-				'cost_gross_day' => 'editor.price',
-				'operator_neat_day' => 'editor.price',
-
-				'mySelfDelete' => 'links.delete'
 			]
 		];
+
+		if(app('courses'))
+			$result['fields']['responsibilities'] = 'relations.belongsToMany';
+
+		$result['fields']['mySelfDelete'] = 'links.delete';
+
+		return $result;
 	}
 }
