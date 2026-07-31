@@ -15,6 +15,8 @@ class ClientOperatorByOperatorFieldsGroupParametersFile extends FieldsGroupParam
 				'mySelfEdit' => 'links.edit',
 				'mySelfSee' => 'links.see',
 
+				'client' => 'relations.belongsTo',
+
 				'employment' => 'relations.belongsTo',
 				'contracttype' => 'relations.belongsTo',
 
@@ -37,7 +39,13 @@ class ClientOperatorByOperatorFieldsGroupParametersFile extends FieldsGroupParam
 		];
 
 		if(app('courses'))
-			$result['fields']['responsibilities'] = 'relations.belongsToMany';
+			$result['fields']['clientOperatorResponsibilities'] = [
+				'type' => 'iterators.each',
+				'childParameters' => [
+					'type' => 'flat',
+					'property' => 'responsibility_id',
+				]
+			];
 
 		$result['fields']['mySelfDelete'] = 'links.delete';
 

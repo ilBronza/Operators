@@ -15,14 +15,14 @@ class OperatorFieldsGroupParametersFile extends FieldsGroupParametersFile
 				'mySelfEdit' => 'links.edit',
 				'mySelfSee' => 'links.see',
 
-				'user.userdata.surname' => [
+				'live_surname' => [
 					'type' => 'flat',
 					'order' => [
 						'priority' => 10
 					],
 				],
 
-				'user.userdata.first_name' => [
+				'live_first_name' => [
 					'type' => 'flat',
 					'order' => [
 						'priority' => 100
@@ -53,8 +53,8 @@ class OperatorFieldsGroupParametersFile extends FieldsGroupParametersFile
 					'valueAsRowClass' => true
 				],
 
-				'address.city' => 'flat',
-				'address.province' => 'flat',
+				'live_city' => 'flat',
+				'live_province' => 'flat',
 
 				'clients' => 'relations.belongsToMany',
 

@@ -39,6 +39,8 @@ return [
 	'code' => 'Codice',
 	'fiscal_code' => 'Codice fiscale',
 	'user.userdata.surname' => 'Cognome',
+	'live_surname' => 'Cognome',
+	'live_first_name' => 'Nome',
 	'operators_count' => 'Operatori',
 	'sorting_index' => 'Ord',
 	'operator.user.userdata.first_name' => 'Nome',
@@ -75,6 +77,8 @@ return [
 
 	'address.city' => 'Città',
 	'address.province' => 'Prov',
+	'live_city' => 'Città',
+	'live_province' => 'Prov',
 	'inUseClientOperator.client.name' => 'Azienda',
 	'inUseClientOperator.ended_at' => 'Termine',
 	'valid' => 'contratto corrente',

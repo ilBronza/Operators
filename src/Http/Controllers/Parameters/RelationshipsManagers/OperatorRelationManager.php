@@ -47,6 +47,7 @@ class OperatorRelationManager extends RelationshipsManager
 		];
 
 		$relations['clientOperators'] = [
+			//ClientOperatorIndexController
 			'controller' => config('operators.models.clientOperator.controllers.index'),
 			'hasCreateButton' => true,
 			'fieldsGroups' => [
@@ -104,10 +105,8 @@ class OperatorRelationManager extends RelationshipsManager
 		$relations['user'] = config('accountmanager.models.user.controllers.show');
 
 
-		// if(app('courses'))
-		// {
-		// 	$relations['responsibilities'] = config('courses.models.responsibility.controllers.index');
-		// }
+		if(app('courses'))
+			$relations['operatorResponsibilities'] = config('courses.models.operatorResponsibility.controllers.index');
 
 
 		//		if (config('payments.enabled'))

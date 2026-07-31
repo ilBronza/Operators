@@ -10,29 +10,6 @@ class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 	{
 		$operator = $this->getModel();
 
-		// $paymentTypes = $operator->getPossiblePaymenttypesValuesArray();
-
-		//		$documentsFields = [];
-		//
-		//		$documentsCategory = Category::where('slug', 'documenti-anagrafici')->first();
-		//
-		//		$forms = Form::getByDirectCategory($documentsCategory);
-		//		$documentsDossiers = $operator->getDossiersByForms($forms);
-		//
-		//		foreach ($forms as $form)
-		//		{
-		//			if (! $documentDossier = $documentsDossiers->firstWhere('form_id', $form->id))
-		//				$documentDossier = DossierCreatorHelper::createByForm($operator, $form);
-		//
-		//			$documentsFields[$form->getSlug()] = [
-		//				'showLabel' => false,
-		//				'type' => 'filecabinet::providers.formFields.dossierStatus',
-		//				'dossier' => $documentDossier,
-		//				'rules' => [],
-		//				'formSlug' => $form->getSlug(),
-		//			];
-		//		}
-
 		$result = [
 			'card' => [
 				'classes' => ['operator-card'],
@@ -67,21 +44,9 @@ class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 			'base' => [
 				'translationPrefix' => 'operators::fields',
 				'fields' => [
-					//					'company_site_slug' => [
-					//						'type' => 'select',
-					//						'multiple' => false,
-					//						'rules' => 'string|nullable|in:pd,mi',
-					//						'list' => [
-					//							'mi' => 'MI',
-					//							'pd' => 'PD'
-					//						]
-					//					],
 					'first_name' => ['text' => 'string|required|max:255'],
 					'surname' => ['text' => 'string|required|max:255'],
 					'fiscal_code' => ['text' => 'string|nullable|max:16'],
-					//					'slug' => ['text' => 'string|nullable|max:255'],
-					//					'description' => ['text' => 'string|nullable|max:255'],
-					//					'istat_code' => ['text' => 'string|nullable|max:255'],
 				],
 				'width' => ['large']
 			],
@@ -136,18 +101,6 @@ class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 				'width' => ['large']
 			],
 
-			//			'notes' => [
-			//				'fields' => [],
-			//				'view' => [
-			//					'name' => 'notes::notes',
-			//					'parameters' => [
-			//						'modelInstance' => $this->getModel(),
-			//				],
-			//				'width' => ['large']
-			//				//				'fields' => $documentsFields,
-			//				//				'width' => ['large']
-			//			],
-
 			'documents' => [
 				'fields' => [],
 				'view' => [
@@ -158,13 +111,7 @@ class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 					]
 				],
 				'width' => ['large']
-				//				'fields' => $documentsFields,
-				//				'width' => ['large']
 			],
-			//			'old_documents' => [
-			//				'fields' => $documentsFields,
-			//				'width' => ['large']
-			//			],
 			'notes' => [
 				'fields' => [],
 				'view' => [
@@ -176,30 +123,6 @@ class OperatorEditUpdateFieldsetsParameters extends FieldsetParametersFile
 				'width' => ['xlarge']
 			],
 
-			//			'costs' => [
-			//				'translationPrefix' => 'operators::fields',
-			//				'fields' => [
-			//					'cost_company_hour' => ['number' => 'numeric|nullable'],
-			//					'cost_gross_hour' => ['number' => 'numeric|nullable'],
-			//					'cost_neat_hour' => ['number' => 'numeric|nullable'],
-			//					'cost_company_day' => ['number' => 'numeric|nullable'],
-			//					'cost_gross_day' => ['number' => 'numeric|nullable'],
-			//					'operator_neat_day' => ['number' => 'numeric|nullable'],
-			//					'cost_charge_coefficient' => ['number' => 'numeric|nullable'],
-			//				],
-			//				'width' => ["1-3@l", '1-2@m']
-			//			],
-			//			'payments' => [
-			//				'translationPrefix' => 'operators::fields',
-			//				'fields' => [
-			//					'paymenttype_id' => [
-			//						'type' => 'select',
-			//						'multiple' => false,
-			//						'rules' => 'string|nullable|in:' . implode(",", array_keys($paymentTypes)),
-			//						'list' => $paymentTypes
-			//					],
-			//				],
-			//			]
 		];
 
 		return $result;

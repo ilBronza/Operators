@@ -25,7 +25,10 @@ class ClientOperatorIndexController extends ClientOperatorCRUD
 
     public function getIndexElements()
     {
-        return $this->getModelClass()::with('operator.user.userdata')->get();
+        return $this->getModelClass()::with(
+            'operator.user.userdata',
+            'client'
+        )->get();
     }
 
 }

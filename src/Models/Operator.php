@@ -350,6 +350,27 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 		]);
 	}
 
+	/**
+	 * Select the name fields needed by the index without hydrating User and
+	 * Userdata models for every operator.
+	 */
+	public function scopeWithUserdataNames($query)
+	{
+		$operatorsTable = $this->getTable();
+		$userdataTable = Userdata::gpc()::make()->getTable();
+
+		$query->leftJoin($userdataTable, function ($join) use ($operatorsTable, $userdataTable)
+		{
+			$join->on("{$userdataTable}.user_id", '=', "{$operatorsTable}.user_id")
+				->whereNull("{$userdataTable}.deleted_at");
+		})
+		->addSelect([
+			"{$operatorsTable}.*",
+			"{$userdataTable}.surname as live_surname",
+			"{$userdataTable}.first_name as live_first_name",
+		]);
+	}
+
 	//	public function getValidClientOperator()
 	//	{
 	//		return $this->validClientOperator;
