@@ -4,12 +4,14 @@ use IlBronza\Operators\Http\Controllers\CrudOperatorsChildrenController;
 use IlBronza\Operators\Http\Controllers\CrudOperatorsController;
 use IlBronza\Products\Products;
 use Illuminate\Support\Facades\Route;
+use IlBronza\Operators\Operators;
 
 Route::group([
 	'middleware' => ['web', 'auth'],
 	'prefix' => 'operators-manager',
-	'as' => config('operators.routePrefix')
-], function ()
+	'as' => config('operators.routePrefix'),
+	'routeTranslationPrefix' => Operators::getRouteTranslationPrefix(),
+	], function ()
 {
 	Route::prefix('parent/{parent}')->group(function ()
 	{
