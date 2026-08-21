@@ -86,7 +86,12 @@ class Contracttype extends IbContracttype implements SellableItemInterface, With
 	{
 		return [
 			'prices',
-			'supplier.target',
+			'supplier.target.operator.extraFields',
+			'supplier.target.operator.address',
+			'supplier.target.operator.operatorContracttypes.contracttype',
+			'supplier.target.operator.user.userdata',
+			'supplier.target.operator.validClientOperator.employment',
+
 		];
 	}
 
