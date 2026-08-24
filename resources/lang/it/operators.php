@@ -9,8 +9,6 @@ return [
 	'operators' => 'Operatore',
 	'contracttypes' => 'Tipi mansione',
 	'operator' => 'Operatore',
-	'operatorBadge' => 'Badge operatore',
-	'operatorBadges' => 'Badge operatori',
 	'clientOperator' => 'Contratto',
 	'contracttype' => 'Mansione',
 	'operatorContracttype' => 'Altra Mansione',

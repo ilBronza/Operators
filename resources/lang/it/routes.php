@@ -1,10 +1,6 @@
 <?php
 
 return [
-	'operatorsaccessGates.create' => 'Nuovo varco elettronico',
-	'operatorsaccessGates.edit' => 'Modifica varco elettronico',
-	'operatorsaccessGates.index' => 'Varchi elettronici',
-	'operatorsaccessGates.show' => 'Varco elettronico',
 	'operatorsclientOperatorscreate' => 'Crea operatore cliente',
 	'operatorsclientOperatorscreateByOperator' => 'Crea da operatore — operatore cliente',
 	'operatorsclientOperatorsdestroy' => 'Elimina operatore cliente',
@@ -37,14 +33,6 @@ return [
 	'operatorsemploymentsshow' => 'Mostra impiego :model',
 	'operatorsemploymentsstore' => 'Salva impiego',
 	'operatorsemploymentsupdate' => 'Aggiorna impiego',
-	'operatorsoperatorBadges.create' => 'Nuovo badge operatore',
-	'operatorsoperatorBadges.edit' => 'Modifica badge operatore',
-	'operatorsoperatorBadges.index' => 'Badge operatori',
-	'operatorsoperatorBadges.show' => 'Badge operatore',
-	'operatorsoperatorBadgescreateByOperator' => 'Crea da operatore — badge operatore',
-	'operatorsoperatorBadgesdestroy' => 'Elimina badge operatore',
-	'operatorsoperatorBadgesstore' => 'Salva badge operatore',
-	'operatorsoperatorBadgesupdate' => 'Aggiorna badge operatore',
 	'operatorsoperatorContracttypescreate' => 'Crea contratto operatore',
 	'operatorsoperatorContracttypescreateByOperator' => 'Crea da operatore — contratto operatore',
 	'operatorsoperatorContracttypesdestroy' => 'Elimina contratto operatore',

@@ -97,17 +97,6 @@ Route::group([
 		Route::delete('{contracttype}/delete', [Operators::getController('contracttype', 'destroy'), 'destroy'])->name('contracttypes.destroy');
 	});
 
-	Route::group(['prefix' => 'access-gates'], function ()
-	{
-		Route::get('', [Operators::getController('accessGate', 'index'), 'index'])->name('accessGates.index');
-		Route::get('create', [Operators::getController('accessGate', 'create'), 'create'])->name('accessGates.create');
-		Route::post('', [Operators::getController('accessGate', 'store'), 'store'])->name('accessGates.store');
-		Route::get('{accessGate}', [Operators::getController('accessGate', 'show'), 'show'])->name('accessGates.show');
-		Route::get('{accessGate}/edit', [Operators::getController('accessGate', 'edit'), 'edit'])->name('accessGates.edit');
-		Route::put('{accessGate}', [Operators::getController('accessGate', 'update'), 'update'])->name('accessGates.update');
-
-		Route::delete('{accessGate}/delete', [Operators::getController('accessGate', 'destroy'), 'destroy'])->name('accessGates.destroy');
-	});
 
 	Route::group(['prefix' => 'working-days'], function ()
 	{
@@ -163,18 +152,6 @@ Route::group([
 		Route::delete('{operatorContracttype}/delete', [Operators::getController('operatorContracttype', 'destroy'), 'destroy'])->name('operatorContracttypes.destroy');
 	});
 
-	Route::group(['prefix' => 'operator-badges'], function ()
-	{
-		Route::get('', [Operators::getController('operatorBadge', 'index'), 'index'])->name('operatorBadges.index');
-		Route::get('create', [Operators::getController('operatorBadge', 'create'), 'create'])->name('operatorBadges.create');
-		Route::get('create-by-operator/{operator}', [Operators::getController('operatorBadge', 'create'), 'createByOperator'])->name('operatorBadges.createByOperator');
-		Route::post('', [Operators::getController('operatorBadge', 'store'), 'store'])->name('operatorBadges.store');
-		Route::get('{operatorBadge}', [Operators::getController('operatorBadge', 'show'), 'show'])->name('operatorBadges.show');
-		Route::get('{operatorBadge}/edit', [Operators::getController('operatorBadge', 'edit'), 'edit'])->name('operatorBadges.edit');
-		Route::put('{operatorBadge}', [Operators::getController('operatorBadge', 'update'), 'update'])->name('operatorBadges.update');
-
-		Route::delete('{operatorBadge}/delete', [Operators::getController('operatorBadge', 'destroy'), 'destroy'])->name('operatorBadges.destroy');
-	});
 
 
 	Route::group([

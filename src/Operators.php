@@ -46,22 +46,10 @@ class Operators implements RoutedObjectInterface
 					'href' => $this->route('operatorContracttypes.index')
 				],
 				[
-					'name' => 'operatorBadges.index',
-					'icon' => 'id-card',
-					'text' => 'operators::operatorBadges.list',
-					'href' => $this->route('operatorBadges.index')
-				],
-				[
 					'name' => 'contracttypes.index',
 					'icon' => 'helmet-safety',
 					'text' => 'operators::contracttypes.index',
 					'href' => $this->route('contracttypes.index')
-				],
-				[
-					'name' => 'accessGates.index',
-					'icon' => 'door-open',
-					'text' => 'operators::accessGates.index',
-					'href' => $this->route('accessGates.index')
 				],
 				[
 					'name' => 'employments.index',

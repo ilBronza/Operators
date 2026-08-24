@@ -5,7 +5,6 @@ namespace IlBronza\Operators;
 use IlBronza\Operators\Models\ClientOperator;
 use IlBronza\Operators\Models\Contracttype;
 use IlBronza\Operators\Models\Operator;
-use IlBronza\Operators\Models\OperatorBadge;
 use IlBronza\Operators\Models\OperatorContracttype;
 use Illuminate\Contracts\Foundation\CachesConfiguration;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -24,7 +23,6 @@ class OperatorsServiceProvider extends ServiceProvider
 	{
 		Relation::morphMap([
 			'Operator' => Operator::getProjectClassName(),
-			'OperatorBadge' => OperatorBadge::getProjectClassName(),
 			'OperatorContracttype' => OperatorContracttype::getProjectClassName(),
 			'ClientOperator' => ClientOperator::getProjectClassName(),
 			'Contracttype' => Contracttype::getProjectClassName(),

@@ -2,11 +2,6 @@
 
 use IlBronza\Operators\Helpers\OperatorOrderrows\OperatorRowAssociatorHelper;
 use IlBronza\Operators\Helpers\OperatorPricesCreatorHelper;
-use IlBronza\Operators\Http\Controllers\AccessGates\AccessGateCreateStoreController;
-use IlBronza\Operators\Http\Controllers\AccessGates\AccessGateDestroyController;
-use IlBronza\Operators\Http\Controllers\AccessGates\AccessGateEditUpdateController;
-use IlBronza\Operators\Http\Controllers\AccessGates\AccessGateIndexController;
-use IlBronza\Operators\Http\Controllers\AccessGates\AccessGateShowController;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorCreateStoreController;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorDestroyController;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorEditUpdateController;
@@ -25,11 +20,6 @@ use IlBronza\Operators\Http\Controllers\Employments\EmploymentDestroyController;
 use IlBronza\Operators\Http\Controllers\Employments\EmploymentEditUpdateController;
 use IlBronza\Operators\Http\Controllers\Employments\EmploymentIndexController;
 use IlBronza\Operators\Http\Controllers\Employments\EmploymentShowController;
-use IlBronza\Operators\Http\Controllers\OperatorBadges\OperatorBadgeCreateStoreController;
-use IlBronza\Operators\Http\Controllers\OperatorBadges\OperatorBadgeDestroyController;
-use IlBronza\Operators\Http\Controllers\OperatorBadges\OperatorBadgeEditUpdateController;
-use IlBronza\Operators\Http\Controllers\OperatorBadges\OperatorBadgeIndexController;
-use IlBronza\Operators\Http\Controllers\OperatorBadges\OperatorBadgeShowController;
 use IlBronza\Operators\Http\Controllers\OperatorContracttypes\OperatorContracttypeCreateStoreController;
 use IlBronza\Operators\Http\Controllers\OperatorContracttypes\OperatorContracttypeDestroyController;
 use IlBronza\Operators\Http\Controllers\OperatorContracttypes\OperatorContracttypeEditUpdateController;
@@ -46,7 +36,6 @@ use IlBronza\Operators\Http\Controllers\Operators\OperatorEditUpdateController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorIndexController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorReorderController;
 use IlBronza\Operators\Http\Controllers\Operators\OperatorShowController;
-use IlBronza\Operators\Http\Controllers\Parameters\Datatables\AccessGateFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorByOperatorFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ClientOperatorRelatedFieldsGroupParametersFile;
@@ -55,7 +44,6 @@ use IlBronza\Operators\Http\Controllers\Parameters\Datatables\ContracttypeRelate
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\EmploymentFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\EmploymentRelatedFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorArchiveFieldsGroupParametersFile;
-use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorBadgeFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorByEmploymentFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorContracttypeByContracttypeFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorContracttypeFieldsGroupParametersFile;
@@ -64,17 +52,11 @@ use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorFieldsGrou
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorOrderrowsFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorQuotationrowsFieldsGroupParametersFile;
 use IlBronza\Operators\Http\Controllers\Parameters\Datatables\WorkingDayFieldsGroupParametersFile;
-use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\AccessGateCreateStoreFieldsetsParameters;
-use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\AccessGateEditUpdateFieldsetsParameters;
-use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\AccessGateShowFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\ClientOperatorCreateStoreFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\ClientOperatorEditUpdateFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\ContracttypeCreateStoreFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\EmploymentCreateStoreFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\EmploymentEditUpdateFieldsetsParameters;
-use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorBadgeCreateStoreFieldsetsParameters;
-use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorBadgeEditUpdateFieldsetsParameters;
-use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorBadgeShowFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorContracttypeCreateStoreFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorContracttypeEditUpdateFieldsetsParameters;
 use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\OperatorCreateStoreFieldsetsParameters;
@@ -97,13 +79,10 @@ use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarConsolidat
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayCalendarController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayPrintCalendarController;
 use IlBronza\Operators\Http\Controllers\WorkingDays\WorkingDayUpdateEditController;
-use IlBronza\Operators\Models\AccessGate;
-use IlBronza\Operators\Models\AccessLog;
 use IlBronza\Operators\Models\ClientOperator;
 use IlBronza\Operators\Models\Contracttype;
 use IlBronza\Operators\Models\Employment;
 use IlBronza\Operators\Models\Operator;
-use IlBronza\Operators\Models\OperatorBadge;
 use IlBronza\Operators\Models\OperatorContracttype;
 use IlBronza\Operators\Models\Sellables\Helpers\ContracttypeOperatorSellableSupplierPricesHelper;
 use IlBronza\Operators\Models\WorkingDay;
@@ -127,54 +106,6 @@ return [
 		'operatorRow' => [
 			'helpers' => [
 				'operatorRowAssociatorHelper' => OperatorRowAssociatorHelper::class
-			]
-		],
-		'operatorBadge' => [
-			'class' => OperatorBadge::class,
-			'table' => 'operators__operator_badges',
-			'fieldsGroupsFiles' => [
-				'index' => OperatorBadgeFieldsGroupParametersFile::class,
-			],
-			'parametersFiles' => [
-				'create' => OperatorBadgeCreateStoreFieldsetsParameters::class,
-				'edit' => OperatorBadgeEditUpdateFieldsetsParameters::class,
-				'update' => OperatorBadgeEditUpdateFieldsetsParameters::class,
-				'show' => OperatorBadgeShowFieldsetsParameters::class,
-			],
-			'controllers' => [
-				'index' => OperatorBadgeIndexController::class,
-				'create' => OperatorBadgeCreateStoreController::class,
-				'store' => OperatorBadgeCreateStoreController::class,
-				'show' => OperatorBadgeShowController::class,
-				'edit' => OperatorBadgeEditUpdateController::class,
-				'update' => OperatorBadgeEditUpdateController::class,
-				'destroy' => OperatorBadgeDestroyController::class,
-			]
-		],
-		'accessLog' => [
-			'class' => AccessLog::class,
-			'table' => 'operators__access_logs',
-		],
-		'accessGate' => [
-			'class' => AccessGate::class,
-			'table' => 'operators__access_gates',
-			'fieldsGroupsFiles' => [
-				'index' => AccessGateFieldsGroupParametersFile::class,
-			],
-			'parametersFiles' => [
-				'create' => AccessGateCreateStoreFieldsetsParameters::class,
-				'edit' => AccessGateEditUpdateFieldsetsParameters::class,
-				'update' => AccessGateEditUpdateFieldsetsParameters::class,
-				'show' => AccessGateShowFieldsetsParameters::class,
-			],
-			'controllers' => [
-				'index' => AccessGateIndexController::class,
-				'create' => AccessGateCreateStoreController::class,
-				'store' => AccessGateCreateStoreController::class,
-				'show' => AccessGateShowController::class,
-				'edit' => AccessGateEditUpdateController::class,
-				'update' => AccessGateEditUpdateController::class,
-				'destroy' => AccessGateDestroyController::class,
 			]
 		],
         'orderrow' => [
