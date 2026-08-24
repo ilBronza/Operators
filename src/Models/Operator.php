@@ -21,6 +21,8 @@ use IlBronza\Category\Traits\InteractsWithCategoryTrait;
 use IlBronza\Clients\Models\Client;
 use IlBronza\Clients\Models\Traits\InteractsWithDestinationTrait;
 use IlBronza\Contacts\Models\Traits\InteractsWithContact;
+// use IlBronza\Accesses\Models\Interfaces\BadgeHolderInterface;
+// use IlBronza\Accesses\Models\Traits\IsBadgeHolderTrait;
 use IlBronza\Operators\Models\Interfaces\HasWorkingDays;
 use IlBronza\Operators\Models\Traits\OperatorWorkingDaysBonusCalculatorTrait;
 use IlBronza\Products\Models\Interfaces\SupplierInterface;
@@ -37,7 +39,9 @@ use function dd;
 use function substr;
 use function ucfirst;
 
-class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterface //SupplierInterface
+class Operator extends BaseModel implements 
+// BadgeHolderInterface, 
+HasWorkingDays, TimelineGroupInterface //SupplierInterface
 {
 	use HasRoles;
 	use InteractsWithCategoryTrait;
@@ -54,6 +58,7 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 	use OperatorWorkingDaysBonusCalculatorTrait;
 	use HasColorTrait;
 	use IsTimelineGroupTrait;
+	// use IsBadgeHolderTrait;
 
 	static $packageConfigPrefix = 'operators';
 	static $modelConfigPrefix = 'operator';
@@ -82,7 +87,6 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 
 		'employment_id' => ExtraField::class . ':validClientOperator',
 		'unilav' => ExtraField::class . ':validClientOperator',
-		'social_security_institution' => ExtraField::class . ':validClientOperator',
 		'started_at' => ExtraFieldDate::class . ':validClientOperator',
 		'ended_at' => ExtraFieldDate::class . ':validClientOperator',
 		//		'street' => ExtraField::class . ':address',
@@ -129,6 +133,11 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 	public function clientOperators()
 	{
 		return $this->hasMany(ClientOperator::gpc());
+	}
+
+	public function currentClientOperators()
+	{
+		return $this->clientOperators()->current(Carbon::now());
 	}
 
 	public function scopeByEmployments($query, array|Collection $employmentIds)
@@ -419,11 +428,6 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 		return $this->hasMany(OperatorContracttype::gpc());
 	}
 
-	public function operatorBadges()
-	{
-		return $this->hasMany(OperatorBadge::gpc());
-	}
-
 	public function getContracttypes()
 	{
 		return $this->contracttypes;
@@ -505,6 +509,8 @@ class Operator extends BaseModel implements HasWorkingDays, TimelineGroupInterfa
 
 	public function forcedValidClientOperator()
 	{
+		ddd('questa va bypassata non usando più il valid');
+
 		return $this->hasOne(ClientOperator::gpc())
 			->where('valid', true);
 		// ->ofMany([

@@ -77,6 +77,7 @@ class WorkingDayCalendarController extends OperatorCRUD
 
 		$date->lastOfMonth();
 
+		dd('ragionare qua, quando succede questa cosa? ora che siamo senza valid, come lo gestiamo?');
 		foreach($this->getIndexElements() as $element)
 			foreach([
 				'holidays_reset_date', 

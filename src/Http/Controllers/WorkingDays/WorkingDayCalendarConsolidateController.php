@@ -34,6 +34,7 @@ class WorkingDayCalendarConsolidateController extends WorkingDayCalendarControll
 		{
 			$changed = [];
 
+		dd('ragionare qua, quando succede questa cosa? ora che siamo senza valid, come lo gestiamo?');
 			$clientOperator = $operator->provideforcedValidClientOperatorModelForExtraFields();
 
 			foreach([
