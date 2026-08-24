@@ -137,6 +137,32 @@ class ClientOperator extends BasePivotModel
 		$query->whereIn('employment_id', $employments);
 	}
 
+	public function scopeCurrent($query, Carbon $date = null)
+	{
+		if(! $date)
+			$date = Carbon::now();
+
+		return $query->where(function ($_query) use ($date)
+		{
+			$_query->whereNull('started_at');
+			$_query->orWhere('started_at', '<', $date);
+		})->where(function ($_query) use ($date)
+		{
+			$_query->whereNull('ended_at');
+			$_query->orWhere('ended_at', '>', $date);
+		});
+	}
+
+	public function getEmploymentLabelAttribute() : ? string
+	{
+		return $this->getEmployment()?->label_text;
+	}
+
+	public function getContracttypeLabelAttribute() : ? string
+	{
+		return $this->getContracttype()?->getName();
+	}
+
 
 
 	protected static function boot()
