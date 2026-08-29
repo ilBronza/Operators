@@ -156,7 +156,7 @@ Route::group([
 
 	Route::group([
 		'prefix' => 'employments',
-		'middleware' => ['web', 'role:employments|superadmin|administrator'],
+		'middleware' => ['web', 'role:operatorsEmployments|superadmin|administrator'],
 	], function ()
 	{
 		Route::get('', [Operators::getController('employment', 'index'), 'index'])->name('employments.index');

@@ -12,7 +12,7 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 			'translationPrefix' => 'operators::fields',
 			'fields' => [
 				'mySelfPrimary' => 'primary',
-				'forcedValidClientOperator' => 'links.edit',
+				'mySelfEdit' => 'links.edit',
 				'name' => [
 					'type' => 'flat',
 					'mainHeader' => [

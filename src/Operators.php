@@ -55,7 +55,7 @@ class Operators implements RoutedObjectInterface
 					'name' => 'employments.index',
 					'icon' => 'helmet-safety',
 					'text' => 'operators::employments.index',
-					'roles' => ['asd'],
+					'roles' => ['operatorsEmployments', 'superadmin', 'administrator'],
 					'href' => $this->route('employments.index')
 				]
             ]
@@ -64,4 +64,3 @@ class Operators implements RoutedObjectInterface
         $settingsButton->addChild($operatorsButton);
     }
 }
-

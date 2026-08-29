@@ -119,10 +119,23 @@ HasWorkingDays, TimelineGroupInterface //SupplierInterface
 		return $this->validClientOperator;
 	}
 
-	public function getClientOperatorByDate(Carbon $date)
+	public function getClientOperatorByDate(Carbon $date) : ? ClientOperator
 	{
 		if($this->relationLoaded('clientOperators'))
-			dd('gestire questo caso');
+		{
+			$day = $date->format('Y-m-d');
+
+			return $this->clientOperators->first(function (ClientOperator $clientOperator) use ($day)
+			{
+				if(! $startedAt = $clientOperator->getStartedAt())
+					return false;
+
+				if(! $endedAt = $clientOperator->getEndedAt())
+					return false;
+
+				return ($startedAt->format('Y-m-d') <= $day) && ($endedAt->format('Y-m-d') >= $day);
+			});
+		}
 
 		return $this->clientOperators()
 			->whereDate('started_at', '<=', $date)
@@ -215,6 +228,11 @@ HasWorkingDays, TimelineGroupInterface //SupplierInterface
 	public function scopeActive($query)
 	{
 		$query->whereNull('active')->orWhere('active', true);
+	}
+
+	public function scopeOnlyInactive($query)
+	{
+		$query->whereNull('active')->orWhere('active', false);
 	}
 
 	public function validClientOperator()
@@ -509,7 +527,7 @@ HasWorkingDays, TimelineGroupInterface //SupplierInterface
 
 	public function forcedValidClientOperator()
 	{
-		ddd('questa va bypassata non usando più il valid');
+		throw new \Exception('questa va bypassata non usando più il valid');
 
 		return $this->hasOne(ClientOperator::gpc())
 			->where('valid', true);

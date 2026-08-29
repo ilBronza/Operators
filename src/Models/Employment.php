@@ -5,6 +5,7 @@ namespace IlBronza\Operators\Models;
 use IlBronza\Clients\Models\Client;
 use IlBronza\CRUD\Models\BaseModel;
 use IlBronza\CRUD\Traits\CRUDSluggableTrait;
+use IlBronza\CRUD\Traits\Model\CRUDArchiverTrait;
 use IlBronza\CRUD\Traits\Model\CRUDGetOrCreateTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
 
@@ -12,6 +13,7 @@ use function config;
 
 class Employment extends BaseModel
 {
+	use CRUDArchiverTrait;
 	use CRUDGetOrCreateTrait;
 	use PackagedModelsTrait;
 

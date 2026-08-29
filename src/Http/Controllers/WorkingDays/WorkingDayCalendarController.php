@@ -69,37 +69,38 @@ class WorkingDayCalendarController extends OperatorCRUD
 		if((! $year)||(! $month))
 			return ;
 
-		$date = Carbon::createFromDate($year, $month, 1, 'Europe/Rome');
+		return ;
 
-		$date->hour = 0;
-		$date->minute = 0;
-		$date->second = 0;
+		// $date = Carbon::createFromDate($year, $month, 1, 'Europe/Rome');
 
-		$date->lastOfMonth();
+		// $date->hour = 0;
+		// $date->minute = 0;
+		// $date->second = 0;
 
-		dd('ragionare qua, quando succede questa cosa? ora che siamo senza valid, come lo gestiamo?');
-		foreach($this->getIndexElements() as $element)
-			foreach([
-				'holidays_reset_date', 
-				'flexibility_reset_date', 
-				'rol_reset_date', 
-				'bb_reset_date'] as $field)
-				if($element->provideforcedValidClientOperatorModelForExtraFields()->$field < $date)
-					$printButton = true;
+		// $date->lastOfMonth();
 
-		if(! ($printButton ?? false))
-			return;
+		// foreach($this->getIndexElements() as $element)
+		// 	foreach([
+		// 		'holidays_reset_date', 
+		// 		'flexibility_reset_date', 
+		// 		'rol_reset_date', 
+		// 		'bb_reset_date'] as $field)
+		// 		if($element->provideforcedValidClientOperatorModelForExtraFields()->$field < $date)
+		// 			$printButton = true;
 
-		$this->getTable()->addButton(
-			Button::create([
-			'href' => app('operators')->route('workingDays.consolidateCoefficients', 
-				[
-					'year' => $year,
-					'month' => $month
-				]),
-			'text' => 'buttons.consolidateWorkingDaysCoefficients',
-			'icon' => 'database'
-		]));
+		// if(! ($printButton ?? false))
+		// 	return;
+
+		// $this->getTable()->addButton(
+		// 	Button::create([
+		// 	'href' => app('operators')->route('workingDays.consolidateCoefficients', 
+		// 		[
+		// 			'year' => $year,
+		// 			'month' => $month
+		// 		]),
+		// 	'text' => 'buttons.consolidateWorkingDaysCoefficients',
+		// 	'icon' => 'database'
+		// ]));
 	}
 
 	public function getStartsAt()

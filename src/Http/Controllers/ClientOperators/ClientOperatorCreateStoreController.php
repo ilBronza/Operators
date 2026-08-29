@@ -46,6 +46,8 @@ class ClientOperatorCreateStoreController extends ClientOperatorCRUD
 
 	public function getAfterStoredRedirectUrl()
 	{
-		return $this->getModel()->getEditUrl();
+        $operator = Operator::gpc()::find($this->getModel()->operator_id);
+
+		return $operator->getEditUrl();
 	}
 }

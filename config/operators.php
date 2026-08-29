@@ -182,6 +182,7 @@ return [
 			],
 			'parametersFiles' => [
 				'create' => ClientOperatorCreateStoreFieldsetsParameters::class,
+				'show' => ClientOperatorEditUpdateFieldsetsParameters::class,
 				'edit' => ClientOperatorEditUpdateFieldsetsParameters::class
 			],
 			'controllers' => [

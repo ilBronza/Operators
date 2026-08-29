@@ -7,6 +7,7 @@ use Exception;
 use IlBronza\CRUD\Interfaces\CrudReorderableModelInterface;
 use IlBronza\CRUD\Models\BaseModel;
 use IlBronza\CRUD\Traits\CRUDSluggableTrait;
+use IlBronza\CRUD\Traits\Model\CRUDArchiverTrait;
 use IlBronza\CRUD\Traits\Model\CRUDReorderableStandardTrait;
 use IlBronza\CRUD\Traits\Model\CRUDUseUuidTrait;
 use IlBronza\CRUD\Traits\Model\HasColorTrait;
@@ -17,6 +18,7 @@ use function dd;
 
 class Contracttype extends BaseModel implements CrudReorderableModelInterface
 {
+	use CRUDArchiverTrait;
 	use PackagedModelsTrait;
 
 	use CRUDUseUuidTrait;
