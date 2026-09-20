@@ -116,6 +116,21 @@ Route::group([
 		Route::post('print-calendar/{year?}/{month?}', [Operators::getController('workingDay', 'printCalendar'), 'printCalendarExcel'])->name('workingDays.printCalendarExcel');
 	});
 
+	Route::group(['prefix' => 'working-counters'], function ()
+	{
+		Route::get('', [Operators::getController('workingCounter', 'index'), 'index'])->name('workingCounters.index');
+		Route::get('create', [Operators::getController('workingCounter', 'create'), 'create'])->name('workingCounters.create');
+		Route::get('create-by-operator/{operator}', [Operators::getController('workingCounter', 'create'), 'createByOperator'])->name('workingCounters.createByOperator');
+		Route::get('create-by-client-operator/{clientOperator}', [Operators::getController('workingCounter', 'create'), 'createByClientOperator'])->name('workingCounters.createByClientOperator');
+		Route::get('edit-by-operator/{operator}', [Operators::getController('workingCounter', 'editByOperator'), 'editByOperator'])->name('workingCounters.editByOperator');
+		Route::put('edit-by-operator/{operator}', [Operators::getController('workingCounter', 'updateByOperator'), 'updateByOperator'])->name('workingCounters.updateByOperator');
+		Route::post('', [Operators::getController('workingCounter', 'store'), 'store'])->name('workingCounters.store');
+		Route::get('{workingCounter}', [Operators::getController('workingCounter', 'show'), 'show'])->name('workingCounters.show');
+		Route::get('{workingCounter}/edit', [Operators::getController('workingCounter', 'edit'), 'edit'])->name('workingCounters.edit');
+		Route::put('{workingCounter}', [Operators::getController('workingCounter', 'update'), 'update'])->name('workingCounters.update');
+		Route::delete('{workingCounter}/delete', [Operators::getController('workingCounter', 'destroy'), 'destroy'])->name('workingCounters.destroy');
+	});
+
 	Route::group(['prefix' => 'client-operators'], function ()
 	{
 		Route::get('', [Operators::getController('clientOperator', 'index'), 'index'])->name('clientOperators.index');

@@ -27,6 +27,8 @@ class OperatorIndexController extends OperatorCRUD
 
 	public function getIndexElements()
 	{
+        ini_set('memory_limit', "-1");
+
 		return $this->getModelClass()::active()
 			->without('user')
 			->withUserdataNames()

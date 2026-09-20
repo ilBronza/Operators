@@ -21,17 +21,8 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 
 	public function getCalculatedHolidayDaysAttribute() : float
 	{
-		try
-		{
-			$resetDate = $this->getHolidaysResetDate();
-			$resetHours = $this->getHolidaysReset();			
-		}
-		catch(\Exception $e)
-		{
-			//Ukn::w($e->getMessage());
-
-			return 0;
-		}
+		$resetDate = $this->getHolidaysResetDate();
+		$resetHours = $this->getHolidaysReset();			
 
 		$endDate = $this->getCalendarEndDate();
 
@@ -347,37 +338,28 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 
 	public function getHolidaysResetDate() : Carbon
 	{
-		return $this->getWorkingDayResetDate('holidays');
+		return $this->getWorkingDayResetDate('holidays') ?? Carbon::now()->subMonths(1);
 	}
 
 	public function getWorkingDayReset(string $datName)
 	{
-		$fieldName = "{$datName}_reset";
+		if(! $counter = $this->workingCounters->firstWhere('type', $datName))
+			return null;
 
-		if(! $this->$fieldName)
-			throw new \Exception('Inserire le date di reset conteggi ferie/rol/flex (' . $fieldName .') per ' . $this->getName() . ' e controllare l\'esistenza di un contratto valido');
-
-		return $this->$fieldName;
+		return $counter->amount;
 	}
 
 	public function getWorkingDayResetDate(string $datName)
 	{
-		$fieldName = "{$datName}_reset_date";
+		if(! $counter = $this->workingCounters->firstWhere('type', $datName))
+			return null;
 
-		if ($value = $this->$fieldName)
-			return $value;
-
-			throw new \Exception('Inserire le date di reset conteggi ferie/rol/flex (' . $fieldName .') per ' . $this->getName() . ' e controllare l\'esistenza di un contratto valido');
-
-		if ($first = WorkingDay::gpc()::orderBy('date')->first())
-			return $first->date;
-
-		return Carbon::now()->startOfMonth();
+		return $counter->reset_date;
 	}
 
 	public function getFlexibilityResetDate() : Carbon
 	{
-		return $this->getWorkingDayResetDate('flexibility');
+		return $this->getWorkingDayResetDate('flexibility') ?? Carbon::now()->subMonths(1);
 	}
 
 	public function getFlexibilityReset()
@@ -387,12 +369,12 @@ trait OperatorWorkingDaysBonusCalculatorTrait
 
 	public function getRolResetDate() : Carbon
 	{
-		return $this->getWorkingDayResetDate('rol');
+		return $this->getWorkingDayResetDate('rol') ?? Carbon::now()->subMonths(1);
 	}
 
 	public function getBBResetDate() : Carbon
 	{
-		return $this->getWorkingDayResetDate('bb');
+		return $this->getWorkingDayResetDate('bb') ?? Carbon::now()->subMonths(1);
 	}
 
 }

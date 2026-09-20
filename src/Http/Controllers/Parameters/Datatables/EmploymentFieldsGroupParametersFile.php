@@ -16,6 +16,7 @@ class EmploymentFieldsGroupParametersFile extends FieldsGroupParametersFile
 				'mySelfSee' => 'links.see',
 				'name' => 'flat',
 				'slug' => 'flat',
+				'vat' => 'numbers.number2',
 				'label_text' => 'flat',
 				'hex_rgba' => 'editor.color',
 

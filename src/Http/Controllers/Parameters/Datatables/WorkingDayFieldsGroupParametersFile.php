@@ -12,7 +12,16 @@ class WorkingDayFieldsGroupParametersFile extends FieldsGroupParametersFile
 			'translationPrefix' => 'operators::fields',
 			'fields' => [
 				'mySelfPrimary' => 'primary',
-				'mySelfEdit' => 'links.edit',
+				'mySelfWorkingCountersEdit' => [
+					'type' => 'links.fetcher',
+					'faIcon' => 'pen-to-square',
+					'fetcher' => [
+						'urlMethod' => 'getWorkingCountersEditUrl',
+						'type' => 'click',
+						'mode' => 'iframe',
+						'target' => 'row',
+					],
+				],
 				'name' => [
 					'type' => 'flat',
 					'mainHeader' => [

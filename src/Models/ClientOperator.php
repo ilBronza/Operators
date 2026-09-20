@@ -48,6 +48,11 @@ class ClientOperator extends BasePivotModel
 		);
 	}
 
+	public function workingCounters()
+	{
+		return $this->hasMany(WorkingCounter::getProjectClassName());
+	}
+
 	public function getOperator() : ?Operator
 	{
 		return $this->operator;

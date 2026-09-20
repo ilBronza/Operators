@@ -1,5 +1,19 @@
 <?php
 
+use IlBronza\Operators\Http\Controllers\Parameters\Datatables\WorkingCounterByOperatorFieldsGroupParametersFile;
+
+use IlBronza\Operators\Http\Controllers\Parameters\Datatables\WorkingCounterByClientOperatorFieldsGroupParametersFile;
+use IlBronza\Operators\Http\Controllers\Parameters\Datatables\WorkingCounterFieldsGroupParametersFile;
+use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\WorkingCounterCreateStoreFieldsetsParameters;
+use IlBronza\Operators\Http\Controllers\Parameters\Fieldsets\WorkingCounterEditUpdateFieldsetsParameters;
+use IlBronza\Operators\Http\Controllers\WorkingCounters\WorkingCounterCreateStoreController;
+use IlBronza\Operators\Http\Controllers\WorkingCounters\WorkingCounterDestroyController;
+use IlBronza\Operators\Http\Controllers\WorkingCounters\WorkingCounterEditUpdateController;
+use IlBronza\Operators\Http\Controllers\WorkingCounters\WorkingCounterIndexController;
+use IlBronza\Operators\Http\Controllers\WorkingCounters\WorkingCounterShowController;
+use IlBronza\Operators\Http\Controllers\WorkingCounters\WorkingCountersByOperatorEditUpdateController;
+use IlBronza\Operators\Models\WorkingCounter;
+
 use IlBronza\Operators\Helpers\OperatorOrderrows\OperatorRowAssociatorHelper;
 use IlBronza\Operators\Helpers\OperatorPricesCreatorHelper;
 use IlBronza\Operators\Http\Controllers\ClientOperators\ClientOperatorCreateStoreController;
@@ -71,6 +85,7 @@ use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\Contrac
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\EmploymentRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorContracttypeRelationManager;
 use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\OperatorRelationManager;
+use IlBronza\Operators\Http\Controllers\Parameters\RelationshipsManagers\ClientOperatorRelationManager;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorGlobalTimelineController;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorTimelineCreateRowController;
 use IlBronza\Operators\Http\Controllers\Timelines\OperatorsByContracttypesTimelineController;
@@ -179,6 +194,9 @@ return [
 				'index' => ClientOperatorFieldsGroupParametersFile::class,
 				'related' => ClientOperatorRelatedFieldsGroupParametersFile::class,
 				'byOperator' => ClientOperatorByOperatorFieldsGroupParametersFile::class
+			],
+			'relationshipsManagerClasses' => [
+				'show' => ClientOperatorRelationManager::class
 			],
 			'parametersFiles' => [
 				'create' => ClientOperatorCreateStoreFieldsetsParameters::class,
@@ -299,5 +317,35 @@ return [
 			    'calendar' => WorkingDayFieldsGroupParametersFile::class,
 		    ],
 	    ],
+		'workingCounter' => [
+			'class' => WorkingCounter::class,
+			'table' => 'operators__working_counters',
+			'types' => [
+				'flex',
+				'rol',
+				'holidays',
+			],
+			'fieldsGroupsFiles' => [
+				'index' => WorkingCounterFieldsGroupParametersFile::class,
+				'byOperator' => WorkingCounterByOperatorFieldsGroupParametersFile::class,
+				'byClientOperator' => WorkingCounterByClientOperatorFieldsGroupParametersFile::class,
+			],
+			'parametersFiles' => [
+				'create' => WorkingCounterCreateStoreFieldsetsParameters::class,
+				'show' => WorkingCounterEditUpdateFieldsetsParameters::class,
+				'edit' => WorkingCounterEditUpdateFieldsetsParameters::class,
+			],
+			'controllers' => [
+				'index' => WorkingCounterIndexController::class,
+				'create' => WorkingCounterCreateStoreController::class,
+				'store' => WorkingCounterCreateStoreController::class,
+				'show' => WorkingCounterShowController::class,
+				'edit' => WorkingCounterEditUpdateController::class,
+				'update' => WorkingCounterEditUpdateController::class,
+				'editByOperator' => WorkingCountersByOperatorEditUpdateController::class,
+				'updateByOperator' => WorkingCountersByOperatorEditUpdateController::class,
+				'destroy' => WorkingCounterDestroyController::class,
+			],
+		],
     ]
 ];

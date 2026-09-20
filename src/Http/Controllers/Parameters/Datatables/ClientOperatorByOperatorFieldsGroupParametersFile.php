@@ -38,7 +38,7 @@ class ClientOperatorByOperatorFieldsGroupParametersFile extends FieldsGroupParam
 			]
 		];
 
-		if(app('courses'))
+		if((app()->bound('courses'))&&(app('courses')->enabled()))
 			$result['fields']['clientOperatorResponsibilities'] = [
 				'type' => 'iterators.each',
 				'childParameters' => [

@@ -16,4 +16,6 @@ return [
 	'princingTable' => 'Operatori e tariffe',
 	'employment' => 'Impiego',
 	'clientOperators' => 'Aziende',
+	'workingCounter' => 'Contatore',
+	'workingCounters' => 'Contatori',
 ];

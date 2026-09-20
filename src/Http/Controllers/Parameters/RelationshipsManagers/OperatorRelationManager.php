@@ -10,7 +10,7 @@ use function config;
 
 class OperatorRelationManager extends RelationshipsManager
 {
-	public function getAllRelationsParameters() : array
+	public function getRelationsParameters() : array
 	{
 		$relations = [];
 
@@ -53,6 +53,14 @@ class OperatorRelationManager extends RelationshipsManager
 			'fieldsGroups' => [
 				//ClientOperatorByOperatorFieldsGroupParametersFile
 				'base' => config('operators.models.clientOperator.fieldsGroupsFiles.byOperator')::getTracedFieldsGroup()
+			]
+		];
+
+		$relations['workingCounters'] = [
+			'controller' => config('operators.models.workingCounter.controllers.index'),
+			'hasCreateButton' => true,
+			'fieldsGroups' => [
+				'base' => config('operators.models.workingCounter.fieldsGroupsFiles.byOperator')::getTracedFieldsGroup()
 			]
 		];
 
@@ -104,9 +112,11 @@ class OperatorRelationManager extends RelationshipsManager
 		//		$relations['paymenttypes'] = config('payments.models.paymenttype.controllers.index');
 		$relations['user'] = config('accountmanager.models.user.controllers.show');
 
+		if((app()->bound('courses'))&&(app('courses')->enabled()))
+		{
+			$relations['operatorResponsibilities'] = config('courses.models.operatorResponsibility.controllers.index');				
+		}
 
-		if(app('courses'))
-			$relations['operatorResponsibilities'] = config('courses.models.operatorResponsibility.controllers.index');
 
 
 		//		if (config('payments.enabled'))
@@ -121,10 +131,6 @@ class OperatorRelationManager extends RelationshipsManager
 		//		 		'elementGetterMethod' => 'getQuotationsBySupplier'
 		//		 	];
 
-		return [
-			'show' => [
-				'relations' => $relations
-			]
-		];
+		return $relations;
 	}
 }

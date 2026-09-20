@@ -148,6 +148,18 @@ HasWorkingDays, TimelineGroupInterface //SupplierInterface
 		return $this->hasMany(ClientOperator::gpc());
 	}
 
+	public function workingCounters()
+	{
+		return $this->hasMany(WorkingCounter::getProjectClassName());
+	}
+
+	public function getWorkingCountersEditUrl() : string
+	{
+		return app('operators')->route('workingCounters.editByOperator', [
+			'operator' => $this,
+		]);
+	}
+
 	public function currentClientOperators()
 	{
 		return $this->clientOperators()->current(Carbon::now());

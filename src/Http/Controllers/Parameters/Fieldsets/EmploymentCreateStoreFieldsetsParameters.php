@@ -14,6 +14,7 @@ class EmploymentCreateStoreFieldsetsParameters extends FieldsetParametersFile
 				'fields' => [
 					'name' => ['text' => 'string|required|max:255'],
 					'slug' => ['text' => 'string|nullable|max:255'],
+					'vat' => ['number' => 'numeric|nullable'],
 					'label_text' => ['text' => 'string|nullable|max:16'],
 					'hex_rgba' => ['color' => 'string|nullable|max:8'],
 				],
