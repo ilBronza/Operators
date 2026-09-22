@@ -186,4 +186,17 @@ class ClientOperator extends BasePivotModel
 			}
 		});
 	}
+
+	public function getNameForDisplayRelation() : ? string
+	{
+		$pieces = [
+			$this->getClient()?->getName(),
+			$this->getEmployment()?->getName(),
+			$this->getContracttype()?->getName()
+		];
+
+		array_filter($pieces);
+
+		return implode(" - ", $pieces);
+	}
 }

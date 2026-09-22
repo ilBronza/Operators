@@ -50,4 +50,8 @@ class Employment extends BaseModel
 		)->distinct();
 	}
 
+	public function getVat() : ? float
+	{
+		return $this->vat;
+	}
 }
