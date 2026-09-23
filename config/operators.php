@@ -26,6 +26,8 @@ use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeCreateStoreCon
 use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeDestroyController;
 use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeEditUpdateController;
 use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeIndexController;
+use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeMergePreviewController;
+use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeMergeStoreController;
 use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeReorderController;
 use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeShowController;
 use IlBronza\Operators\Http\Controllers\Contracttypes\ContracttypeSupplierTimelineController;
@@ -232,6 +234,8 @@ return [
 			'controllers' => [
 				'reorder' => ContracttypeReorderController::class,
 				'index' => ContracttypeIndexController::class,
+				'mergePreview' => ContracttypeMergePreviewController::class,
+				'mergeStore' => ContracttypeMergeStoreController::class,
 				'create' => ContracttypeCreateStoreController::class,
 				'store' => ContracttypeCreateStoreController::class,
 				'show' => ContracttypeShowController::class,

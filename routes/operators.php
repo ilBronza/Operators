@@ -76,6 +76,10 @@ Route::group([
 
 	Route::group(['prefix' => 'contracttypes'], function ()
 	{
+		Route::post('merge/preview', [Operators::getController('contracttype', 'mergePreview'), 'create'])->name('contracttypes.merge.preview');
+		Route::get('merge/form', [Operators::getController('contracttype', 'mergePreview'), 'form'])->name('contracttypes.merge.form');
+		Route::post('merge', [Operators::getController('contracttype', 'mergeStore'), 'store'])->name('contracttypes.merge.store');
+
 		Route::post('reorder', [Operators::getController('contracttype', 'reorder'), 'storeMassReorder'])->name('contracttypes.storeMassReorder');
 
 		//ContracttypeSupplierTimelineController - timeline dedicata ai supplier con target contracttype
