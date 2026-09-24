@@ -3,18 +3,21 @@
 namespace IlBronza\Operators\Models;
 
 use IlBronza\Clients\Models\Client;
+use IlBronza\CRUD\Interfaces\CrudReorderableModelInterface;
 use IlBronza\CRUD\Models\BaseModel;
 use IlBronza\CRUD\Traits\CRUDSluggableTrait;
 use IlBronza\CRUD\Traits\Model\CRUDArchiverTrait;
 use IlBronza\CRUD\Traits\Model\CRUDGetOrCreateTrait;
+use IlBronza\CRUD\Traits\Model\CRUDReorderableStandardTrait;
 use IlBronza\CRUD\Traits\Model\PackagedModelsTrait;
 
 use function config;
 
-class Employment extends BaseModel
+class Employment extends BaseModel implements CrudReorderableModelInterface
 {
 	use CRUDArchiverTrait;
 	use CRUDGetOrCreateTrait;
+	use CRUDReorderableStandardTrait;
 	use PackagedModelsTrait;
 
 	use CRUDSluggableTrait;

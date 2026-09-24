@@ -12,6 +12,8 @@ class ContracttypeIndexController extends ContracttypeCRUD
 
     public $allowedMethods = ['index'];
     public $rowSelectCheckboxes = true;
+    public bool $createButtonIframe = true;
+    public bool $createEmpty = true;
 
     public function addPostFieldsToTable()
     {

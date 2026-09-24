@@ -93,6 +93,7 @@ Route::group([
 
 		Route::get('', [Operators::getController('contracttype', 'index'), 'index'])->name('contracttypes.index');
 		Route::get('create', [Operators::getController('contracttype', 'create'), 'create'])->name('contracttypes.create');
+		Route::post('create-empty', [Operators::getController('contracttype', 'index'), 'createEmpty'])->name('contracttypes.createEmpty');
 		Route::post('', [Operators::getController('contracttype', 'store'), 'store'])->name('contracttypes.store');
 		Route::get('{contracttype}', [Operators::getController('contracttype', 'show'), 'show'])->name('contracttypes.show');
 		Route::get('{contracttype}/edit', [Operators::getController('contracttype', 'edit'), 'edit'])->name('contracttypes.edit');
