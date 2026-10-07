@@ -2,9 +2,8 @@
 
 namespace IlBronza\Operators\Http\Controllers\Operators;
 
-use IlBronza\CRUD\Traits\CRUDIndexTrait;
-use IlBronza\CRUD\Traits\CRUDPlainIndexTrait;
-use IlBronza\Operators\Http\Controllers\Operators\VehicleCRUD;
+use IlBronza\Operators\Http\Controllers\Parameters\Datatables\OperatorArchiveFieldsGroupParametersFile;
+use function config;
 
 class OperatorArchiveController extends OperatorIndexController
 {
@@ -12,7 +11,13 @@ class OperatorArchiveController extends OperatorIndexController
 
     public function getIndexFieldsArray()
     {
-        return config('operators.models.operator.fieldsGroupsFiles.archive')::getTracedFieldsGroup();
+        $fieldsGroupClass = config('operators.models.operator.fieldsGroupsFiles.archive');
+
+        // Published configurations may still contain the unqualified class name.
+        if ($fieldsGroupClass === 'OperatorArchiveFieldsGroupParametersFile')
+            $fieldsGroupClass = OperatorArchiveFieldsGroupParametersFile::class;
+
+        return $fieldsGroupClass::getTracedFieldsGroup();
     }
 
     public function getIndexElements()
