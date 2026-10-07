@@ -94,5 +94,4 @@ class OperatorOrderrow extends CustomOrderrow
 		return implode(" | ", $result);
 	}
 
-
 }
