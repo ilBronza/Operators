@@ -127,6 +127,9 @@ return [
 			'city' => 'Comune',
 			'province' => 'Prov'
 		]
-	]
-
+	],
+    'operator_id' => 'Operatore',
+    'contracttypes.name' => 'Mansioni',
+    'client_id' => 'Cliente',
+    'contracttype_id' => 'Mansione',
 ];

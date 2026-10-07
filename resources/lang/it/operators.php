@@ -18,4 +18,6 @@ return [
 	'clientOperators' => 'Aziende',
 	'workingCounter' => 'Contatore',
 	'workingCounters' => 'Contatori',
+    'cardTitleCreate' => 'Crea operatore',
+    'cardIntroCreate' => 'Compila i dati e salva per completare la creazione.',
 ];
