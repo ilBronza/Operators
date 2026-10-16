@@ -32,6 +32,8 @@ Route::group([
 
 		//OperatorTimelineCreateRowController
 		Route::get('timeline/create-row-form', [Operators::getController('operator', 'timelineCreateRow'), 'createRowForm'])->name('operators.timeline.createRowForm');
+
+		//OperatorTimelineCreateRowController
 		Route::post('timeline/store-row', [Operators::getController('operator', 'timelineCreateRow'), 'storeTimelineRow'])->name('operators.timeline.storeRow');
 
 		//OperatorGlobalTimelineController

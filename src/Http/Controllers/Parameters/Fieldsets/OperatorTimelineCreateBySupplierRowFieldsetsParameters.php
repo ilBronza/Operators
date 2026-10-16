@@ -19,6 +19,11 @@ class OperatorTimelineCreateBySupplierRowFieldsetsParameters extends FieldsetPar
 
 	public function _getFieldsetsParameters() : array
 	{
+		$sellable = Sellable::find(request()->sellable);
+		$contracttype = $sellable->getTarget();
+
+		$operatorsList = $contracttype->getOperators()->pluck('name', 'id')->toArray();
+
 		return [
 			'base' => [
 				'translationPrefix' => 'products::fields',
@@ -34,8 +39,12 @@ class OperatorTimelineCreateBySupplierRowFieldsetsParameters extends FieldsetPar
 						'rules' => 'required|date|after:starts_at',
 					],
 					'operator_id' => [
-						'type' => 'hidden',
-						'rules' => 'required|exists:' . Sellable::gpc()::make()->getTable() . ',id',
+						'type' => 'select',
+						'select2' => false,
+						'multiple' => false,
+						'label' => 'Operatore',
+						'list' => $operatorsList,
+						'rules' => 'required|exists:' . Operator::gpc()::make()->getTable() . ',id',
 					],
 					'sellable_id' => [
 						'type' => 'hidden',
