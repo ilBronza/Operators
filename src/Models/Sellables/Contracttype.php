@@ -3,14 +3,15 @@
 namespace IlBronza\Operators\Models\Sellables;
 
 use IlBronza\Operators\Models\Contracttype as IbContracttype;
+use IlBronza\Operators\Models\Operator;
 use IlBronza\Operators\Models\Traits\HasContracttypeSupplierTimelineTrait;
 use IlBronza\Prices\Models\Interfaces\WithPriceInterface;
 use IlBronza\Prices\Models\Traits\HasCustomPricesTrait;
 use IlBronza\Products\Models\Interfaces\SellableItemInterface;
+use IlBronza\Products\Models\Interfaces\SellableSupplierPriceCreatorBaseClass;
 use IlBronza\Products\Models\Interfaces\SupplierTimelineTargetInterface;
 use IlBronza\Products\Models\Traits\Sellable\InteractsWithSellableTrait;
 use Illuminate\Support\Collection;
-use IlBronza\Products\Models\Interfaces\SellableSupplierPriceCreatorBaseClass;
 
 class Contracttype extends IbContracttype implements SellableItemInterface, WithPriceInterface, SupplierTimelineTargetInterface
 {
@@ -86,12 +87,11 @@ class Contracttype extends IbContracttype implements SellableItemInterface, With
 	{
 		return [
 			'prices',
-			'supplier.target.operator.extraFields',
+			'supplier.target.operator' . (Operator::gpc()::make()->getExtraFieldsClass() ? '' : '.extraFields'),
 			'supplier.target.operator.address',
 			'supplier.target.operator.operatorContracttypes.contracttype',
 			'supplier.target.operator.user.userdata',
 			'supplier.target.operator.validClientOperator.employment',
-
 		];
 	}
 
