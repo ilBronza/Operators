@@ -17,6 +17,29 @@ $ composer require ilbronza/operators
 
 ## Usage
 
+`OperatorRowAssociatorHelper::associateRowByParameters()` requires an existing
+operator/contracttype association by default. To create missing associations while
+adding rows, set this option in the project's `config/operators.php`:
+
+```php
+'models' => [
+    'operatorRow' => [
+        'createMissingOperatorContracttype' => true,
+    ],
+],
+```
+
+New associations use the configured `operatorContracttype` model and its normal
+events. Only `operator_id` and `contracttype_id` are supplied; costs, levels, and
+other optional fields keep their model/database defaults. Soft-deleted
+associations are not restored. If creation is disabled, the helper raises a
+validation error naming the operator and the role before adding the row.
+
+The existing row flow has no encompassing transaction: unless the caller opens
+one, a later failure can leave the new association persisted. The package's
+association table also has no unique constraint on the operator/contracttype
+pair, so concurrent requests can still create duplicates.
+
 ## Change log
 
 Please see the [changelog](changelog.md) for more information on what has changed recently.

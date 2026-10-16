@@ -121,6 +121,8 @@ return [
 
 	'models' => [
 		'operatorRow' => [
+			// Allow row association to create a missing operator/contracttype relation.
+			'createMissingOperatorContracttype' => false,
 			'helpers' => [
 				'operatorRowAssociatorHelper' => OperatorRowAssociatorHelper::class
 			]

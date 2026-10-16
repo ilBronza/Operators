@@ -3,6 +3,8 @@
 namespace IlBronza\Operators\Helpers\OperatorOrderrows;
 
 use IlBronza\CRUD\Traits\PackagedHelpersTrait;
+use IlBronza\Operators\Models\Contracttype;
+use IlBronza\Operators\Models\Operator;
 use IlBronza\Operators\Models\OperatorContracttype;
 use IlBronza\Products\Models\Interfaces\CustomRowInterface;
 use IlBronza\Products\Models\Order;
@@ -12,6 +14,7 @@ use IlBronza\Products\Models\Sellables\Sellable;
 use IlBronza\Products\Providers\Helpers\RowsHelpers\RowAssociatorHelper;
 use IlBronza\Products\Providers\Helpers\Sellables\SellableSupplierCreatorHelper;
 use IlBronza\Products\Providers\Helpers\Sellables\SupplierCreatorHelper;
+use Illuminate\Validation\ValidationException;
 
 class OperatorRowAssociatorHelper extends RowAssociatorHelper
 {
@@ -19,6 +22,32 @@ class OperatorRowAssociatorHelper extends RowAssociatorHelper
 	
 	static string $packageConfigPrefix = 'operators';
 	static $modelConfigPrefix = 'operatorRow';
+
+	static function getOrCreateOperatorContracttype(string|Operator $operator, Sellable $sellable) : OperatorContracttype
+	{
+		$attributes = [
+			'operator_id' => is_string($operator) ? $operator : $operator->getKey(),
+			'contracttype_id' => $sellable->target_id,
+		];
+
+		if($operatorContracttype = OperatorContracttype::gpc()::where($attributes)->first())
+			return $operatorContracttype;
+
+		if(is_string($operator))
+			$operator = Operator::gpc()::findOrFail($operator);
+
+		$contracttype = Contracttype::gpc()::findOrFail($sellable->target_id);
+
+		if(config(static::getConfigParameterKey('createMissingOperatorContracttype'), false))
+			return OperatorContracttype::gpc()::firstOrCreate($attributes);
+
+		throw ValidationException::withMessages([
+			'operator_id' => trans('operators::operatorContracttypes.missingAssociation', [
+				'operator' => $operator->getName() ?: $operator->getKey(),
+				'contracttype' => $contracttype->getName() ?: $contracttype->getKey(),
+			]),
+		]);
+	}
 
 	static function associateRowByParameters(
 		ProductPackageBaseRowcontainerModel $containerModel,
@@ -30,11 +59,7 @@ class OperatorRowAssociatorHelper extends RowAssociatorHelper
 		if(is_string($sellable))
 			$sellable = Sellable::gpc()::findOrFail($sellable);
 
-		$operatorContracttype = OperatorContracttype::gpc()::where(
-				'operator_id', is_string($operator) ? $operator : $operator->getKey()
-			)->where(
-				'contracttype_id', $sellable->target_id
-			)->firstOrFail();
+		$operatorContracttype = static::getOrCreateOperatorContracttype($operator, $sellable);
 
 		$supplier = SupplierCreatorHelper::getOrCreateSupplierFromTarget(
 			$operatorContracttype
