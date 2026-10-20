@@ -10,16 +10,18 @@ use Illuminate\Support\Str;
 
 class OperatorTimelineCreateGenericRowFieldsetsParameters extends FieldsetParametersFile
 {
-	public function getPossibleOperatorsList()
+	public function getPossibleOperatorsList() : array
 	{
-		if(! $sellableId = $this->getModel()->sellable_id)
+		$sellableId = $this->getModel()->sellable_id;
+
+		if(! $sellableId)
 		{
-			return Operator::gpc()::active()->get()->pluck('name', 'id');
+			return Operator::gpc()::active()->get()->sortBy('name')->pluck('name', 'id')->toArray();
 		}
 
 		$contracttype = Sellable::gpc()::find($sellableId)?->getTarget();
 
-		return $contracttype->getOperators()->pluck('name', 'id')->toArray();
+		return $contracttype?->getOperators()->sortBy('name')->pluck('name', 'id')->toArray() ?? [];
 	}
 
 	public function getPossibleOrdersList() : array
