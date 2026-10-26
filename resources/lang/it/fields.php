@@ -28,6 +28,7 @@ return [
 	'user.name' => 'Nome',
 	'user.first_name' => 'Nome',
 	'user.surname' => 'Cognome',
+	'second_name' => 'Cognome',
 	'first_name' => 'Nome',
 	'surname' => 'Cognome',
 	'user.email' => 'email',
