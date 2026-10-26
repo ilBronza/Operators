@@ -87,7 +87,7 @@ class Contracttype extends IbContracttype implements SellableItemInterface, With
 	{
 		return [
 			'prices',
-			'supplier.target.operator' . (Operator::gpc()::make()->getExtraFieldsClass() ? '' : '.extraFields'),
+			'supplier.target.operator' . (Operator::gpc()::make()->getExtraFieldsClass() ? '.extraFields' : ''),
 			'supplier.target.operator.address',
 			'supplier.target.operator.operatorContracttypes.contracttype',
 			'supplier.target.operator.user.userdata',
