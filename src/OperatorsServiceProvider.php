@@ -49,6 +49,14 @@ class OperatorsServiceProvider extends ServiceProvider
 	{
 		$this->mergeConfigFrom(__DIR__ . '/../config/operators.php', 'operators');
 
+        // Optional: do not autoload integration classes when FileCabinet is absent.
+        if (class_exists(\IlBronza\FileCabinet\Providers\RowTypes\RowTypeRegistry::class)) {
+            $this->callAfterResolving(\IlBronza\FileCabinet\Providers\RowTypes\RowTypeRegistry::class, function ($registry) {
+                $registry->register('clientOperator', \IlBronza\Operators\FileCabinet\RowTypes\FormrowClientOperator::class, 'ilbronza/operators');
+                $registry->register('clientOperators', \IlBronza\Operators\FileCabinet\RowTypes\FormrowClientOperators::class, 'ilbronza/operators');
+            });
+        }
+
 		$this->app->make('IlBronza\Operators\Http\Controllers\CrudOperatorsController');
 
 		// Register the service the package provides.
