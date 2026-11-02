@@ -54,6 +54,7 @@ class OperatorsServiceProvider extends ServiceProvider
             $this->callAfterResolving(\IlBronza\FileCabinet\Providers\RowTypes\RowTypeRegistry::class, function ($registry) {
                 $registry->register('clientOperator', \IlBronza\Operators\FileCabinet\RowTypes\FormrowClientOperator::class, 'ilbronza/operators');
                 $registry->register('clientOperators', \IlBronza\Operators\FileCabinet\RowTypes\FormrowClientOperators::class, 'ilbronza/operators');
+                $registry->register('contracttype', \IlBronza\Operators\FileCabinet\RowTypes\FormrowContracttype::class, 'ilbronza/operators');
             });
         }
 
